@@ -5,6 +5,8 @@
     "stage-0"
   ],
   "plugins": [
-    "transform-runtime"
+    "transform-runtime",
+    "syntax-async-functions",
+    "transform-regenerator"
   ]
 }
