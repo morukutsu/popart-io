@@ -21,7 +21,7 @@ export class EffectCore {
 
     tick(dt) {
         this.blue = Math.abs(Math.sin(this.time));
-        this.time += dt * 2;
+        this.time += dt * 1;
     }
 
     getState() {

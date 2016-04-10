@@ -4,6 +4,7 @@ import styles from './style.css';
 import GL from 'gl-react';
 import { Surface } from 'gl-react-dom';
 import { Effect, EffectCore }          from '../../popart/Effect';
+import { StrobeCore, StrobeDisplay }   from '../../popart/FX/Strobe/Strobe';
 
 export default class LoginPage extends React.Component {
     constructor() {
@@ -12,7 +13,7 @@ export default class LoginPage extends React.Component {
     }
 
     componentWillMount() {
-        this.ec = new EffectCore();
+        this.ec = new StrobeCore();
         this.update();
     }
 
@@ -35,7 +36,7 @@ export default class LoginPage extends React.Component {
             <div className={styles.content}>
                 hello world
                 <Surface width={511} height={341}>
-                    <Effect state={this.ec.getState() }/>
+                    <StrobeDisplay state={this.ec.getState() }/>
                 </Surface>
             </div>
         );
