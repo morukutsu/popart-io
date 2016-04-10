@@ -28,22 +28,25 @@ export class StrobeCore {
             //'speed'   : new IO('color', 'input'),
         };
 
-        this.IO.onColor.set([1.0, 0, 0, 1]);
+        this.IO.onColor.set([1.0, 0, 0, 0.3]);
         this.IO.offColor.set([0.0, 0, 0, 1]);
 
         this.muxCurrentColor = new MUX(this.IO.onColor, this.IO.offColor, this, 'isOn');
     }
 
     tick(dt) {
-        //this.blue = Math.abs(Math.sin(this.time));
-        // Simple pattern
-        this.time      += dt;
-        this.cycleTime += dt * 2;
-        if (this.cycleTime > 1.0) {
-            this.cycleTime = 0.0;
+        // Internal oscillator
+        if (this.IO.trigger.isPlugged() ) {
+            this.isOn = this.IO.trigger.read();
+        } else {
+            this.time      += dt;
+            this.cycleTime += dt * 2;
+            if (this.cycleTime > 1.0) {
+                this.cycleTime = 0.0;
 
-            // Change current color
-            this.isOn = !this.isOn;
+                // Change current color
+                this.isOn = !this.isOn;
+            }
         }
     }
 
@@ -53,7 +56,6 @@ export class StrobeCore {
 }
 
 export const StrobeDisplay = GL.createComponent(({ state }) => {
-
     return (
         <GL.Node
             shader={shaders.shader}

@@ -5,6 +5,7 @@ import GL from 'gl-react';
 import { Surface } from 'gl-react-dom';
 import { Effect, EffectCore }          from '../../popart/Effect';
 import { StrobeCore, StrobeDisplay }   from '../../popart/FX/Strobe/Strobe';
+import LFO from '../../popart/Modulators/LFO';
 
 export default class LoginPage extends React.Component {
     constructor() {
@@ -14,11 +15,18 @@ export default class LoginPage extends React.Component {
 
     componentWillMount() {
         this.ec = new StrobeCore();
+        this.lfo = new LFO();
+        this.lfo.IO.frequency.set(16);
+        this.lfo.IO.waveform.set('square');
+
+        this.ec.IO.trigger.plug(this.lfo.IO.output);
         this.update();
     }
 
     update() {
         this.ec.tick(0.016);
+        this.lfo.tick(0.016);
+
         this.raf = window.requestAnimationFrame(this.update);
 
         // Trigger renger

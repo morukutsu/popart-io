@@ -13,4 +13,4 @@ export default class MUX {
     read() {
         return this.reference[this.selectorVariableName] ? this.A.read() : this.B.read();
     }
-};
+}
