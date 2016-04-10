@@ -28,7 +28,7 @@ export class StrobeCore {
             //'speed'   : new IO('color', 'input'),
         };
 
-        this.IO.onColor.set([1.0, 0, 0, 0.3]);
+        this.IO.onColor.set([1.0, 1.0, 1.0, 1.0]);
         this.IO.offColor.set([0.0, 0, 0, 1]);
 
         this.muxCurrentColor = new MUX(this.IO.onColor, this.IO.offColor, this, 'isOn');
@@ -37,6 +37,7 @@ export class StrobeCore {
     tick(dt) {
         // Internal oscillator
         if (this.IO.trigger.isPlugged() ) {
+            // TODO: only works for boolean
             this.isOn = this.IO.trigger.read();
         } else {
             this.time      += dt;

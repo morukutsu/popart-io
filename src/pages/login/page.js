@@ -16,8 +16,9 @@ export default class LoginPage extends React.Component {
     componentWillMount() {
         this.ec = new StrobeCore();
         this.lfo = new LFO();
-        this.lfo.IO.frequency.set(16);
+        this.lfo.IO.frequency.set(10);
         this.lfo.IO.waveform.set('square');
+        this.lfo.IO.pulseWidth.set(0.9);
 
         this.ec.IO.trigger.plug(this.lfo.IO.output);
         this.update();
