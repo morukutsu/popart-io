@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import GL                              from 'gl-react';
-import IO from '../../IO/IO';
+import IO  from '../../IO/IO';
+import MUX from '../../IO/MUX';
 
 const shaders = GL.Shaders.create({
     shader: {
@@ -29,7 +30,8 @@ export class StrobeCore {
 
         this.IO.onColor.set([1.0, 0, 0, 1]);
         this.IO.offColor.set([0.0, 0, 0, 1]);
-        this.currentColor = this.IO.offColor.read();
+
+        this.muxCurrentColor = new MUX(this.IO.onColor, this.IO.offColor, this, 'isOn');
     }
 
     tick(dt) {
@@ -42,11 +44,6 @@ export class StrobeCore {
 
             // Change current color
             this.isOn = !this.isOn;
-            if (this.isOn) {
-                this.currentColor = this.IO.onColor.read();
-            } else {
-                this.currentColor = this.IO.offColor.read();
-            }
         }
     }
 
@@ -56,10 +53,11 @@ export class StrobeCore {
 }
 
 export const StrobeDisplay = GL.createComponent(({ state }) => {
+
     return (
         <GL.Node
             shader={shaders.shader}
-            uniforms={{c: state.currentColor}}
+            uniforms={{c: state.muxCurrentColor.read()}}
         />
     );
 }, {
