@@ -5,6 +5,7 @@ import GL from 'gl-react';
 import { Surface } from 'gl-react-dom';
 import { Effect, EffectCore }          from '../../popart/Effect';
 import { StrobeCore, StrobeDisplay }   from '../../popart/FX/Strobe/Strobe';
+import { SquareCore, SquareDisplay }   from '../../popart/FX/Square/Square';
 import LFO from '../../popart/Modulators/LFO';
 
 export default class LoginPage extends React.Component {
@@ -14,7 +15,11 @@ export default class LoginPage extends React.Component {
     }
 
     componentWillMount() {
-        this.ec = new StrobeCore();
+        // FX
+        this.ec     = new StrobeCore();
+        this.square = new SquareCore();
+
+        // Modulation
         this.lfo = new LFO();
         this.lfo.IO.frequency.set(10);
         this.lfo.IO.waveform.set('square');
@@ -27,6 +32,7 @@ export default class LoginPage extends React.Component {
     update() {
         this.ec.tick(0.016);
         this.lfo.tick(0.016);
+        this.square.tick(0.016);
 
         this.raf = window.requestAnimationFrame(this.update);
 
@@ -40,12 +46,12 @@ export default class LoginPage extends React.Component {
         cancelAnimationFrame(this.raf);
     }
 
+    //<StrobeDisplay state={this.ec.getState() }/>
     render() {
         return (
             <div className={styles.content}>
-                hello world
                 <Surface width={511} height={341}>
-                    <StrobeDisplay state={this.ec.getState() }/>
+                    <SquareDisplay state={this.square.getState() }/>
                 </Surface>
             </div>
         );
