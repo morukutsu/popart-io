@@ -1,23 +1,35 @@
 import React, { Component, PropTypes } from 'react';
 import GL                              from 'gl-react';
+import IO from '../../IO/IO';
 
 const shaders = GL.Shaders.create({
     shader: {
         frag: `
         precision highp float;
         varying vec2 uv;
-        uniform float c;
+        uniform vec4 c;
         void main () {
-            gl_FragColor = vec4(c, c, c, 1.0);
+            gl_FragColor = vec4(c.r, c.g, c.b, c.a);
         }`
     }
 });
 
 export class StrobeCore {
     constructor() {
-        this.currentColor = 1.0;
         this.time = 0.0;
         this.cycleTime = 0.0;
+        this.isOn = false;
+
+        this.IO = {
+            'onColor' : new IO('color', 'input'),
+            'offColor': new IO('color', 'input'),
+            'trigger' : new IO('bool',  'input'),
+            //'speed'   : new IO('color', 'input'),
+        };
+
+        this.IO.onColor.set([1.0, 0, 0, 1]);
+        this.IO.offColor.set([0.0, 0, 0, 1]);
+        this.currentColor = this.IO.offColor.read();
     }
 
     tick(dt) {
@@ -29,7 +41,12 @@ export class StrobeCore {
             this.cycleTime = 0.0;
 
             // Change current color
-            this.currentColor = this.currentColor == 1.0 ? 0.0 : 1.0;
+            this.isOn = !this.isOn;
+            if (this.isOn) {
+                this.currentColor = this.IO.onColor.read();
+            } else {
+                this.currentColor = this.IO.offColor.read();
+            }
         }
     }
 
