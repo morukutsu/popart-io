@@ -6,6 +6,10 @@ import { Surface } from 'gl-react-dom';
 import { Effect, EffectCore }          from '../../popart/Effect';
 import { StrobeCore, StrobeDisplay }   from '../../popart/FX/Strobe/Strobe';
 import { SquareCore, SquareDisplay }   from '../../popart/FX/Square/Square';
+import { ImageCore,  ImageDisplay }   from '../../popart/FX/Image/Image';
+
+//import seaImage from '../../popart/data/image.jpg';
+
 import LFO from '../../popart/Modulators/LFO';
 
 export default class LoginPage extends React.Component {
@@ -17,20 +21,26 @@ export default class LoginPage extends React.Component {
 
     componentWillMount() {
         // FX
-        this.ec     = new StrobeCore();
+        this.strobe = new StrobeCore();
         this.square = new SquareCore();
+        this.image  = new ImageCore();
+
+        this.strobe.IO.onColor.set([0.2, 0.5, 0.6, 0.0]);
+        this.strobe.IO.offColor.set([0.0, 0, 0, 0]);
+
+        this.image.IO.image.set('http://favim.com/orig/201105/22/girl-lake-sad-sea-sit-Favim.com-52488.jpg');
 
         // Modulation
         this.lfo = new LFO();
-        this.lfo.IO.frequency.set(15);
+        this.lfo.IO.frequency.set(5);
         this.lfo.IO.waveform.set('square');
-        this.lfo.IO.pulseWidth.set(0.5);
+        this.lfo.IO.pulseWidth.set(0.1);
 
         this.sineLfo = new LFO();
         this.sineLfo.IO.frequency.set(0.2);
         this.sineLfo.IO.waveform.set('sine');
 
-        this.ec.IO.trigger.plug(this.lfo.IO.output);
+        this.strobe.IO.trigger.plug(this.lfo.IO.output);
 
         this.square.IO.x.plug(this.sineLfo.IO.output);
         this.update();
@@ -43,7 +53,7 @@ export default class LoginPage extends React.Component {
         }
 
         let dt = (timestamp - this.prevTimestamp) / 1000.0;
-        this.ec.tick(dt);
+        this.strobe.tick(dt);
         this.lfo.tick(dt);
         this.sineLfo.tick(dt);
         this.square.tick(dt);
@@ -62,13 +72,13 @@ export default class LoginPage extends React.Component {
         cancelAnimationFrame(this.raf);
     }
 
-    //<StrobeDisplay state={this.ec.getState() }/>
+    //<SquareDisplay state={this.square.getState() }/>
     render() {
         return (
             <div className={styles.content}>
                 <Surface width={511} height={341}>
-                    <StrobeDisplay state={this.ec.getState() }>
-                        <SquareDisplay state={this.square.getState() }/>
+                    <StrobeDisplay state={this.strobe.getState() }>
+                        <ImageDisplay state={this.image.getState() }/>
                     </StrobeDisplay>
                 </Surface>
             </div>
