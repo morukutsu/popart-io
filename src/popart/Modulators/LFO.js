@@ -15,6 +15,8 @@ export default class LFO {
             'square': this.updateSquare.bind(this),
             'sine'  : this.updateSine.bind(this),
         };
+
+        //this.IO.output.set(0.0);
     }
 
     tick(dt) {

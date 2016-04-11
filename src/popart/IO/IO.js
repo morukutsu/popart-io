@@ -3,6 +3,9 @@ export default class IO {
         this.type          = type;
         this.inputOrOutput = inputOrOutput;
         this.pluggedIo     = null;
+
+        this.isClamped = false;
+        this.isScaled  = false;
     }
 
     set(value) {
@@ -10,15 +13,39 @@ export default class IO {
     }
 
     read() {
+        let outputValue = this.currentValue;
         if (this.pluggedIo) {
-            return this.pluggedIo.read();
+            outputValue = this.pluggedIo.read();
         }
 
-        return this.currentValue;
+        if (this.isScaled) {
+            outputValue = outputValue * this.scaleFactor;
+        }
+
+        if (this.isClamped) {
+            outputValue = Math.min(this.clampRange[1], outputValue);
+            outputValue = Math.max(this.clampRange[0], outputValue);
+        }
+
+        if (outputValue === undefined) {
+            return 0;
+        }
+
+        return outputValue;
     }
 
     plug(io) {
         this.pluggedIo = io;
+    }
+
+    clamp(enable, min, max) {
+        this.isClamped = enable;
+        this.clampRange = [min, max];
+    }
+
+    scale(enable, scaleFactor) {
+        this.isScaled = enable;
+        this.scaleFactor = scaleFactor;
     }
 
     isPlugged() {

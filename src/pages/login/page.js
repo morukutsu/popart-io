@@ -25,24 +25,29 @@ export default class LoginPage extends React.Component {
         this.square = new SquareCore();
         this.image  = new ImageCore();
 
-        this.strobe.IO.onColor.set([0.2, 0.5, 0.6, 0.0]);
+        this.strobe.IO.onColor.set([0.2, 0.4, 0.4, 0.0]);
         this.strobe.IO.offColor.set([0.0, 0, 0, 0]);
 
         this.image.IO.image.set('http://favim.com/orig/201105/22/girl-lake-sad-sea-sit-Favim.com-52488.jpg');
 
         // Modulation
         this.lfo = new LFO();
-        this.lfo.IO.frequency.set(5);
+        this.lfo.IO.frequency.set(1);
         this.lfo.IO.waveform.set('square');
-        this.lfo.IO.pulseWidth.set(0.1);
+        this.lfo.IO.pulseWidth.set(0.2);
 
         this.sineLfo = new LFO();
-        this.sineLfo.IO.frequency.set(0.2);
+        this.sineLfo.IO.frequency.set(0.1);
         this.sineLfo.IO.waveform.set('sine');
 
         this.strobe.IO.trigger.plug(this.lfo.IO.output);
 
         this.square.IO.x.plug(this.sineLfo.IO.output);
+
+        this.image.IO.y.plug(this.sineLfo.IO.output);
+        this.image.IO.y.scale(true, 0.35);
+        this.image.IO.y.clamp(true, 0.0, 1.0);
+
         this.update();
     }
 

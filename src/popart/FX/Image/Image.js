@@ -9,8 +9,10 @@ const shaders = GL.Shaders.create({
         precision highp float;
         varying vec2 uv;
         uniform sampler2D child;
+        uniform float x, y;
         void main () {
-            gl_FragColor = texture2D(child, uv);
+            vec2 pos = uv + vec2(x, y);
+            gl_FragColor = texture2D(child, pos);
         }`
     }
 });
@@ -21,7 +23,12 @@ export class ImageCore {
 
         this.IO = {
             'image': new IO('string', 'input'),
+            'x'    : new IO('float', 'input'),
+            'y'    : new IO('float', 'input')
         };
+
+        this.IO.x.set(0);
+        this.IO.y.set(0);
     }
 
     tick(dt) {
@@ -38,6 +45,10 @@ export const ImageDisplay = GL.createComponent(({ state }) => {
     return (
         <GL.Node
             shader={shaders.shader}
+            uniforms={{
+                x: state.IO.x.read(),
+                y: state.IO.y.read()
+            }}
         >
             <GL.Uniform
                 name="child"
