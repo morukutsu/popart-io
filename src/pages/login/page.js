@@ -12,6 +12,7 @@ export default class LoginPage extends React.Component {
     constructor() {
         super();
         this.update = this.update.bind(this); // binding
+        this.prevTimestamp = 0.0;
     }
 
     componentWillMount() {
@@ -25,14 +26,27 @@ export default class LoginPage extends React.Component {
         this.lfo.IO.waveform.set('square');
         this.lfo.IO.pulseWidth.set(0.9);
 
+        this.sineLfo = new LFO();
+        this.sineLfo.IO.frequency.set(0.2);
+        this.sineLfo.IO.waveform.set('sine');
+
         this.ec.IO.trigger.plug(this.lfo.IO.output);
+
+        this.square.IO.x.plug(this.sineLfo.IO.output);
         this.update();
     }
 
-    update() {
-        this.ec.tick(0.016);
-        this.lfo.tick(0.016);
-        this.square.tick(0.016);
+    update(timestamp) {
+        if (!timestamp) {
+            this.raf = window.requestAnimationFrame(this.update);
+            return;
+        }
+
+        let dt = (timestamp - this.prevTimestamp) / 1000.0;
+        this.ec.tick(dt);
+        this.lfo.tick(dt);
+        this.sineLfo.tick(dt);
+        this.square.tick(dt);
 
         this.raf = window.requestAnimationFrame(this.update);
 
@@ -40,6 +54,8 @@ export default class LoginPage extends React.Component {
         this.setState({
             dummy: 1
         });
+
+        this.prevTimestamp = timestamp;
     }
 
     componentWillUnmount () {

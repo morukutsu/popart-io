@@ -44,7 +44,7 @@ export class SquareCore {
             'squareColor' : new IO('color', 'input'),
         };
 
-        this.IO.squareColor.set([1.0, 1.0, 1.0, 1.0]);
+        this.IO.squareColor.set([0.0, 1.0, 1.0, 1.0]);
         this.IO.x.set(0.5 - 0.2 / 2);
         this.IO.y.set(0.5 - 0.2 / 2);
         this.IO.w.set(0.2);

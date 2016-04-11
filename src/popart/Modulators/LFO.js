@@ -12,7 +12,8 @@ export default class LFO {
         this.time = 0.0;
 
         this.waveFormUpdaters = {
-            'square': this.updateSquare.bind(this)
+            'square': this.updateSquare.bind(this),
+            'sine'  : this.updateSine.bind(this),
         };
     }
 
@@ -22,19 +23,28 @@ export default class LFO {
     }
 
     updateSquare(dt) {
-        let periodInSecond = 1.0 / this.IO.frequency.read();
+        let periodInSeconds = 1.0 / this.IO.frequency.read();
         let pulseWidth = this.IO.pulseWidth.read();
-        
+
         // Set output to high for the first half period
-        if (this.time < periodInSecond * pulseWidth ) {
+        if (this.time < periodInSeconds * pulseWidth ) {
             this.IO.output.set(1.0);
         } else {
             this.IO.output.set(0.0);
         }
 
         this.time += dt;
-        if (this.time > periodInSecond) {
+        if (this.time > periodInSeconds) {
             this.time = 0.0;
         }
+    }
+
+    updateSine(dt) {
+        let periodInSeconds = 1.0 / this.IO.frequency.read();
+        let sinusPeriod = 2 * Math.PI;
+        let nDt = periodInSeconds / dt;
+        let sinusIncrement = sinusPeriod / nDt;
+        this.IO.output.set(Math.sin(this.time));
+        this.time += sinusIncrement;
     }
 }
