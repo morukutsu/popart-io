@@ -9,8 +9,11 @@ const shaders = GL.Shaders.create({
         precision highp float;
         varying vec2 uv;
         uniform vec4 c;
+        uniform sampler2D child;
         void main () {
-            gl_FragColor = vec4(c.r, c.g, c.b, c.a);
+            vec4 childColor = texture2D(child, uv);
+            vec4 blinkColor = vec4(c.r, c.g, c.b, c.a);
+            gl_FragColor    = childColor + blinkColor;
         }`
     }
 });
@@ -29,7 +32,7 @@ export class StrobeCore {
         };
 
         this.IO.onColor.set([1.0, 1.0, 1.0, 1.0]);
-        this.IO.offColor.set([0.0, 0, 0, 1]);
+        this.IO.offColor.set([0.0, 0, 0, 0]);
 
         this.muxCurrentColor = new MUX(this.IO.onColor, this.IO.offColor, this, 'isOn');
     }
@@ -56,12 +59,18 @@ export class StrobeCore {
     }
 }
 
-export const StrobeDisplay = GL.createComponent(({ state }) => {
+export const StrobeDisplay = GL.createComponent(({ children, state }) => {
     return (
         <GL.Node
             shader={shaders.shader}
             uniforms={{c: state.muxCurrentColor.read()}}
-        />
+        >
+            <GL.Uniform
+                name="child"
+            >
+                {children}
+            </GL.Uniform>
+        </GL.Node>
     );
 }, {
   displayName: "StrobeDisplay"

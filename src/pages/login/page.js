@@ -22,9 +22,9 @@ export default class LoginPage extends React.Component {
 
         // Modulation
         this.lfo = new LFO();
-        this.lfo.IO.frequency.set(10);
+        this.lfo.IO.frequency.set(15);
         this.lfo.IO.waveform.set('square');
-        this.lfo.IO.pulseWidth.set(0.9);
+        this.lfo.IO.pulseWidth.set(0.5);
 
         this.sineLfo = new LFO();
         this.sineLfo.IO.frequency.set(0.2);
@@ -67,7 +67,9 @@ export default class LoginPage extends React.Component {
         return (
             <div className={styles.content}>
                 <Surface width={511} height={341}>
-                    <SquareDisplay state={this.square.getState() }/>
+                    <StrobeDisplay state={this.ec.getState() }>
+                        <SquareDisplay state={this.square.getState() }/>
+                    </StrobeDisplay>
                 </Surface>
             </div>
         );
