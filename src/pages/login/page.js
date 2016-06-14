@@ -7,6 +7,7 @@ import { Effect, EffectCore }          from '../../popart/Effect';
 import { StrobeCore, StrobeDisplay }   from '../../popart/FX/Strobe/Strobe';
 import { SquareCore, SquareDisplay }   from '../../popart/FX/Square/Square';
 import { ImageCore,  ImageDisplay }   from '../../popart/FX/Image/Image';
+import { BlurCore,  BlurDisplay }   from '../../popart/FX/Blur/Blur';
 
 //import seaImage from '../../popart/data/image.jpg';
 
@@ -24,6 +25,7 @@ export default class LoginPage extends React.Component {
         this.strobe = new StrobeCore();
         this.square = new SquareCore();
         this.image  = new ImageCore();
+        this.blur   = new BlurCore();
 
         this.strobe.IO.onColor.set([0.2, 0.4, 0.4, 0.0]);
         this.strobe.IO.offColor.set([0.0, 0, 0, 0]);
@@ -42,11 +44,20 @@ export default class LoginPage extends React.Component {
 
         this.strobe.IO.trigger.plug(this.lfo.IO.output);
 
-        this.square.IO.x.plug(this.sineLfo.IO.output);
+        //this.square.IO.x.plug(this.sineLfo.IO.output);
+        this.square.IO.w.set(0.2);
+        this.square.IO.h.set(0.2);
+        this.square.IO.squareColor.set([0.0, 0.0, 1.0, 1.0]);
+        this.square.IO.x.set(0.5 - 0.2 / 2);
+        this.square.IO.y.set(0.5 - 0.2 / 2);
 
         this.image.IO.y.plug(this.sineLfo.IO.output);
         this.image.IO.y.scale(true, 0.35);
         this.image.IO.y.clamp(true, 0.0, 1.0);
+
+        //this.blur.IO.intensity.set(2);
+        this.blur.IO.intensity.plug(this.sineLfo.IO.output);
+        this.blur.IO.intensity.scale(true, 20);
 
         this.update();
     }
@@ -62,6 +73,7 @@ export default class LoginPage extends React.Component {
         this.lfo.tick(dt);
         this.sineLfo.tick(dt);
         this.square.tick(dt);
+        this.blur.tick(dt);
 
         this.raf = window.requestAnimationFrame(this.update);
 
@@ -81,12 +93,18 @@ export default class LoginPage extends React.Component {
     render() {
         return (
             <div className={styles.content}>
-                <Surface width={511} height={341}>
-                    <StrobeDisplay state={this.strobe.getState() }>
-                        <ImageDisplay state={this.image.getState() }/>
-                    </StrobeDisplay>
+                <Surface width={1280} height={720}>
+                    <BlurDisplay state={this.blur.getState() }>
+                        <SquareDisplay state={this.square.getState() }/>
+                    </BlurDisplay>
                 </Surface>
             </div>
         );
     }
+
+    /*
+    <StrobeDisplay state={this.strobe.getState() }>
+        <ImageDisplay state={this.image.getState() }/>
+    </StrobeDisplay>
+    */
 }

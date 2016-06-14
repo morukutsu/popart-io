@@ -34,8 +34,6 @@ const shaders = GL.Shaders.create({
 
 export class SquareCore {
     constructor() {
-        this.time = 0.0;
-
         this.IO = {
             'x'           : new IO('float', 'input'),
             'y'           : new IO('float', 'input'),
@@ -43,17 +41,9 @@ export class SquareCore {
             'h'           : new IO('float', 'input'),
             'squareColor' : new IO('color', 'input'),
         };
-
-        this.IO.squareColor.set([0.0, 1.0, 1.0, 1.0]);
-        this.IO.x.set(0.5 - 0.2 / 2);
-        this.IO.y.set(0.5 - 0.2 / 2);
-        this.IO.w.set(0.2);
-        this.IO.h.set(0.2);
     }
 
     tick(dt) {
-        // Internal oscillator
-        this.time += dt;
     }
 
     getState() {
@@ -66,7 +56,7 @@ export const SquareDisplay = GL.createComponent(({ state }) => {
         <GL.Node
             shader={shaders.shader}
             uniforms={{
-                resolution:  [511, 341], // TODO: set dynamically
+                resolution:  [1280, 720], // TODO: set dynamically
                 posX:        state.IO.x.read(),
                 posY:        state.IO.y.read(),
                 squareW:     state.IO.w.read(),
