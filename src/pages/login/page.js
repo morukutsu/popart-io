@@ -8,6 +8,7 @@ import { StrobeCore, StrobeDisplay }   from '../../popart/FX/Strobe/Strobe';
 import { SquareCore, SquareDisplay }   from '../../popart/FX/Square/Square';
 import { ImageCore,  ImageDisplay }   from '../../popart/FX/Image/Image';
 import { BlurCore,  BlurDisplay }   from '../../popart/FX/Blur/Blur';
+import { MosaicCore,  MosaicDisplay }   from '../../popart/FX/Mosaic/Mosaic';
 
 //import seaImage from '../../popart/data/image.jpg';
 
@@ -26,8 +27,9 @@ export default class LoginPage extends React.Component {
         this.square = new SquareCore();
         this.image  = new ImageCore();
         this.blur   = new BlurCore();
+        this.mosaic = new MosaicCore();
 
-        this.strobe.IO.onColor.set([0.2, 0.4, 0.4, 0.0]);
+        this.strobe.IO.onColor.set([0.2, 0.1, 0.4, 0.0]);
         this.strobe.IO.offColor.set([0.0, 0, 0, 0]);
 
         this.image.IO.image.set('http://favim.com/orig/201105/22/girl-lake-sad-sea-sit-Favim.com-52488.jpg');
@@ -36,7 +38,7 @@ export default class LoginPage extends React.Component {
         this.lfo = new LFO();
         this.lfo.IO.frequency.set(1);
         this.lfo.IO.waveform.set('square');
-        this.lfo.IO.pulseWidth.set(0.2);
+        this.lfo.IO.pulseWidth.set(1);
 
         this.sineLfo = new LFO();
         this.sineLfo.IO.frequency.set(0.1);
@@ -47,7 +49,7 @@ export default class LoginPage extends React.Component {
         //this.square.IO.x.plug(this.sineLfo.IO.output);
         this.square.IO.w.set(0.2);
         this.square.IO.h.set(0.2);
-        this.square.IO.squareColor.set([0.0, 0.0, 1.0, 1.0]);
+        this.square.IO.squareColor.set([0.0, 0.25, 1.0, 1.0]);
         this.square.IO.x.set(0.5 - 0.2 / 2);
         this.square.IO.y.set(0.5 - 0.2 / 2);
 
@@ -57,7 +59,11 @@ export default class LoginPage extends React.Component {
 
         //this.blur.IO.intensity.set(2);
         this.blur.IO.intensity.plug(this.sineLfo.IO.output);
-        this.blur.IO.intensity.scale(true, 20);
+        this.blur.IO.intensity.scale(true, 40);
+
+        this.mosaic.IO.length.plug(this.sineLfo.IO.output);
+        this.mosaic.IO.length.scale(true, 0.25);
+        //this.mosaic.IO.length.clamp(true, 0.02, 1.0);
 
         this.update();
     }
@@ -74,6 +80,7 @@ export default class LoginPage extends React.Component {
         this.sineLfo.tick(dt);
         this.square.tick(dt);
         this.blur.tick(dt);
+        this.mosaic.tick(dt);
 
         this.raf = window.requestAnimationFrame(this.update);
 
@@ -94,9 +101,13 @@ export default class LoginPage extends React.Component {
         return (
             <div className={styles.content}>
                 <Surface width={1280} height={720}>
-                    <BlurDisplay state={this.blur.getState() }>
-                        <SquareDisplay state={this.square.getState() }/>
-                    </BlurDisplay>
+                    <MosaicDisplay state={this.mosaic.getState() }>
+                        <StrobeDisplay state={this.strobe.getState() }>
+                            <BlurDisplay state={this.blur.getState() }>
+                                <SquareDisplay state={this.square.getState() }/>
+                            </BlurDisplay>
+                        </StrobeDisplay>
+                    </MosaicDisplay>
                 </Surface>
             </div>
         );
