@@ -11,9 +11,17 @@ const shaders = GL.Shaders.create({
         uniform float     length;
 
         void main () {
-            vec2 samplingUV = vec2(mod(uv.x / length, 1.0), mod(uv.y / length, 1.0));
-            vec4 c = texture2D(child, samplingUV);
-            gl_FragColor = c;
+            // Scaling
+            vec2 samplingUV = vec2((uv.x / length), (uv.y / length));
+
+            // Centering
+            float scale = (1.0 / length) / 2.0;
+            float disp = (1.0 - length) * scale;
+
+            // Moisaic
+            samplingUV = mod(samplingUV - vec2(disp, disp), 1.0);
+
+            gl_FragColor = texture2D(child, samplingUV);
         }`
     },
 });

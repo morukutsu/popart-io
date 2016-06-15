@@ -30,7 +30,7 @@ export default class LoginPage extends React.Component {
         this.mosaic = new MosaicCore();
 
         this.strobe.IO.onColor.set([0.2, 0.1, 0.4, 0.0]);
-        this.strobe.IO.offColor.set([0.0, 0, 0, 0]);
+        this.strobe.IO.offColor.set([0.4, 0.2, 0.8, 0]);
 
         this.image.IO.image.set('http://favim.com/orig/201105/22/girl-lake-sad-sea-sit-Favim.com-52488.jpg');
 
@@ -41,7 +41,7 @@ export default class LoginPage extends React.Component {
         this.lfo.IO.pulseWidth.set(1);
 
         this.sineLfo = new LFO();
-        this.sineLfo.IO.frequency.set(0.1);
+        this.sineLfo.IO.frequency.set(0.05);
         this.sineLfo.IO.waveform.set('sine');
 
         this.strobe.IO.trigger.plug(this.lfo.IO.output);
@@ -62,8 +62,8 @@ export default class LoginPage extends React.Component {
         this.blur.IO.intensity.scale(true, 40);
 
         this.mosaic.IO.length.plug(this.sineLfo.IO.output);
-        this.mosaic.IO.length.scale(true, 0.25);
-        //this.mosaic.IO.length.clamp(true, 0.02, 1.0);
+        //this.mosaic.IO.length.scale(true, 0.8);
+        //this.mosaic.IO.length.clamp(true, 0.0, 1.0);
 
         this.update();
     }
