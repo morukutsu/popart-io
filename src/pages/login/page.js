@@ -9,6 +9,7 @@ import { SquareCore, SquareDisplay }   from '../../popart/FX/Square/Square';
 import { ImageCore,  ImageDisplay }   from '../../popart/FX/Image/Image';
 import { BlurCore,  BlurDisplay }   from '../../popart/FX/Blur/Blur';
 import { MosaicCore,  MosaicDisplay }   from '../../popart/FX/Mosaic/Mosaic';
+import { RGBSplitCore,  RGBSplitDisplay }   from '../../popart/FX/RGBSplit/RGBSplit';
 
 //import seaImage from '../../popart/data/image.jpg';
 
@@ -28,6 +29,7 @@ export default class LoginPage extends React.Component {
         this.image  = new ImageCore();
         this.blur   = new BlurCore();
         this.mosaic = new MosaicCore();
+        this.rgbSplit = new RGBSplitCore();
 
         this.strobe.IO.onColor.set([0.2, 0.1, 0.4, 0.0]);
         this.strobe.IO.offColor.set([0.4, 0.2, 0.8, 0]);
@@ -49,7 +51,8 @@ export default class LoginPage extends React.Component {
         //this.square.IO.x.plug(this.sineLfo.IO.output);
         this.square.IO.w.set(0.2);
         this.square.IO.h.set(0.2);
-        this.square.IO.squareColor.set([0.0, 0.25, 1.0, 1.0]);
+        //this.square.IO.squareColor.set([0.0, 0.25, 1.0, 1.0]);
+        this.square.IO.squareColor.set([1.0, 1.0, 1.0, 1.0]);
         this.square.IO.x.set(0.5 - 0.2 / 2);
         this.square.IO.y.set(0.5 - 0.2 / 2);
 
@@ -101,13 +104,15 @@ export default class LoginPage extends React.Component {
         return (
             <div className={styles.content}>
                 <Surface width={1280} height={720}>
-                    <MosaicDisplay state={this.mosaic.getState() }>
-                        <StrobeDisplay state={this.strobe.getState() }>
-                            <BlurDisplay state={this.blur.getState() }>
-                                <SquareDisplay state={this.square.getState() }/>
-                            </BlurDisplay>
-                        </StrobeDisplay>
-                    </MosaicDisplay>
+                    <RGBSplitDisplay state={this.rgbSplit.getState() }>
+                        <MosaicDisplay state={this.mosaic.getState() }>
+                            <StrobeDisplay state={this.strobe.getState() }>
+                                <BlurDisplay state={this.blur.getState() }>
+                                    <SquareDisplay state={this.square.getState() }/>
+                                </BlurDisplay>
+                            </StrobeDisplay>
+                        </MosaicDisplay>
+                    </RGBSplitDisplay>
                 </Surface>
             </div>
         );
