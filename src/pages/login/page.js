@@ -10,6 +10,7 @@ import { ImageCore,  ImageDisplay }   from '../../popart/FX/Image/Image';
 import { BlurCore,  BlurDisplay }   from '../../popart/FX/Blur/Blur';
 import { MosaicCore,  MosaicDisplay }   from '../../popart/FX/Mosaic/Mosaic';
 import { RGBSplitCore,  RGBSplitDisplay }   from '../../popart/FX/RGBSplit/RGBSplit';
+import { RuttEtraCore,  RuttEtraDisplay }   from '../../popart/FX/RuttEtra/RuttEtra';
 
 //import seaImage from '../../popart/data/image.jpg';
 
@@ -30,6 +31,7 @@ export default class LoginPage extends React.Component {
         this.blur   = new BlurCore();
         this.mosaic = new MosaicCore();
         this.rgbSplit = new RGBSplitCore();
+        this.ruttEtra = new RuttEtraCore();
 
         this.strobe.IO.onColor.set([0.2, 0.1, 0.4, 0.0]);
         this.strobe.IO.offColor.set([0.4, 0.2, 0.8, 0]);
@@ -40,7 +42,7 @@ export default class LoginPage extends React.Component {
         this.lfo = new LFO();
         this.lfo.IO.frequency.set(1);
         this.lfo.IO.waveform.set('square');
-        this.lfo.IO.pulseWidth.set(1);
+        this.lfo.IO.pulseWidth.set(1.0);
 
         this.sineLfo = new LFO();
         this.sineLfo.IO.frequency.set(0.05);
@@ -66,7 +68,7 @@ export default class LoginPage extends React.Component {
 
         this.mosaic.IO.length.plug(this.sineLfo.IO.output);
         //this.mosaic.IO.length.scale(true, 0.8);
-        //this.mosaic.IO.length.clamp(true, 0.0, 1.0);
+        this.mosaic.IO.length.clamp(true, 0.1, 1.0);
 
         this.update();
     }
@@ -104,15 +106,17 @@ export default class LoginPage extends React.Component {
         return (
             <div className={styles.content}>
                 <Surface width={1280} height={720}>
-                    <RGBSplitDisplay state={this.rgbSplit.getState() }>
-                        <MosaicDisplay state={this.mosaic.getState() }>
-                            <StrobeDisplay state={this.strobe.getState() }>
-                                <BlurDisplay state={this.blur.getState() }>
-                                    <SquareDisplay state={this.square.getState() }/>
-                                </BlurDisplay>
-                            </StrobeDisplay>
-                        </MosaicDisplay>
-                    </RGBSplitDisplay>
+                    <RuttEtraDisplay state={this.ruttEtra.getState() }>
+                        <RGBSplitDisplay state={this.rgbSplit.getState() }>
+                            <MosaicDisplay state={this.mosaic.getState() }>
+                                <StrobeDisplay state={this.strobe.getState() }>
+                                    <BlurDisplay state={this.blur.getState() }>
+                                        <SquareDisplay state={this.square.getState() }/>
+                                    </BlurDisplay>
+                                </StrobeDisplay>
+                            </MosaicDisplay>
+                        </RGBSplitDisplay>
+                    </RuttEtraDisplay>
                 </Surface>
             </div>
         );
@@ -122,5 +126,17 @@ export default class LoginPage extends React.Component {
     <StrobeDisplay state={this.strobe.getState() }>
         <ImageDisplay state={this.image.getState() }/>
     </StrobeDisplay>
+    */
+
+    /*
+    <RGBSplitDisplay state={this.rgbSplit.getState() }>
+        <MosaicDisplay state={this.mosaic.getState() }>
+            <StrobeDisplay state={this.strobe.getState() }>
+                <BlurDisplay state={this.blur.getState() }>
+                    <SquareDisplay state={this.square.getState() }/>
+                </BlurDisplay>
+            </StrobeDisplay>
+        </MosaicDisplay>
+    </RGBSplitDisplay>
     */
 }
