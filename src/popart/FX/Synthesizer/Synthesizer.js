@@ -8,11 +8,14 @@ const shaders = GL.Shaders.create({
         precision highp float;
         varying vec2  uv;
         uniform float t;
+        uniform vec4 color;
+        uniform float x, y;
+        uniform float count;
 
         void main () {
-            float freq = 7.0;
-            float mult = abs(sin(freq * (t + uv.y)));
-            gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0) * mult;
+            float freq = count;
+            float mult = abs(sin(freq * (t + uv.y * y + uv.x * x)));
+            gl_FragColor = color * mult;
         }`
     }
 });
@@ -20,16 +23,27 @@ const shaders = GL.Shaders.create({
 export class SynthesizerCore {
     constructor() {
         this.IO = {
-            'length' : new IO('float', 'input'),
+            'waveform': new IO('float', 'input'),
+            'speed'   : new IO('float', 'input'),
+            'x'       : new IO('float', 'input'),
+            'y'       : new IO('float', 'input'),
+            'count'   : new IO('float', 'input'),
+            'color'   : new IO('color', 'input'),
         };
 
-        this.IO.length.set(0.01);
+        // Default values
+        this.IO.waveform.set(1.0);
+        this.IO.speed.set(1.0);
+        this.IO.x.set(0.0);
+        this.IO.y.set(1.0);
+        this.IO.count.set(1.0);
+        this.IO.color.set([1.0, 1.0, 1.0, 1.0]);
 
         this.time = 0.0;
     }
 
     tick(dt) {
-        this.time += dt;
+        this.time += dt * this.IO.speed.read();
     }
 
     getState() {
@@ -41,9 +55,14 @@ export const SynthesizerDisplay = GL.createComponent(({ state }) => {
     return (
         <GL.Node
             shader={shaders.shader}
-            uniforms={{t: state.time}}
-        >
-        </GL.Node>
+            uniforms={{
+                t:     state.time,
+                color: state.IO.color.read(),
+                x:     state.IO.x.read(),
+                y:     state.IO.y.read(),
+                count: state.IO.count.read(),
+            }}
+        />
     );
 }, {
   displayName: "RuttEtra"

@@ -44,7 +44,7 @@ export default class LoginPage extends React.Component {
         this.lfo = new LFO();
         this.lfo.IO.frequency.set(1);
         this.lfo.IO.waveform.set('square');
-        this.lfo.IO.pulseWidth.set(1.0);
+        //this.lfo.IO.pulseWidth.set(0.5);
 
         this.sineLfo = new LFO();
         this.sineLfo.IO.frequency.set(0.05);
@@ -64,13 +64,19 @@ export default class LoginPage extends React.Component {
         this.image.IO.y.scale(true, 0.35);
         this.image.IO.y.clamp(true, 0.0, 1.0);
 
-        //this.blur.IO.intensity.set(2);
-        this.blur.IO.intensity.plug(this.sineLfo.IO.output);
-        this.blur.IO.intensity.scale(true, 40);
+        this.blur.IO.intensity.set(0.5);
+        //this.blur.IO.intensity.plug(this.sineLfo.IO.output);
+        //this.blur.IO.intensity.scale(true, 40);
 
         this.mosaic.IO.length.plug(this.sineLfo.IO.output);
         //this.mosaic.IO.length.scale(true, 0.8);
         this.mosaic.IO.length.clamp(true, 0.1, 1.0);
+
+        //this.synthesizer.IO.x.plug(this.sineLfo.IO.output);
+        //this.synthesizer.IO.count.plug(this.sineLfo.IO.output);
+        this.synthesizer.IO.count.set(5.0);
+        this.synthesizer.IO.speed.set(0.2);
+        this.synthesizer.IO.color.set([0.8, 0.0, 0.3, 1.0]);
 
         this.update();
     }
@@ -109,7 +115,9 @@ export default class LoginPage extends React.Component {
         return (
             <div className={styles.content}>
                 <Surface width={1280} height={720}>
-                    <SynthesizerDisplay state={this.synthesizer.getState() }/>
+                    <RuttEtraDisplay state={this.ruttEtra.getState() }>
+                        <SynthesizerDisplay state={this.synthesizer.getState() }/>
+                    </RuttEtraDisplay>
                 </Surface>
             </div>
         );

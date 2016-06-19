@@ -18,8 +18,8 @@ const shaders = GL.Shaders.create({
             float x = uv.x * 1280.0;
             float y = uv.y * 720.0;
 
-            x = ceil(x / 2.0) * 2.0;
-            y = ceil(y / 2.0) * 2.0;
+            /*x = ceil(x / 2.0) * 2.0;
+            y = ceil(y / 2.0) * 2.0;*/
 
             vec2 pos = vec2(x / 1280.0, y / 720.0);
 
