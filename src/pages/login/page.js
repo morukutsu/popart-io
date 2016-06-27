@@ -1,6 +1,6 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import styles from './style.css';
+import stylesCss from './style.css';
 import GL from 'gl-react';
 import { Surface } from 'gl-react-dom';
 import { Effect, EffectCore }          from '../../popart/Effect';
@@ -12,6 +12,11 @@ import { MosaicCore,  MosaicDisplay }   from '../../popart/FX/Mosaic/Mosaic';
 import { RGBSplitCore,  RGBSplitDisplay }   from '../../popart/FX/RGBSplit/RGBSplit';
 import { RuttEtraCore,  RuttEtraDisplay }   from '../../popart/FX/RuttEtra/RuttEtra';
 import { SynthesizerCore,  SynthesizerDisplay }   from '../../popart/FX/Synthesizer/Synthesizer';
+import SynthesizerController   from '../../popart/FX/Synthesizer/SynthesizerController';
+
+import Block from '../../gui/routing/Block.js';
+import Panel from '../../gui/routing/Panel.js';
+import Toolbar from '../../gui/routing/Toolbar.js';
 
 //import seaImage from '../../popart/data/image.jpg';
 
@@ -22,6 +27,11 @@ export default class LoginPage extends React.Component {
         super();
         this.update = this.update.bind(this); // binding
         this.prevTimestamp = 0.0;
+
+        this.state = {
+            effectList: ["SynthesizerDisplay", "RuttEtraDisplay"],
+            effectTree: {}
+        };
     }
 
     componentWillMount() {
@@ -75,7 +85,7 @@ export default class LoginPage extends React.Component {
         //this.synthesizer.IO.x.plug(this.sineLfo.IO.output);
         //this.synthesizer.IO.count.plug(this.sineLfo.IO.output);
         this.synthesizer.IO.count.set(5.0);
-        this.synthesizer.IO.speed.set(0.2);
+        this.synthesizer.IO.speed.set(0.01);
         this.synthesizer.IO.color.set([0.8, 0.0, 0.3, 1.0]);
 
         this.update();
@@ -113,23 +123,68 @@ export default class LoginPage extends React.Component {
     //<SquareDisplay state={this.square.getState() }/>
     render() {
         return (
-            <div className={styles.content}>
-                <Surface width={1280} height={720}>
-                    <RuttEtraDisplay state={this.ruttEtra.getState() }>
-                        <SynthesizerDisplay state={this.synthesizer.getState() }/>
-                    </RuttEtraDisplay>
-                </Surface>
+            <div>
+                <div style={styles.mainPanel}>
+                    <div style={styles.leftPanel}>
+                        <Panel>
+                            <Block/>
+                        </Panel>
+                    </div>
+
+                    <div style={styles.rightPanel}>
+                        <Surface width={640} height={360} style={styles.surface}>
+                            <SynthesizerDisplay state={this.synthesizer.getState() }/>
+                        </Surface>
+
+                        <SynthesizerController onParameterChanged={this.synthesizer.onParameterChanged.bind(this.synthesizer)}/>
+                    </div>
+                </div>
+
+                <Toolbar effectList={this.state.effectList}/>
             </div>
         );
     }
+};
 
-    /*
-    <StrobeDisplay state={this.strobe.getState() }>
-        <ImageDisplay state={this.image.getState() }/>
-    </StrobeDisplay>
-    */
+const styles = {
+    mainPanel: {
+        flexDirection: 'row',
+        display: 'flex'
+    },
 
-    /*
+    leftPanel: {
+        flex: 1,
+    },
+
+    rightPanel: {
+        flex: 1,
+    },
+
+    surface: {
+        margin: 10
+    }
+};
+
+/*
+<StrobeDisplay state={this.strobe.getState() }>
+    <ImageDisplay state={this.image.getState() }/>
+</StrobeDisplay>
+*/
+
+/*
+<RGBSplitDisplay state={this.rgbSplit.getState() }>
+    <MosaicDisplay state={this.mosaic.getState() }>
+        <StrobeDisplay state={this.strobe.getState() }>
+            <BlurDisplay state={this.blur.getState() }>
+                <SquareDisplay state={this.square.getState() }/>
+            </BlurDisplay>
+        </StrobeDisplay>
+    </MosaicDisplay>
+</RGBSplitDisplay>
+*/
+
+/*
+<RuttEtraDisplay state={this.ruttEtra.getState() }>
     <RGBSplitDisplay state={this.rgbSplit.getState() }>
         <MosaicDisplay state={this.mosaic.getState() }>
             <StrobeDisplay state={this.strobe.getState() }>
@@ -139,19 +194,5 @@ export default class LoginPage extends React.Component {
             </StrobeDisplay>
         </MosaicDisplay>
     </RGBSplitDisplay>
-    */
-
-    /*
-    <RuttEtraDisplay state={this.ruttEtra.getState() }>
-        <RGBSplitDisplay state={this.rgbSplit.getState() }>
-            <MosaicDisplay state={this.mosaic.getState() }>
-                <StrobeDisplay state={this.strobe.getState() }>
-                    <BlurDisplay state={this.blur.getState() }>
-                        <SquareDisplay state={this.square.getState() }/>
-                    </BlurDisplay>
-                </StrobeDisplay>
-            </MosaicDisplay>
-        </RGBSplitDisplay>
-    </RuttEtraDisplay>
-    */
-}
+</RuttEtraDisplay>
+*/

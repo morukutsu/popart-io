@@ -60,6 +60,7 @@
     "express": "^4.12.3",
     "gl-react": "^2.2.0",
     "gl-react-dom": "^2.2.0",
+    "radium": "^0.17.1",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-router": "^2.0.0"

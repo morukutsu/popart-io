@@ -46,6 +46,10 @@ export class SynthesizerCore {
         this.time += dt * this.IO.speed.read();
     }
 
+    onParameterChanged(parameter, value) {
+        this.IO[parameter].set(value);
+    }
+
     getState() {
         return this;
     }
@@ -65,5 +69,5 @@ export const SynthesizerDisplay = GL.createComponent(({ state }) => {
         />
     );
 }, {
-  displayName: "RuttEtra"
+  displayName: "Synthesizer"
 });
