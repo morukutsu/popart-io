@@ -45,10 +45,22 @@ class Knob extends React.Component {
             diff = (100 + diff) / 2.0;
 
             this.scale(diff);
+
+            this.setState({
+                currentValue: diff
+            });
         }
     }
 
     render() {
+        let angle = this.state.currentValue * (360/100);
+        angle = angle.toFixed(0) - 90;
+        console.log(this.state.currentValue, angle);
+
+        let rotateStyle = {
+            transform: 'rotate(' + angle + 'deg)',
+        };
+
         return (
             <div
                 style={styles.container}
@@ -61,7 +73,7 @@ class Knob extends React.Component {
                     onChange={(event) => { this.scale(event.target.value) }}
                 />
 
-                <div style={styles.circle} onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)}>
+                <div style={[styles.circle, rotateStyle]} onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)}>
                     <div style={styles.smallCircle}>
                     </div>
                 </div>
@@ -94,7 +106,6 @@ const styles = {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        transform: 'rotate(-90deg)',
         cursor: 'pointer'
     },
 
