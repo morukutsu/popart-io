@@ -16,7 +16,7 @@ class SynthesizerController extends React.Component {
                     Synthesizer
                 </div>
 
-                <Knob text="speed" min={0} max={5} onChange={(value) => this.props.onParameterChanged("speed", value)} />
+                <Knob text="speed" min={0} max={5} onChange={(value) => this.props.onParameterChanged("speed", value)} globalEvents={this.props.globalEvents} />
                 <Knob text="x"     min={0} max={1} onChange={(value) => this.props.onParameterChanged("x",     value)} />
                 <Knob text="y"     min={0} max={1} onChange={(value) => this.props.onParameterChanged("y",     value)} />
                 <Knob text="count" min={0} max={50} onChange={(value) => this.props.onParameterChanged("count", value)} />

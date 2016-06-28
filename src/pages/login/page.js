@@ -30,7 +30,8 @@ export default class LoginPage extends React.Component {
 
         this.state = {
             effectList: ["SynthesizerDisplay", "RuttEtraDisplay"],
-            effectTree: {}
+            effectTree: {},
+            globalEvents: {}
         };
     }
 
@@ -134,9 +135,50 @@ export default class LoginPage extends React.Component {
     }
 
     //<SquareDisplay state={this.square.getState() }/>
+    
+    /*
+    <Surface width={640} height={360} style={styles.surface}>
+    <SynthesizerDisplay state={this.synthesizer.getState() }>
+        <SynthesizerDisplay state={this.synthesizer2.getState() }/>
+    </SynthesizerDisplay>
+                        </Surface>
+    
+    */
+    
+    handleMouseUp(event) {
+        this.setState({
+            globalEvents: {
+                mouseUp: true,
+            }
+        });
+    }
+    
+    handleMouseDown(event) {
+        this.setState({
+            globalEvents: {
+                mouseUp: false,
+                mouseStartX: event.screenX,
+                mouseStartY: event.screenY,
+            }
+        });
+    }
+    
+    handleMouseMove(event) {
+        console.log(this.state.globalEvents.mouseStartY);
+        console.log(event.screenY);
+        
+        this.setState({
+            globalEvents: {
+                mouseMove: event,
+                mouseDispX: this.state.globalEvents.mouseStartX - event.screenX,
+                mouseDispY: this.state.globalEvents.mouseStartY - event.screenY,
+            }
+        });
+    }
+    
     render() {
         return (
-            <div>
+            <div onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)} onMouseMove={this.handleMouseMove.bind(this)}>
                 <div style={styles.mainPanel}>
                     <div style={styles.leftPanel}>
                         <Panel>
@@ -146,13 +188,10 @@ export default class LoginPage extends React.Component {
                     </div>
 
                     <div style={styles.rightPanel}>
-                        <Surface width={640} height={360} style={styles.surface}>
-                            <SynthesizerDisplay state={this.synthesizer.getState() }>
-                                <SynthesizerDisplay state={this.synthesizer2.getState() }/>
-                            </SynthesizerDisplay>
-                        </Surface>
-
-                        <SynthesizerController onParameterChanged={this.entities[this.activeEntity].onParameterChanged.bind(this.entities[this.activeEntity])}/>
+                        <SynthesizerController 
+                            onParameterChanged={this.entities[this.activeEntity].onParameterChanged.bind(this.entities[this.activeEntity])}
+                            globalEvents={this.state.globalEvents}
+                        />
                     </div>
                 </div>
 
