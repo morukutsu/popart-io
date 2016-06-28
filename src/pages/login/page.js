@@ -31,7 +31,11 @@ export default class LoginPage extends React.Component {
         this.state = {
             effectList: ["SynthesizerDisplay", "RuttEtraDisplay"],
             effectTree: {},
-            globalEvents: {}
+            globalEvents: {
+                mouseUp: false,
+            },
+            mouseStartX: 0,
+            mouseStartY: 0,
         };
     }
 
@@ -135,16 +139,16 @@ export default class LoginPage extends React.Component {
     }
 
     //<SquareDisplay state={this.square.getState() }/>
-    
+
     /*
     <Surface width={640} height={360} style={styles.surface}>
     <SynthesizerDisplay state={this.synthesizer.getState() }>
         <SynthesizerDisplay state={this.synthesizer2.getState() }/>
     </SynthesizerDisplay>
                         </Surface>
-    
+
     */
-    
+
     handleMouseUp(event) {
         this.setState({
             globalEvents: {
@@ -152,30 +156,25 @@ export default class LoginPage extends React.Component {
             }
         });
     }
-    
+
     handleMouseDown(event) {
         this.setState({
             globalEvents: {
                 mouseUp: false,
-                mouseStartX: event.screenX,
-                mouseStartY: event.screenY,
-            }
+            },
+            mouseStartX: event.screenX,
+            mouseStartY: event.screenY,
         });
     }
-    
+
     handleMouseMove(event) {
-        console.log(this.state.globalEvents.mouseStartY);
-        console.log(event.screenY);
-        
         this.setState({
-            globalEvents: {
-                mouseMove: event,
-                mouseDispX: this.state.globalEvents.mouseStartX - event.screenX,
-                mouseDispY: this.state.globalEvents.mouseStartY - event.screenY,
-            }
+            mouseMove: event,
+            mouseDispX: this.state.mouseStartX - event.screenX,
+            mouseDispY: this.state.mouseStartY - event.screenY,
         });
     }
-    
+
     render() {
         return (
             <div onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)} onMouseMove={this.handleMouseMove.bind(this)}>
@@ -188,9 +187,17 @@ export default class LoginPage extends React.Component {
                     </div>
 
                     <div style={styles.rightPanel}>
-                        <SynthesizerController 
+                        <Surface width={640} height={360} style={styles.surface}>
+                            <SynthesizerDisplay state={this.synthesizer.getState() }>
+                                <SynthesizerDisplay state={this.synthesizer2.getState() }/>
+                            </SynthesizerDisplay>
+                        </Surface>
+
+                        <SynthesizerController
                             onParameterChanged={this.entities[this.activeEntity].onParameterChanged.bind(this.entities[this.activeEntity])}
                             globalEvents={this.state.globalEvents}
+                            mouseDispX={this.state.mouseDispX}
+                            mouseDispY={this.state.mouseDispY}
                         />
                     </div>
                 </div>
