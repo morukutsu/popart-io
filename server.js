@@ -29,10 +29,16 @@ app.get('/style.css', (req, res) => {
   }
 });
 
+app.get('/white.png', (req, res) => {
+  res.sendFile(__dirname + '/src/popart/data/white.png');
+});
+
 // Serve index page
 app.get('*', (req, res) => {
   res.sendFile(__dirname + '/build/index.html');
 });
+
+
 
 
 /*************************************************************

@@ -43,7 +43,16 @@ export default class LoginPage extends React.Component {
         this.mosaic = new MosaicCore();
         this.rgbSplit = new RGBSplitCore();
         this.ruttEtra = new RuttEtraCore();
+
         this.synthesizer = new SynthesizerCore();
+        this.synthesizer2 = new SynthesizerCore();
+
+        this.entities = [
+            this.synthesizer,
+            this.synthesizer2
+        ];
+
+        this.activeEntity = 0;
 
         this.strobe.IO.onColor.set([0.2, 0.1, 0.4, 0.0]);
         this.strobe.IO.offColor.set([0.4, 0.2, 0.8, 0]);
@@ -84,9 +93,11 @@ export default class LoginPage extends React.Component {
 
         //this.synthesizer.IO.x.plug(this.sineLfo.IO.output);
         //this.synthesizer.IO.count.plug(this.sineLfo.IO.output);
-        this.synthesizer.IO.count.set(5.0);
-        this.synthesizer.IO.speed.set(0.01);
-        this.synthesizer.IO.color.set([0.8, 0.0, 0.3, 1.0]);
+        this.synthesizer2.IO.count.set(5.0);
+        this.synthesizer2.IO.speed.set(0.01);
+        this.synthesizer2.IO.x.set(0.5);
+
+        //this.synthesizer.IO.color.set([0.8, 0.0, 0.3, 1.0]);
 
         this.update();
     }
@@ -104,7 +115,9 @@ export default class LoginPage extends React.Component {
         this.square.tick(dt);
         this.blur.tick(dt);
         this.mosaic.tick(dt);
+
         this.synthesizer.tick(dt);
+        this.synthesizer2.tick(dt);
 
         this.raf = window.requestAnimationFrame(this.update);
 
@@ -127,16 +140,19 @@ export default class LoginPage extends React.Component {
                 <div style={styles.mainPanel}>
                     <div style={styles.leftPanel}>
                         <Panel>
-                            <Block/>
+                            <Block onPress={() => { this.activeEntity = 0; }}/>
+                            <Block onPress={() => { this.activeEntity = 1; }}/>
                         </Panel>
                     </div>
 
                     <div style={styles.rightPanel}>
                         <Surface width={640} height={360} style={styles.surface}>
-                            <SynthesizerDisplay state={this.synthesizer.getState() }/>
+                            <SynthesizerDisplay state={this.synthesizer.getState() }>
+                                <SynthesizerDisplay state={this.synthesizer2.getState() }/>
+                            </SynthesizerDisplay>
                         </Surface>
 
-                        <SynthesizerController onParameterChanged={this.synthesizer.onParameterChanged.bind(this.synthesizer)}/>
+                        <SynthesizerController onParameterChanged={this.entities[this.activeEntity].onParameterChanged.bind(this.entities[this.activeEntity])}/>
                     </div>
                 </div>
 

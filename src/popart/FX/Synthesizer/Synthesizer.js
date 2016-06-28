@@ -11,10 +11,19 @@ const shaders = GL.Shaders.create({
         uniform vec4 color;
         uniform float x, y;
         uniform float count;
+        uniform sampler2D modulation;
 
         void main () {
-            float freq = count;
-            float mult = abs(sin(freq * (t + uv.y * y + uv.x * x)));
+            float modulationValue = texture2D(modulation, uv).r;
+
+            float freq  = count;
+            float value = freq * (t + uv.y * y + uv.x * x);
+
+            // Phase modulation
+            value += modulationValue;
+            
+            float mult  = abs(sin(value) );
+
             gl_FragColor = color * mult;
         }`
     }
@@ -55,7 +64,7 @@ export class SynthesizerCore {
     }
 }
 
-export const SynthesizerDisplay = GL.createComponent(({ state }) => {
+export const SynthesizerDisplay = GL.createComponent(({ children, state }) => {
     return (
         <GL.Node
             shader={shaders.shader}
@@ -66,7 +75,11 @@ export const SynthesizerDisplay = GL.createComponent(({ state }) => {
                 y:     state.IO.y.read(),
                 count: state.IO.count.read(),
             }}
-        />
+        >
+            <GL.Uniform name="modulation">
+                { children ? children : <img src="/white.png" /> }
+            </GL.Uniform>
+        </GL.Node>
     );
 }, {
   displayName: "Synthesizer"

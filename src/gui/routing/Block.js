@@ -10,6 +10,7 @@ class Block extends React.Component {
         return (
             <div
                 style={styles.container}
+                onClick={this.props.onPress}
             >
                 <div>Synthesizer</div>
             </div>
