@@ -80,12 +80,19 @@ class Knob extends React.Component {
         };
 
         return (
-            <div
-                style={styles.container}
-                onDragStart={(e) => { e.preventDefault(); return false; }}
-            >
-                <div style={[styles.circle, rotateStyle]} onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)}>
-                    <div style={styles.smallCircle}>
+            <div style={styles.outerContainer}>
+                <div
+                    style={styles.container}
+                    onDragStart={(e) => { e.preventDefault(); return false; }}
+                    onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)}
+                >
+                    <div style={[styles.circle, rotateStyle]} >
+                        <div style={styles.smallCircle}>
+                        </div>
+                    </div>
+
+                    <div style={styles.numberText}>
+                        { this.props.value.toFixed(1) }
                     </div>
                 </div>
 
@@ -98,10 +105,18 @@ class Knob extends React.Component {
 };
 
 const styles = {
-    container: {
-        width: 100,
-        height: 100,
+    outerContainer: {
         margin: 5,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+
+    container: {
+        width: 60,
+        height: 60,
+        cursor: 'pointer',
+        textAlign: 'center',
     },
 
     text: {
@@ -117,7 +132,6 @@ const styles = {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        cursor: 'pointer'
     },
 
     smallCircle: {
@@ -130,7 +144,10 @@ const styles = {
     },
 
     numberText: {
-
+        position: 'relative',
+        fontWeight: 'bold',
+        top:  -40,
+        fontSize: 14,
     }
 };
 

@@ -16,7 +16,12 @@ class SynthesizerController extends React.Component {
                     Synthesizer
                 </div>
 
-                <Knob text="speed" min={0} max={5} value={this.props.coreState.IO.speed.read() } onChange={(value) => this.props.onParameterChanged("speed", value)} globalEvents={this.props.globalEvents} mouseDispY={this.props.mouseDispY} />
+                <div style={styles.row}>
+                    <Knob text="speed" min={0} max={5}  value={this.props.coreState.IO.speed.read() } onChange={(value) => this.props.onParameterChanged("speed", value)} globalEvents={this.props.globalEvents} mouseDispY={this.props.mouseDispY} />
+                    <Knob text="x"     min={0} max={1}  value={this.props.coreState.IO.x.read()     } onChange={(value) => this.props.onParameterChanged("x",     value)} globalEvents={this.props.globalEvents} mouseDispY={this.props.mouseDispY} />
+                    <Knob text="y"     min={0} max={1}  value={this.props.coreState.IO.y.read()     } onChange={(value) => this.props.onParameterChanged("y",     value)} globalEvents={this.props.globalEvents} mouseDispY={this.props.mouseDispY} />
+                    <Knob text="count" min={0} max={50} value={this.props.coreState.IO.count.read() } onChange={(value) => this.props.onParameterChanged("count", value)} globalEvents={this.props.globalEvents} mouseDispY={this.props.mouseDispY} />
+                </div>
             </div>
         );
     }
@@ -48,6 +53,11 @@ const styles = {
         ':hover': {
             backgroundColor: 'rgb(240, 240, 240)',
         }
+    },
+
+    row: {
+        display: 'flex',
+        flexDirection: 'row'
     }
 };
 
