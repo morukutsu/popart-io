@@ -58,10 +58,10 @@
     "babel-runtime": "^6.5.0",
     "electron-prebuilt": "^0.37.4",
     "express": "^4.12.3",
-    "gl-react": "^2.2.0",
-    "gl-react-dom": "^2.2.0",
+    "gl-react": "https://github.com/morukutsu/gl-react",
+    "gl-react-dom": "https://github.com/morukutsu/gl-react-dom",
     "radium": "^0.17.1",
-    "react": "^0.14.7",
+    "react": "^15.0.0",
     "react-dom": "^0.14.7",
     "react-router": "^2.0.0"
   }
