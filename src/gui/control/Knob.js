@@ -7,22 +7,36 @@ class Knob extends React.Component {
 
         this.state = {
             isTweaking: false,
-            currentValue: 0
         };
     }
 
-    scale(value) {
+    scaleAndAddToCurrentValue(value) {
+        // Compute scaling factor to scale [-100, 100] to [min, max]
         let range         = this.props.max - this.props.min;
         let scalingFactor = range / 100.0;
-        value             = this.props.min + (value * scalingFactor);
 
-        this.props.onChange(value);
+        // Retrieve the value registered when the user clicked on the Knob
+        let currentValue = this.state.valueWhenTweakingStarted * (100.0 / (this.props.max - this.props.min));
+
+        // Clamp the new value to [-100, 100]
+        let nextValue = currentValue + value;
+        if (nextValue < 0) {
+            nextValue = 0;
+        }
+
+        if (nextValue > 100) {
+            nextValue = 100;
+        }
+
+        // Rescale to [min, max]
+        nextValue = this.props.min + (nextValue * scalingFactor);
+        return nextValue;
     }
 
     handleMouseDown(event) {
         this.setState({
             isTweaking: true,
-            valueWhenTweakingStarted: this.state.currentValue
+            valueWhenTweakingStarted: this.props.value
         });
     }
 
@@ -41,21 +55,25 @@ class Knob extends React.Component {
                 diff = 100;
             }
 
-            // Rescale to 0-100
-            diff = (100 + diff) / 2.0;
+            diff = this.scaleAndAddToCurrentValue(diff);
+            this.props.onChange(diff);
+        }
 
-            this.scale(diff);
-
+        if (nextProps.globalEvents.mouseUp) {
             this.setState({
-                currentValue: diff
+                isTweaking: false,
             });
         }
     }
 
     render() {
-        let angle = this.state.currentValue * (360/100);
-        angle = angle.toFixed(0) - 90;
-        console.log(this.state.currentValue, angle);
+        // Scale to [0, 100]
+        let scaledValue = this.props.value * (100.0 / (this.props.max - this.props.min));
+
+        // Compute angle for the knob rotation
+        let angle = scaledValue * (360/100);
+        angle = angle.toFixed(0) - 70;
+        angle = Math.min(angle, 250);
 
         let rotateStyle = {
             transform: 'rotate(' + angle + 'deg)',
@@ -66,13 +84,6 @@ class Knob extends React.Component {
                 style={styles.container}
                 onDragStart={(e) => { e.preventDefault(); return false; }}
             >
-                <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    onChange={(event) => { this.scale(event.target.value) }}
-                />
-
                 <div style={[styles.circle, rotateStyle]} onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)}>
                     <div style={styles.smallCircle}>
                     </div>
@@ -101,7 +112,7 @@ const styles = {
     circle: {
         width: 60,
         height: 60,
-        border: '1px solid black',
+        border: '2px solid black',
         borderRadius: 30,
         display: 'flex',
         justifyContent: 'center',
@@ -110,12 +121,12 @@ const styles = {
     },
 
     smallCircle: {
-        width: 8,
-        height: 8,
-        borderRadius: 4,
+        width: 12,
+        height: 12,
+        borderRadius: 6,
         backgroundColor: 'black',
         position: 'relative',
-        left: -20,
+        left: -18,
     },
 
     numberText: {

@@ -164,6 +164,8 @@ export default class LoginPage extends React.Component {
             },
             mouseStartX: event.screenX,
             mouseStartY: event.screenY,
+            mouseDispX: 0,
+            mouseDispY: 0,
         });
     }
 
@@ -194,6 +196,7 @@ export default class LoginPage extends React.Component {
                         </Surface>
 
                         <SynthesizerController
+                            coreState={this.entities[this.activeEntity].getState()}
                             onParameterChanged={this.entities[this.activeEntity].onParameterChanged.bind(this.entities[this.activeEntity])}
                             globalEvents={this.state.globalEvents}
                             mouseDispX={this.state.mouseDispX}
