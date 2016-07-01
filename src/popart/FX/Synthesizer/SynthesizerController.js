@@ -7,6 +7,12 @@ class SynthesizerController extends React.Component {
         super();
     }
 
+    handleColorParameterChanged(parameterName, colorChannel, colorValue) {
+        let value = this.props.coreState.IO[parameterName].read();
+        value[colorChannel] = colorValue;
+        this.props.onParameterChanged(parameterName, value);
+    }
+
     render() {
         return (
             <div
@@ -21,6 +27,12 @@ class SynthesizerController extends React.Component {
                     <Knob text="x"     min={0} max={1}  value={this.props.coreState.IO.x.read()     } onChange={(value) => this.props.onParameterChanged("x",     value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
                     <Knob text="y"     min={0} max={1}  value={this.props.coreState.IO.y.read()     } onChange={(value) => this.props.onParameterChanged("y",     value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
                     <Knob text="count" min={0} max={50} value={this.props.coreState.IO.count.read() } onChange={(value) => this.props.onParameterChanged("count", value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                </div>
+
+                <div style={styles.row}>
+                    <Knob text="R" min={0} max={1} value={this.props.coreState.IO.color.read()[0] } onChange={(value) => this.handleColorParameterChanged("color", 0, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                    <Knob text="G" min={0} max={1} value={this.props.coreState.IO.color.read()[1] } onChange={(value) => this.handleColorParameterChanged("color", 1, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                    <Knob text="B" min={0} max={1} value={this.props.coreState.IO.color.read()[2] } onChange={(value) => this.handleColorParameterChanged("color", 2, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
                 </div>
             </div>
         );
