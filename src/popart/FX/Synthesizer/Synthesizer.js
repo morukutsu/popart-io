@@ -21,7 +21,7 @@ const shaders = GL.Shaders.create({
 
             // Phase modulation
             value += modulationValue;
-            
+
             float mult  = abs(sin(value) );
 
             gl_FragColor = color * mult;

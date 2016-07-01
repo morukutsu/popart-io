@@ -31,6 +31,7 @@ export default class LoginPage extends React.Component {
         this.state = {
             effectList: ["SynthesizerDisplay", "RuttEtraDisplay"],
             effectTree: {},
+            effectInstances: [],
             mouseEvents: {
                 mouseUp: false,
             },
@@ -49,13 +50,13 @@ export default class LoginPage extends React.Component {
         this.rgbSplit = new RGBSplitCore();
         this.ruttEtra = new RuttEtraCore();
 
-        this.synthesizer = new SynthesizerCore();
+        /*this.synthesizer = new SynthesizerCore();
         this.synthesizer2 = new SynthesizerCore();
 
         this.entities = [
             this.synthesizer,
             this.synthesizer2
-        ];
+        ];*/
 
         this.activeEntity = 0;
 
@@ -98,9 +99,9 @@ export default class LoginPage extends React.Component {
 
         //this.synthesizer.IO.x.plug(this.sineLfo.IO.output);
         //this.synthesizer.IO.count.plug(this.sineLfo.IO.output);
-        this.synthesizer2.IO.count.set(5.0);
-        this.synthesizer2.IO.speed.set(0.01);
-        this.synthesizer2.IO.x.set(0.5);
+        //this.synthesizer2.IO.count.set(5.0);
+        //this.synthesizer2.IO.speed.set(0.01);
+        //this.synthesizer2.IO.x.set(0.5);
 
         //this.synthesizer.IO.color.set([0.8, 0.0, 0.3, 1.0]);
 
@@ -121,8 +122,11 @@ export default class LoginPage extends React.Component {
         this.blur.tick(dt);
         this.mosaic.tick(dt);
 
-        this.synthesizer.tick(dt);
-        this.synthesizer2.tick(dt);
+        //this.synthesizer.tick(dt);
+        //this.synthesizer2.tick(dt);
+        this.state.effectInstances.forEach((instance) => {
+            instance.tick(dt);
+        });
 
         this.raf = window.requestAnimationFrame(this.update);
 
@@ -180,7 +184,22 @@ export default class LoginPage extends React.Component {
         });
     }
 
+    handleAddFx(id) {
+        // TODO: use the id for the factory
+        let effect = new SynthesizerCore();
+        let instances = this.state.effectInstances;
+        instances.push(effect);
+
+        this.setState({
+            effectInstances: instances
+        });
+    }
+
     render() {
+        let blocks = this.state.effectInstances.map((instance, i) => (
+            <Block key={i} onPress={() => { this.activeEntity = i; }}/>
+        ));
+
         return (
             <div
                 onMouseDown={this.handleMouseDown.bind(this)}
@@ -190,32 +209,44 @@ export default class LoginPage extends React.Component {
                 <div style={styles.mainPanel}>
                     <div style={styles.leftPanel}>
                         <Panel>
-                            <Block onPress={() => { this.activeEntity = 0; }}/>
-                            <Block onPress={() => { this.activeEntity = 1; }}/>
+                            { blocks }
                         </Panel>
                     </div>
 
                     <div style={styles.rightPanel}>
-                        <Surface width={640} height={360} style={styles.surface}>
-                            <SynthesizerDisplay state={this.synthesizer.getState() }>
-                                <SynthesizerDisplay state={this.synthesizer2.getState() }/>
-                            </SynthesizerDisplay>
-                        </Surface>
 
-                        <SynthesizerController
-                            coreState={this.entities[this.activeEntity].getState()}
-                            onParameterChanged={this.entities[this.activeEntity].onParameterChanged.bind(this.entities[this.activeEntity])}
-                            mouseEvents={this.state.mouseEvents}
-                            mouseDisp={this.state.mouseDisp}
-                        />
                     </div>
                 </div>
 
-                <Toolbar effectList={this.state.effectList}/>
+                <Toolbar
+                    effectList={this.state.effectList}
+                    onClick={this.handleAddFx.bind(this)}
+                />
             </div>
         );
     }
 };
+
+/*
+
+<Surface width={640} height={360} style={styles.surface}>
+    <SynthesizerDisplay state={this.synthesizer.getState() }>
+        <SynthesizerDisplay state={this.synthesizer2.getState() }/>
+    </SynthesizerDisplay>
+</Surface>
+
+*/
+
+/*
+
+<SynthesizerController
+    coreState={this.state.effectInstances[this.activeEntity].getState()}
+    onParameterChanged={this.state.effectInstances[this.activeEntity].onParameterChanged.bind(this.entities[this.activeEntity])}
+    mouseEvents={this.state.mouseEvents}
+    mouseDisp={this.state.mouseDisp}
+/>
+
+*/
 
 const styles = {
     mainPanel: {
