@@ -31,7 +31,7 @@ export default class LoginPage extends React.Component {
         this.state = {
             effectList: ["SynthesizerDisplay", "RuttEtraDisplay"],
             effectTree: {},
-            globalEvents: {
+            mouseEvents: {
                 mouseUp: false,
             },
             mouseStartX: 0,
@@ -127,9 +127,9 @@ export default class LoginPage extends React.Component {
         this.raf = window.requestAnimationFrame(this.update);
 
         // Trigger renger
-        this.setState({
+        /*this.setState({
             dummy: 1
-        });
+        });*/
 
         this.prevTimestamp = timestamp;
     }
@@ -151,7 +151,7 @@ export default class LoginPage extends React.Component {
 
     handleMouseUp(event) {
         this.setState({
-            globalEvents: {
+            mouseEvents: {
                 mouseUp: true,
             }
         });
@@ -159,7 +159,7 @@ export default class LoginPage extends React.Component {
 
     handleMouseDown(event) {
         this.setState({
-            globalEvents: {
+            mouseEvents: {
                 mouseUp: false,
             },
             mouseStartX: event.screenX,
@@ -171,7 +171,6 @@ export default class LoginPage extends React.Component {
 
     handleMouseMove(event) {
         this.setState({
-            mouseMove: event,
             mouseDispX: this.state.mouseStartX - event.screenX,
             mouseDispY: this.state.mouseStartY - event.screenY,
         });
@@ -198,7 +197,7 @@ export default class LoginPage extends React.Component {
                         <SynthesizerController
                             coreState={this.entities[this.activeEntity].getState()}
                             onParameterChanged={this.entities[this.activeEntity].onParameterChanged.bind(this.entities[this.activeEntity])}
-                            globalEvents={this.state.globalEvents}
+                            mouseEvents={this.state.mouseEvents}
                             mouseDispX={this.state.mouseDispX}
                             mouseDispY={this.state.mouseDispY}
                         />

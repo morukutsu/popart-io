@@ -40,12 +40,8 @@ class Knob extends React.Component {
         });
     }
 
-    handleMouseUp(event) {
-
-    }
-
     componentWillReceiveProps(nextProps) {
-        if (this.state.isTweaking && !nextProps.globalEvents.mouseUp) {
+        if (this.state.isTweaking && !nextProps.mouseEvents.mouseUp) {
             let diff = nextProps.mouseDispY;
             if (diff < -100) {
                 diff = -100;
@@ -59,7 +55,7 @@ class Knob extends React.Component {
             this.props.onChange(diff);
         }
 
-        if (nextProps.globalEvents.mouseUp) {
+        if (nextProps.mouseEvents.mouseUp) {
             this.setState({
                 isTweaking: false,
             });
@@ -84,7 +80,7 @@ class Knob extends React.Component {
                 <div
                     style={styles.container}
                     onDragStart={(e) => { e.preventDefault(); return false; }}
-                    onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)}
+                    onMouseDown={this.handleMouseDown.bind(this)}
                 >
                     <div style={[styles.circle, rotateStyle]} >
                         <div style={styles.smallCircle}>
