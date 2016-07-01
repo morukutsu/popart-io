@@ -42,7 +42,7 @@ class Knob extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (this.state.isTweaking && !nextProps.mouseEvents.mouseUp) {
-            let diff = nextProps.mouseDispY;
+            let diff = nextProps.mouseDisp.y;
             if (diff < -100) {
                 diff = -100;
             }

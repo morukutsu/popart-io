@@ -126,7 +126,7 @@ export default class LoginPage extends React.Component {
 
         this.raf = window.requestAnimationFrame(this.update);
 
-        // Trigger renger
+        // Trigger render
         /*this.setState({
             dummy: 1
         });*/
@@ -162,23 +162,31 @@ export default class LoginPage extends React.Component {
             mouseEvents: {
                 mouseUp: false,
             },
+            mouseDisp: {
+                x: 0,
+                y: 0
+            },
             mouseStartX: event.screenX,
             mouseStartY: event.screenY,
-            mouseDispX: 0,
-            mouseDispY: 0,
         });
     }
 
     handleMouseMove(event) {
         this.setState({
-            mouseDispX: this.state.mouseStartX - event.screenX,
-            mouseDispY: this.state.mouseStartY - event.screenY,
+            mouseDisp: {
+                x: this.state.mouseStartX - event.screenX,
+                y: this.state.mouseStartY - event.screenY,
+            }
         });
     }
 
     render() {
         return (
-            <div onMouseDown={this.handleMouseDown.bind(this)} onMouseUp={this.handleMouseUp.bind(this)} onMouseMove={this.handleMouseMove.bind(this)}>
+            <div
+                onMouseDown={this.handleMouseDown.bind(this)}
+                onMouseUp={this.handleMouseUp.bind(this)}
+                onMouseMove={this.handleMouseMove.bind(this)}
+            >
                 <div style={styles.mainPanel}>
                     <div style={styles.leftPanel}>
                         <Panel>
@@ -198,8 +206,7 @@ export default class LoginPage extends React.Component {
                             coreState={this.entities[this.activeEntity].getState()}
                             onParameterChanged={this.entities[this.activeEntity].onParameterChanged.bind(this.entities[this.activeEntity])}
                             mouseEvents={this.state.mouseEvents}
-                            mouseDispX={this.state.mouseDispX}
-                            mouseDispY={this.state.mouseDispY}
+                            mouseDisp={this.state.mouseDisp}
                         />
                     </div>
                 </div>

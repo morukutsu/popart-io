@@ -17,10 +17,10 @@ class SynthesizerController extends React.Component {
                 </div>
 
                 <div style={styles.row}>
-                    <Knob text="speed" min={0} max={5}  value={this.props.coreState.IO.speed.read() } onChange={(value) => this.props.onParameterChanged("speed", value)} mouseEvents={this.props.mouseEvents} mouseDispY={this.props.mouseDispY} />
-                    <Knob text="x"     min={0} max={1}  value={this.props.coreState.IO.x.read()     } onChange={(value) => this.props.onParameterChanged("x",     value)} mouseEvents={this.props.mouseEvents} mouseDispY={this.props.mouseDispY} />
-                    <Knob text="y"     min={0} max={1}  value={this.props.coreState.IO.y.read()     } onChange={(value) => this.props.onParameterChanged("y",     value)} mouseEvents={this.props.mouseEvents} mouseDispY={this.props.mouseDispY} />
-                    <Knob text="count" min={0} max={50} value={this.props.coreState.IO.count.read() } onChange={(value) => this.props.onParameterChanged("count", value)} mouseEvents={this.props.mouseEvents} mouseDispY={this.props.mouseDispY} />
+                    <Knob text="speed" min={0} max={5}  value={this.props.coreState.IO.speed.read() } onChange={(value) => this.props.onParameterChanged("speed", value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                    <Knob text="x"     min={0} max={1}  value={this.props.coreState.IO.x.read()     } onChange={(value) => this.props.onParameterChanged("x",     value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                    <Knob text="y"     min={0} max={1}  value={this.props.coreState.IO.y.read()     } onChange={(value) => this.props.onParameterChanged("y",     value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                    <Knob text="count" min={0} max={50} value={this.props.coreState.IO.count.read() } onChange={(value) => this.props.onParameterChanged("count", value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
                 </div>
             </div>
         );
