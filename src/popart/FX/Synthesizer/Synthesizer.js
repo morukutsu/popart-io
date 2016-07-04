@@ -31,6 +31,8 @@ const shaders = GL.Shaders.create({
 
 export class SynthesizerCore {
     constructor() {
+        this.name = "Synthesizer";
+
         this.IO = {
             'waveform': new IO('float', 'input'),
             'speed'   : new IO('float', 'input'),

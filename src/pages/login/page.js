@@ -131,9 +131,9 @@ export default class LoginPage extends React.Component {
         this.raf = window.requestAnimationFrame(this.update);
 
         // Trigger render
-        /*this.setState({
+        this.setState({
             dummy: 1
-        });*/
+        });
 
         this.prevTimestamp = timestamp;
     }
@@ -195,6 +195,44 @@ export default class LoginPage extends React.Component {
         });
     }
 
+    lookupComponentByName(name) {
+        if (name == "SynthesizerDisplay") {
+            return SynthesizerDisplay;
+        }
+
+        return null;
+    }
+
+    renderEffects() {
+        if (this.state.effectInstances.length > 0) {
+            let displayComponentName = this.state.effectInstances[0].name + "Display";
+            let component = this.lookupComponentByName(displayComponentName);
+
+            return React.createElement(component, {
+                state: this.state.effectInstances[0].getState()
+            });
+        } else {
+            return (<div></div>);
+        }
+    }
+
+    renderController() {
+        if (this.state.effectInstances.length > 0) {
+            let activeEntity = this.state.effectInstances[this.activeEntity];
+
+            return (
+                <SynthesizerController
+                    coreState={activeEntity.getState()}
+                    onParameterChanged={activeEntity.onParameterChanged.bind(activeEntity)}
+                    mouseEvents={this.state.mouseEvents}
+                    mouseDisp={this.state.mouseDisp}
+                />
+            );
+        } else {
+            return (<div></div>);
+        }
+    }
+
     render() {
         let blocks = this.state.effectInstances.map((instance, i) => (
             <Block key={i} onPress={() => { this.activeEntity = i; }}/>
@@ -214,7 +252,11 @@ export default class LoginPage extends React.Component {
                     </div>
 
                     <div style={styles.rightPanel}>
+                        <Surface width={640} height={360} style={styles.surface}>
+                            { this.renderEffects() }
+                        </Surface>
 
+                        { this.renderController() }
                     </div>
                 </div>
 
