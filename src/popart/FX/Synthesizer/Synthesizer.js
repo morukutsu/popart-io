@@ -12,6 +12,7 @@ const shaders = GL.Shaders.create({
         uniform float x, y;
         uniform float count;
         uniform sampler2D modulation;
+        uniform float phase;
 
         void main () {
             float modulationValue = texture2D(modulation, uv).r;
@@ -21,6 +22,7 @@ const shaders = GL.Shaders.create({
 
             // Phase modulation
             value += modulationValue;
+            value += phase;
 
             float mult  = abs(sin(value) );
 
@@ -34,12 +36,14 @@ export class SynthesizerCore {
         this.name = "Synthesizer";
 
         this.IO = {
-            'waveform': new IO('float', 'input'),
-            'speed'   : new IO('float', 'input'),
-            'x'       : new IO('float', 'input'),
-            'y'       : new IO('float', 'input'),
-            'count'   : new IO('float', 'input'),
-            'color'   : new IO('color', 'input'),
+            'waveform': new IO('waveform', 'float', 'input'),
+            'speed'   : new IO('speed',    'float', 'input'),
+            'x'       : new IO('x',        'float', 'input'),
+            'y'       : new IO('y',        'float', 'input'),
+            'count'   : new IO('count',    'float', 'input'),
+            'color'   : new IO('color',    'color', 'input'),
+            'phase'   : new IO('phase',    'float', 'input'),
+            'out'     : new IO('out',      'image', 'output'),
         };
 
         // Default values
@@ -49,6 +53,7 @@ export class SynthesizerCore {
         this.IO.y.set(1.0);
         this.IO.count.set(1.0);
         this.IO.color.set([1.0, 1.0, 1.0, 1.0]);
+        this.IO.phase.set(0);
 
         this.time = 0.0;
     }
@@ -76,6 +81,7 @@ export const SynthesizerDisplay = GL.createComponent(({ children, state }) => {
                 x:     state.IO.x.read(),
                 y:     state.IO.y.read(),
                 count: state.IO.count.read(),
+                phase: state.IO.phase.read(),
             }}
         >
             <GL.Uniform name="modulation">

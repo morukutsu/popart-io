@@ -1,5 +1,6 @@
 export default class IO {
-    constructor(type, inputOrOutput) {
+    constructor(name, type, inputOrOutput) {
+        this.name = name;
         this.type          = type;
         this.inputOrOutput = inputOrOutput;
         this.pluggedIo     = null;

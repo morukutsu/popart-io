@@ -37,6 +37,7 @@ export default class LoginPage extends React.Component {
             },
             mouseStartX: 0,
             mouseStartY: 0,
+            currentTweakableParameters: []
         };
     }
 
@@ -185,6 +186,7 @@ export default class LoginPage extends React.Component {
     }
 
     handleAddFx(id) {
+        // TODO: every instanciated element should have a unique id
         // TODO: use the id for the factory
         let effect = new SynthesizerCore();
         let instances = this.state.effectInstances;
@@ -203,7 +205,37 @@ export default class LoginPage extends React.Component {
         return null;
     }
 
+    updateCurrentTweakableParameters(src) {
+        let tweakableParameters = [];
+
+        // Retrieve all the output parameters of all the effects
+        this.state.effectInstances.forEach((effect) => {
+            Object.keys(effect.IO).forEach((parameterName) => {
+                let parameter = effect.IO[parameterName];
+                if (parameter.inputOrOutput == "output") {
+                    tweakableParameters.push(parameter);
+                }
+            });
+        });
+
+        this.setState({
+            currentTweakableParameters: tweakableParameters
+        });
+    }
+
+    handleRouteParameters(dest) {
+        // TODO: fill src with the last selected parameter
+        let src = null;
+
+        this.routeParameters(src, dest);
+    }
+
+    routeParameters(src, dest) {
+
+    }
+
     renderEffects() {
+        // TODO: here we have to use a graph to display all the effects correctly
         if (this.state.effectInstances.length > 0) {
             let displayComponentName = this.state.effectInstances[0].name + "Display";
             let component = this.lookupComponentByName(displayComponentName);
@@ -224,8 +256,11 @@ export default class LoginPage extends React.Component {
                 <SynthesizerController
                     coreState={activeEntity.getState()}
                     onParameterChanged={activeEntity.onParameterChanged.bind(activeEntity)}
+                    onParameterSelected={(name) => this.updateCurrentTweakableParameters(name)}
+                    onRouteParameterSelected={this.handleRouteParameters}
                     mouseEvents={this.state.mouseEvents}
                     mouseDisp={this.state.mouseDisp}
+                    tweakableParameters={this.state.currentTweakableParameters}
                 />
             );
         } else {

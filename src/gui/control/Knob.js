@@ -38,6 +38,8 @@ class Knob extends React.Component {
             isTweaking: true,
             valueWhenTweakingStarted: this.props.value
         });
+
+        this.props.onClick();
     }
 
     componentWillReceiveProps(nextProps) {
