@@ -2,7 +2,7 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import stylesCss from './style.css';
 import GL from 'gl-react';
-import { Surface } from 'gl-react-dom';
+
 import { Effect, EffectCore }          from '../../popart/Effect';
 import { StrobeCore, StrobeDisplay }   from '../../popart/FX/Strobe/Strobe';
 import { SquareCore, SquareDisplay }   from '../../popart/FX/Square/Square';
@@ -13,6 +13,7 @@ import { RGBSplitCore,  RGBSplitDisplay }   from '../../popart/FX/RGBSplit/RGBSp
 import { RuttEtraCore,  RuttEtraDisplay }   from '../../popart/FX/RuttEtra/RuttEtra';
 import { SynthesizerCore,  SynthesizerDisplay }   from '../../popart/FX/Synthesizer/Synthesizer';
 import SynthesizerController   from '../../popart/FX/Synthesizer/SynthesizerController';
+import EffectView from '../../popart/EffectView/EffectView';
 
 import Block from '../../gui/routing/Block.js';
 import Panel from '../../gui/routing/Panel.js';
@@ -25,6 +26,7 @@ import LFO from '../../popart/Modulators/LFO';
 export default class LoginPage extends React.Component {
     constructor() {
         super();
+
         this.update = this.update.bind(this); // binding
         this.prevTimestamp = 0.0;
 
@@ -167,22 +169,21 @@ export default class LoginPage extends React.Component {
             mouseEvents: {
                 mouseUp: false,
             },
-            mouseDisp: {
-                x: 0,
-                y: 0
-            },
             mouseStartX: event.screenX,
             mouseStartY: event.screenY,
         });
+
+        this.nextMouseDisp = {
+            x: this.state.mouseStartX - event.screenX,
+            y: this.state.mouseStartY - event.screenY,
+        };
     }
 
     handleMouseMove(event) {
-        this.setState({
-            mouseDisp: {
-                x: this.state.mouseStartX - event.screenX,
-                y: this.state.mouseStartY - event.screenY,
-            }
-        });
+        this.nextMouseDisp = {
+            x: this.state.mouseStartX - event.screenX,
+            y: this.state.mouseStartY - event.screenY,
+        };
     }
 
     handleAddFx(id) {
@@ -237,12 +238,27 @@ export default class LoginPage extends React.Component {
     renderEffects() {
         // TODO: here we have to use a graph to display all the effects correctly
         if (this.state.effectInstances.length > 0) {
-            let displayComponentName = this.state.effectInstances[0].name + "Display";
-            let component = this.lookupComponentByName(displayComponentName);
+            // Traverse to create the component chain
+            let children = null;
 
-            return React.createElement(component, {
-                state: this.state.effectInstances[0].getState()
-            });
+            for (var i = 0; i < this.state.effectInstances.length; i++) {
+                let currentEffect = this.state.effectInstances[i];
+
+                let displayComponentName = currentEffect.name + "Display";
+                let component = this.lookupComponentByName(displayComponentName);
+
+                // Create the react component
+                let componentInstance = React.createElement(component, {
+                    state:    currentEffect.getState(),
+                    children: children
+                });
+
+                // Set the current component to be the children of the next one
+                children = componentInstance;
+            }
+
+            // Return the last instianciated compnent
+            return children;
         } else {
             return (<div></div>);
         }
@@ -259,7 +275,7 @@ export default class LoginPage extends React.Component {
                     onParameterSelected={(name) => this.updateCurrentTweakableParameters(name)}
                     onRouteParameterSelected={this.handleRouteParameters}
                     mouseEvents={this.state.mouseEvents}
-                    mouseDisp={this.state.mouseDisp}
+                    mouseDisp={this.nextMouseDisp}
                     tweakableParameters={this.state.currentTweakableParameters}
                 />
             );
@@ -287,9 +303,9 @@ export default class LoginPage extends React.Component {
                     </div>
 
                     <div style={styles.rightPanel}>
-                        <Surface width={640} height={360} style={styles.surface}>
+                        <EffectView>
                             { this.renderEffects() }
-                        </Surface>
+                        </EffectView>
 
                         { this.renderController() }
                     </div>

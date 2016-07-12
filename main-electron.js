@@ -22,7 +22,7 @@ app.on('window-all-closed', function() {
 app.on('ready', function() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-      width: 800, 
+      width: 800,
       height: 600,
       'web-preferences': {
           'web-security': false
