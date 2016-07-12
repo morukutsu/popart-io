@@ -39,6 +39,8 @@ const shaders = GL.Shaders.create({
 
 export class RuttEtraCore {
     constructor() {
+        this.name = "RuttEtra";
+
         this.IO = {
             'length' : new IO('float', 'input'),
         };
@@ -50,6 +52,10 @@ export class RuttEtraCore {
 
     }
 
+    onParameterChanged(parameter, value) {
+        this.IO[parameter].set(value);
+    }
+    
     getState() {
         return this;
     }

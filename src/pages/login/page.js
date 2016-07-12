@@ -13,6 +13,7 @@ import { RGBSplitCore,  RGBSplitDisplay }   from '../../popart/FX/RGBSplit/RGBSp
 import { RuttEtraCore,  RuttEtraDisplay }   from '../../popart/FX/RuttEtra/RuttEtra';
 import { SynthesizerCore,  SynthesizerDisplay }   from '../../popart/FX/Synthesizer/Synthesizer';
 import SynthesizerController   from '../../popart/FX/Synthesizer/SynthesizerController';
+import RuttEtraController   from '../../popart/FX/RuttEtra/RuttEtraController';
 import EffectView from '../../popart/EffectView/EffectView';
 
 import Block from '../../gui/routing/Block.js';
@@ -31,7 +32,7 @@ export default class LoginPage extends React.Component {
         this.prevTimestamp = 0.0;
 
         this.state = {
-            effectList: ["SynthesizerDisplay", "RuttEtraDisplay"],
+            effectList: ["Synthesizer", "RuttEtra"],
             effectTree: {},
             effectInstances: [],
             mouseEvents: {
@@ -188,8 +189,10 @@ export default class LoginPage extends React.Component {
 
     handleAddFx(id) {
         // TODO: every instanciated element should have a unique id
-        // TODO: use the id for the factory
-        let effect = new SynthesizerCore();
+        let coreComponentName = id + "Core";
+        let component = this.lookupComponentByName(coreComponentName);
+
+        let effect = new component();
         let instances = this.state.effectInstances;
         instances.push(effect);
 
@@ -199,11 +202,16 @@ export default class LoginPage extends React.Component {
     }
 
     lookupComponentByName(name) {
-        if (name == "SynthesizerDisplay") {
-            return SynthesizerDisplay;
-        }
+        let lookup = {
+            'SynthesizerDisplay':    SynthesizerDisplay,
+            'SynthesizerController': SynthesizerController,
+            'SynthesizerCore':       SynthesizerCore,
+            'RuttEtraDisplay':       RuttEtraDisplay,
+            'RuttEtraController':    RuttEtraController,
+            'RuttEtraCore':          RuttEtraCore,
+        };
 
-        return null;
+        return lookup[name];
     }
 
     updateCurrentTweakableParameters(src) {
@@ -237,6 +245,7 @@ export default class LoginPage extends React.Component {
 
     renderEffects() {
         // TODO: here we have to use a graph to display all the effects correctly
+        // Currently the routing is done from left to right
         if (this.state.effectInstances.length > 0) {
             // Traverse to create the component chain
             let children = null;
@@ -267,18 +276,18 @@ export default class LoginPage extends React.Component {
     renderController() {
         if (this.state.effectInstances.length > 0) {
             let activeEntity = this.state.effectInstances[this.activeEntity];
+            let controllerComponentName = activeEntity.name + "Controller";
+            let component = this.lookupComponentByName(controllerComponentName);
 
-            return (
-                <SynthesizerController
-                    coreState={activeEntity.getState()}
-                    onParameterChanged={activeEntity.onParameterChanged.bind(activeEntity)}
-                    onParameterSelected={(name) => this.updateCurrentTweakableParameters(name)}
-                    onRouteParameterSelected={this.handleRouteParameters}
-                    mouseEvents={this.state.mouseEvents}
-                    mouseDisp={this.nextMouseDisp}
-                    tweakableParameters={this.state.currentTweakableParameters}
-                />
-            );
+            return React.createElement(component, {
+                coreState:                activeEntity.getState(),
+                onParameterChanged:       activeEntity.onParameterChanged.bind(activeEntity),
+                onParameterSelected:      (name) => this.updateCurrentTweakableParameters(name),
+                onRouteParameterSelected: this.handleRouteParameters,
+                mouseEvents:              this.state.mouseEvents,
+                mouseDisp:                this.nextMouseDisp,
+                tweakableParameters:      this.state.currentTweakableParameters,
+            });
         } else {
             return (<div></div>);
         }
@@ -286,7 +295,11 @@ export default class LoginPage extends React.Component {
 
     render() {
         let blocks = this.state.effectInstances.map((instance, i) => (
-            <Block key={i} onPress={() => { this.activeEntity = i; }}/>
+            <Block
+                key={i}
+                onPress={() => { this.activeEntity = i; }}
+                name={instance.name}
+            />
         ));
 
         return (

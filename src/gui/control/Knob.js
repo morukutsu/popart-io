@@ -39,7 +39,7 @@ class Knob extends React.Component {
             valueWhenTweakingStarted: this.props.value
         });
 
-        this.props.onClick();
+        this.props.onClick && this.props.onClick();
     }
 
     componentWillReceiveProps(nextProps) {

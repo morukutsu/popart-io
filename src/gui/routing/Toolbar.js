@@ -12,7 +12,7 @@ class Toolbar extends React.Component {
                 <div
                     key={i}
                     style={styles.effect}
-                    onClick={() => this.props.onClick(i)}
+                    onClick={() => this.props.onClick(elem)}
                 >
                     {elem}
                 </div>
