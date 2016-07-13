@@ -7,15 +7,34 @@ class RouteToMenu extends React.Component {
     }
 
     render() {
-        let tweakableParameters = this.props.tweakableParameters.map((elem, i) => (
-            <div
-                style={styles.parameter}
-                key={i}
-                onClick={() => this.props.onParameterSelected(elem)}
-            >
-                { elem.name }
-            </div>
-        ));
+        let inputs = this.props.inputList.map((input, i) => {
+            let selectedValue = input.pluggedIo ? input.pluggedIo.name : "none";
+            let options = this.props.availableInputs.map((availableInput, k) => {
+                return (
+                    <option key={k}>
+                        { availableInput.name }
+                    </option>
+                );
+            });
+
+            return (
+                <div
+                    style={styles.parameter}
+                    key={i}
+                >
+                    <span style={styles.parameterName}>
+                        { input.name }
+                    </span>
+
+                    <select
+                        value={selectedValue}
+                    >
+                        <option>none</option>
+                        { options }
+                    </select>
+                </div>
+            );
+        });
 
         return (
             <div
@@ -24,7 +43,7 @@ class RouteToMenu extends React.Component {
             >
                 <div>Route to...</div>
                 <div>
-                    { tweakableParameters }
+                    { inputs }
                 </div>
             </div>
         );
@@ -33,9 +52,9 @@ class RouteToMenu extends React.Component {
 
 const styles = {
     container: {
-        width: 150,
-        height: 80,
+        width: 250,
         margin: 10,
+        padding: 5,
         backgroundColor: '#74b1be',
         //justifyContent: 'center',
         fontWeight: 'bold',
@@ -46,7 +65,12 @@ const styles = {
     },
 
     parameter: {
-        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'row',
+    },
+
+    parameterName: {
+        width: 150
     }
 };
 

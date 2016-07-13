@@ -192,8 +192,34 @@ export default class LoginPage extends React.Component {
         let coreComponentName = id + "Core";
         let component = this.lookupComponentByName(coreComponentName);
 
+        // Instantiate the core component
         let effect = new component();
+
+        // Retrieve and set its availableInputs
+        // Get all the inputs from the previous element in the chain
         let instances = this.state.effectInstances;
+        let previousEffect = instances[instances.length - 1];
+        if (previousEffect) {
+            // Enumerate all the inputs
+            let inputList = [];
+            Object.keys(previousEffect.IO).forEach((parameterName) => {
+                let parameter = previousEffect.IO[parameterName];
+                if (parameter.inputOrOutput == "output") {
+                    inputList.push(parameter);
+                }
+            });
+
+            effect.onAvailableInputsChanged(inputList);
+        }
+
+        // TODO: FIXME: always plug input phase to osc.out
+        if (effect.IO.phase) {
+            if (previousEffect && previousEffect.IO.out) {
+                console.log("plugged");
+                effect.IO.phase.plug(previousEffect.IO.out);
+            }
+        }
+
         instances.push(effect);
 
         this.setState({
@@ -282,11 +308,11 @@ export default class LoginPage extends React.Component {
             return React.createElement(component, {
                 coreState:                activeEntity.getState(),
                 onParameterChanged:       activeEntity.onParameterChanged.bind(activeEntity),
-                onParameterSelected:      (name) => this.updateCurrentTweakableParameters(name),
+                //onParameterSelected:      (name) => this.updateCurrentTweakableParameters(name),
                 onRouteParameterSelected: this.handleRouteParameters,
                 mouseEvents:              this.state.mouseEvents,
                 mouseDisp:                this.nextMouseDisp,
-                tweakableParameters:      this.state.currentTweakableParameters,
+                //tweakableParameters:      this.state.currentTweakableParameters,
             });
         } else {
             return (<div></div>);

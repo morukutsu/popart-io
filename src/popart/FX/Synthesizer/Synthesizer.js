@@ -24,7 +24,7 @@ const shaders = GL.Shaders.create({
             value += modulationValue;
             value += phase;
 
-            float mult  = abs(sin(value) );
+            float mult = abs(sin(value) );
 
             gl_FragColor = color * mult;
         }`
@@ -56,6 +56,16 @@ export class SynthesizerCore {
         this.IO.phase.set(0);
 
         this.time = 0.0;
+
+        this.availableInputs = [];
+
+        this.inputList = [];
+        Object.keys(this.IO).forEach((parameterName) => {
+            let parameter = this.IO[parameterName];
+            if (parameter.inputOrOutput == "input") {
+                this.inputList.push(parameter);
+            }
+        });
     }
 
     tick(dt) {
@@ -64,6 +74,10 @@ export class SynthesizerCore {
 
     onParameterChanged(parameter, value) {
         this.IO[parameter].set(value);
+    }
+
+    onAvailableInputsChanged(inputList) {
+        this.availableInputs = inputList;
     }
 
     getState() {

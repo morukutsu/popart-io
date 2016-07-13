@@ -48,8 +48,8 @@ class SynthesizerController extends React.Component {
                 </div>
 
                 <RouteToMenu
-                    tweakableParameters={this.props.tweakableParameters}
-                    onParameterSelected={this.props.onRouteParameterSelected}
+                    availableInputs={this.props.coreState.availableInputs}
+                    inputList={this.props.coreState.inputList}
                 />
             </div>
         );
