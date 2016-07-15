@@ -49,6 +49,7 @@ class SynthesizerController extends React.Component {
 
                 <div style={styles.row}>
                     <Knob text="phase mod" min={0} max={1} value={this.props.coreState.IO.phaseMod.read() } onChange={(value) => this.props.onParameterChanged("phaseMod", value) } mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                    <Knob text="color mod" min={0} max={1} value={this.props.coreState.IO.colorMod.read() } onChange={(value) => this.props.onParameterChanged("colorMod", value) } mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
                 </div>
             </div>
         );

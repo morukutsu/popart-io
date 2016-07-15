@@ -14,20 +14,27 @@ const shaders = GL.Shaders.create({
         uniform sampler2D modulation;
         uniform float phase;
         uniform float phaseMod;
+        uniform float colorMod;
 
         void main () {
-            float modulationValue = texture2D(modulation, uv).r;
+            // Fetch color from the previous effect
+            vec4 inputColor = texture2D(modulation, uv);
 
-            float freq  = count;
+            // Modulation is taken from the input Red channel
+            float modulationValue = inputColor.r;
+
+            float freq = count;
             float value = freq * (t + uv.y * y + uv.x * x);
 
             // Phase modulation
             value += (modulationValue * phaseMod);
             value += phase;
 
+            // Synthesizer function
             float mult = abs(sin(value) );
 
-            gl_FragColor = color * mult;
+            vec4 outputColor = (inputColor * colorMod) + (color * (1.0 - colorMod));
+            gl_FragColor = outputColor * mult;
         }`
     }
 });
@@ -45,6 +52,7 @@ export class SynthesizerCore {
             'color'    : new IO('color',    'color', 'input'),
             'phase'    : new IO('phase',    'float', 'input'),
             'phaseMod' : new IO('phaseMod', 'float', 'input'),
+            'colorMod' : new IO('colorMod', 'float', 'input'),
             'out'      : new IO('out',      'image', 'output'),
         };
 
@@ -57,6 +65,7 @@ export class SynthesizerCore {
         this.IO.color.set([1.0, 1.0, 1.0, 1.0]);
         this.IO.phase.set(0);
         this.IO.phaseMod.set(1);
+        this.IO.colorMod.set(0);
 
         this.time = 0.0;
 
@@ -101,6 +110,7 @@ export const SynthesizerDisplay = GL.createComponent(({ children, state }) => {
                 count:    state.IO.count.read(),
                 phase:    state.IO.phase.read(),
                 phaseMod: state.IO.phaseMod.read(),
+                colorMod: state.IO.colorMod.read(),
             }}
         >
             <GL.Uniform name="modulation">
