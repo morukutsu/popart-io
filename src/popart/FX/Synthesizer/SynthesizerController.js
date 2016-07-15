@@ -47,14 +47,20 @@ class SynthesizerController extends React.Component {
                     <Knob text="B" min={0} max={1} value={this.props.coreState.IO.color.read()[2] } onChange={(value) => this.handleColorParameterChanged("color", 2, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
                 </div>
 
-                <RouteToMenu
-                    availableInputs={this.props.coreState.availableInputs}
-                    inputList={this.props.coreState.inputList}
-                />
+                <div style={styles.row}>
+                    <Knob text="phase mod" min={0} max={1} value={this.props.coreState.IO.phaseMod.read() } onChange={(value) => this.props.onParameterChanged("phaseMod", value) } mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                </div>
             </div>
         );
     }
 };
+
+/*
+<RouteToMenu
+    availableInputs={this.props.coreState.availableInputs}
+    inputList={this.props.coreState.inputList}
+/>
+*/
 
 const styles = {
     container: {

@@ -215,8 +215,8 @@ export default class LoginPage extends React.Component {
         // TODO: FIXME: always plug input phase to osc.out
         if (effect.IO.phase) {
             if (previousEffect && previousEffect.IO.out) {
-                console.log("plugged");
-                effect.IO.phase.plug(previousEffect.IO.out);
+                //console.log("plugged");
+                //effect.IO.phase.plug(previousEffect.IO.out);
             }
         }
 
