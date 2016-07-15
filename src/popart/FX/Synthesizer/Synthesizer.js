@@ -15,6 +15,7 @@ const shaders = GL.Shaders.create({
         uniform float phase;
         uniform float phaseMod;
         uniform float colorMod;
+        uniform float countMod;
 
         void main () {
             // Fetch color from the previous effect
@@ -23,7 +24,7 @@ const shaders = GL.Shaders.create({
             // Modulation is taken from the input Red channel
             float modulationValue = inputColor.r;
 
-            float freq = count;
+            float freq  = count + (modulationValue * countMod * 50.0);
             float value = freq * (t + uv.y * y + uv.x * x);
 
             // Phase modulation
@@ -53,6 +54,7 @@ export class SynthesizerCore {
             'phase'    : new IO('phase',    'float', 'input'),
             'phaseMod' : new IO('phaseMod', 'float', 'input'),
             'colorMod' : new IO('colorMod', 'float', 'input'),
+            'countMod' : new IO('countMod', 'float', 'input'),
             'out'      : new IO('out',      'image', 'output'),
         };
 
@@ -66,6 +68,7 @@ export class SynthesizerCore {
         this.IO.phase.set(0);
         this.IO.phaseMod.set(1);
         this.IO.colorMod.set(0);
+        this.IO.countMod.set(0);
 
         this.time = 0.0;
 
@@ -111,6 +114,7 @@ export const SynthesizerDisplay = GL.createComponent(({ children, state }) => {
                 phase:    state.IO.phase.read(),
                 phaseMod: state.IO.phaseMod.read(),
                 colorMod: state.IO.colorMod.read(),
+                countMod: state.IO.countMod.read(),
             }}
         >
             <GL.Uniform name="modulation">
