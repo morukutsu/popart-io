@@ -13,9 +13,7 @@ const shaders = GL.Shaders.create({
         uniform float count;
         uniform sampler2D modulation;
         uniform float phase;
-        uniform float phaseMod;
-        uniform float colorMod;
-        uniform float countMod;
+        uniform float phaseMod, colorMod, countMod, xMod, yMod;
 
         void main () {
             // Fetch color from the previous effect
@@ -24,10 +22,16 @@ const shaders = GL.Shaders.create({
             // Modulation is taken from the input Red channel
             float modulationValue = inputColor.r;
 
-            float freq  = count + (modulationValue * countMod * 50.0);
-            float value = freq * (t + uv.y * y + uv.x * x);
+            // Compute oscillator frequency, TODO: countMod is not okay for the moment
+            float freq = count + (modulationValue * countMod * 50.0);
+
+            float oscX = x + (xMod * modulationValue);
+            float oscY = y + (yMod * modulationValue);
+
+            float value = freq * (t + (uv.y * oscY) + (uv.x * oscX));
 
             // Phase modulation
+            // TODO: phaseMod should work on the whole sin function domain
             value += (modulationValue * phaseMod);
             value += phase;
 
@@ -55,6 +59,8 @@ export class SynthesizerCore {
             'phaseMod' : new IO('phaseMod', 'float', 'input'),
             'colorMod' : new IO('colorMod', 'float', 'input'),
             'countMod' : new IO('countMod', 'float', 'input'),
+            'xMod'     : new IO('xMod',     'float', 'input'),
+            'yMod'     : new IO('yMod',     'float', 'input'),
             'out'      : new IO('out',      'image', 'output'),
         };
 
@@ -69,6 +75,8 @@ export class SynthesizerCore {
         this.IO.phaseMod.set(1);
         this.IO.colorMod.set(0);
         this.IO.countMod.set(0);
+        this.IO.xMod.set(0);
+        this.IO.yMod.set(0);
 
         this.time = 0.0;
 
@@ -115,6 +123,8 @@ export const SynthesizerDisplay = GL.createComponent(({ children, state }) => {
                 phaseMod: state.IO.phaseMod.read(),
                 colorMod: state.IO.colorMod.read(),
                 countMod: state.IO.countMod.read(),
+                xMod:     state.IO.xMod.read(),
+                yMod:     state.IO.yMod.read(),
             }}
         >
             <GL.Uniform name="modulation">

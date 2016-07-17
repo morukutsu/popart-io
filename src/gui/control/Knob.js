@@ -16,7 +16,7 @@ class Knob extends React.Component {
         let scalingFactor = range / 100.0;
 
         // Retrieve the value registered when the user clicked on the Knob
-        let currentValue = this.state.valueWhenTweakingStarted * (100.0 / (this.props.max - this.props.min));
+        let currentValue = this.state.valueWhenTweakingStarted * (100.0 / (range));
 
         // Clamp the new value to [-100, 100]
         let nextValue = currentValue + value;
@@ -66,7 +66,11 @@ class Knob extends React.Component {
 
     render() {
         // Scale to [0, 100]
-        let scaledValue = this.props.value * (100.0 / (this.props.max - this.props.min));
+        let range = this.props.max - this.props.min;
+
+        // Move to 0..range instead of min..max
+        let scaledValue = this.props.value - this.props.min;
+        scaledValue = scaledValue * (100.0 / (range));
 
         // Compute angle for the knob rotation
         let angle = scaledValue * (360/100);
