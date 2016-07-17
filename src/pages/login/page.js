@@ -175,8 +175,8 @@ export default class LoginPage extends React.Component {
         });
 
         this.nextMouseDisp = {
-            x: this.state.mouseStartX - event.screenX,
-            y: this.state.mouseStartY - event.screenY,
+            x: 0,
+            y: 0,
         };
     }
 

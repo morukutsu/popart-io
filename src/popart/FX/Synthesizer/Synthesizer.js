@@ -15,11 +15,15 @@ const shaders = GL.Shaders.create({
         uniform float phase;
         uniform float phaseMod, colorMod, countMod, xMod, yMod;
 
+        // TODO: fix the value of PI
+        #define PI 3.14
+
         void main () {
             // Fetch color from the previous effect
             vec4 inputColor = texture2D(modulation, uv);
 
             // Modulation is taken from the input Red channel
+            // TODO: use pixel brightness instead?
             float modulationValue = inputColor.r;
 
             // Compute oscillator frequency, TODO: countMod is not okay for the moment
@@ -31,13 +35,14 @@ const shaders = GL.Shaders.create({
             float value = freq * (t + (uv.y * oscY) + (uv.x * oscX));
 
             // Phase modulation
-            // TODO: phaseMod should work on the whole sin function domain
-            value += (modulationValue * phaseMod);
+            // TODO: in the train, check sin period is PI or 2PI?
+            value += (modulationValue * phaseMod) * PI;
             value += phase;
 
             // Synthesizer function
             float mult = abs(sin(value) );
 
+            // TODO: implement other color blending modes?
             vec4 outputColor = (inputColor * colorMod) + (color * (1.0 - colorMod));
             gl_FragColor = outputColor * mult;
         }`

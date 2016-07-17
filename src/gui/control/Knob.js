@@ -16,9 +16,9 @@ class Knob extends React.Component {
         let scalingFactor = range / 100.0;
 
         // Retrieve the value registered when the user clicked on the Knob
-        let currentValue = this.state.valueWhenTweakingStarted * (100.0 / (range));
-
-        // Clamp the new value to [-100, 100]
+        let currentValue = (-this.props.min + this.state.valueWhenTweakingStarted) * (100.0 / (range));
+        console.log(currentValue);
+        // Clamp the new value to [0, 100]
         let nextValue = currentValue + value;
         if (nextValue < 0) {
             nextValue = 0;
@@ -45,6 +45,7 @@ class Knob extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (this.state.isTweaking && !nextProps.mouseEvents.mouseUp) {
             let diff = nextProps.mouseDisp.y;
+
             if (diff < -100) {
                 diff = -100;
             }
