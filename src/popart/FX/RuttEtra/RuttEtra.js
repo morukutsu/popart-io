@@ -46,6 +46,16 @@ export class RuttEtraCore {
         };
 
         this.IO.length.set(0.01);
+
+        this.availableInputs = [];
+
+        this.inputList = [];
+        Object.keys(this.IO).forEach((parameterName) => {
+            let parameter = this.IO[parameterName];
+            if (parameter.inputOrOutput == "input") {
+                this.inputList.push(parameter);
+            }
+        });
     }
 
     tick(dt) {
@@ -55,7 +65,11 @@ export class RuttEtraCore {
     onParameterChanged(parameter, value) {
         this.IO[parameter].set(value);
     }
-    
+
+    onAvailableInputsChanged(inputList) {
+        this.availableInputs = inputList;
+    }
+
     getState() {
         return this;
     }
