@@ -17,7 +17,7 @@ class Knob extends React.Component {
 
         // Retrieve the value registered when the user clicked on the Knob
         let currentValue = (-this.props.min + this.state.valueWhenTweakingStarted) * (100.0 / (range));
-        console.log(currentValue);
+
         // Clamp the new value to [0, 100]
         let nextValue = currentValue + value;
         if (nextValue < 0) {
