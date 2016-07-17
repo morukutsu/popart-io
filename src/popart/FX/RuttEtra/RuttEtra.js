@@ -18,6 +18,7 @@ const shaders = GL.Shaders.create({
             float x = uv.x * 1280.0;
             float y = uv.y * 720.0;
 
+            // TODO: dependent texture read due to the old 2x scaling algo
             /*x = ceil(x / 2.0) * 2.0;
             y = ceil(y / 2.0) * 2.0;*/
 
