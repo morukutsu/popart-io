@@ -19,7 +19,6 @@ class SynthesizerController extends React.Component {
             <div
                 style={styles.container}
             >
-                <div style={styles.topBar} />
                 <div style={styles.title}>
                     Synthesizer
                 </div>

@@ -52,7 +52,8 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
-    "alt": "^0.18.4",
+    "alt": "^0.18.5",
+    "alt-utils": "^1.0.0",
     "babel-core": "^6.5.2",
     "babel-polyfill": "^6.5.0",
     "babel-runtime": "^6.5.0",

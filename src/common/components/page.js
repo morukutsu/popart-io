@@ -1,6 +1,10 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 import GL from 'gl-react';
+import alt from '../../alt';
+import Actions from '../../actions/Actions.js';
+import Store   from '../../stores/Store.js';
+import connectToStores from 'alt-utils/lib/connectToStores';
 
 import { Effect, EffectCore }          from '../../popart/Effect';
 import { StrobeCore, StrobeDisplay }   from '../../popart/FX/Strobe/Strobe';
@@ -23,24 +27,27 @@ import Toolbar from '../../gui/routing/Toolbar.js';
 
 import LFO from '../../popart/Modulators/LFO';
 
-export default class LoginPage extends React.Component {
+class Page extends React.Component {
     constructor() {
         super();
 
         this.update = this.update.bind(this); // binding
         this.prevTimestamp = 0.0;
 
-        this.state = {
-            effectList: ["Synthesizer", "RuttEtra"],
-            effectTree: {},
-            effectInstances: [],
-            mouseEvents: {
-                mouseUp: false,
-            },
-            mouseStartX: 0,
-            mouseStartY: 0,
-            currentTweakableParameters: []
+        this.mouseEvents = {
+            mouseUp: false,
         };
+
+        this.mouseStartX = 0;
+        this.mouseStartY = 0;
+    }
+
+    static getStores() {
+        return [Store];
+    }
+
+    static getPropsFromStores() {
+        return Store.getState();
     }
 
     componentWillMount() {
@@ -127,7 +134,7 @@ export default class LoginPage extends React.Component {
 
         //this.synthesizer.tick(dt);
         //this.synthesizer2.tick(dt);
-        this.state.effectInstances.forEach((instance) => {
+        this.props.effectInstances.forEach((instance) => {
             instance.tick(dt);
         });
 
@@ -157,32 +164,29 @@ export default class LoginPage extends React.Component {
     */
 
     handleMouseUp(event) {
-        this.setState({
-            mouseEvents: {
-                mouseUp: true,
-            }
-        });
+        this.mouseEvents = {
+            mouseUp: true,
+        };
     }
 
     handleMouseDown(event) {
-        this.setState({
-            mouseEvents: {
-                mouseUp: false,
-            },
-            mouseStartX: event.screenX,
-            mouseStartY: event.screenY,
-        });
+        this.mouseEvents = {
+            mouseUp: false,
+        };
 
         this.nextMouseDisp = {
             x: 0,
             y: 0,
         };
+
+        this.mouseStartX = event.screenX;
+        this.mouseStartY = event.screenY;
     }
 
     handleMouseMove(event) {
         this.nextMouseDisp = {
-            x: this.state.mouseStartX - event.screenX,
-            y: this.state.mouseStartY - event.screenY,
+            x: this.mouseStartX - event.screenX,
+            y: this.mouseStartY - event.screenY,
         };
     }
 
@@ -196,7 +200,7 @@ export default class LoginPage extends React.Component {
 
         // Retrieve and set its availableInputs
         // Get all the inputs from the previous element in the chain
-        let instances = this.state.effectInstances;
+        let instances = this.props.effectInstances;
         let previousEffect = instances[instances.length - 1];
         if (previousEffect) {
             // Enumerate all the inputs
@@ -211,19 +215,7 @@ export default class LoginPage extends React.Component {
             effect.onAvailableInputsChanged(inputList);
         }
 
-        // TODO: FIXME: always plug input phase to osc.out
-        if (effect.IO.phase) {
-            if (previousEffect && previousEffect.IO.out) {
-                //console.log("plugged");
-                //effect.IO.phase.plug(previousEffect.IO.out);
-            }
-        }
-
-        instances.push(effect);
-
-        this.setState({
-            effectInstances: instances
-        });
+        Actions.addEffect(effect);
     }
 
     lookupComponentByName(name) {
@@ -239,11 +231,11 @@ export default class LoginPage extends React.Component {
         return lookup[name];
     }
 
-    updateCurrentTweakableParameters(src) {
+    /*updateCurrentTweakableParameters(src) {
         let tweakableParameters = [];
 
         // Retrieve all the output parameters of all the effects
-        this.state.effectInstances.forEach((effect) => {
+        this.props.effectInstances.forEach((effect) => {
             Object.keys(effect.IO).forEach((parameterName) => {
                 let parameter = effect.IO[parameterName];
                 if (parameter.inputOrOutput == "output") {
@@ -255,7 +247,7 @@ export default class LoginPage extends React.Component {
         this.setState({
             currentTweakableParameters: tweakableParameters
         });
-    }
+    }*/
 
     handleRouteParameters(dest) {
         // TODO: fill src with the last selected parameter
@@ -271,12 +263,12 @@ export default class LoginPage extends React.Component {
     renderEffects() {
         // TODO: here we have to use a graph to display all the effects correctly
         // Currently the routing is done from left to right
-        if (this.state.effectInstances.length > 0) {
+        if (this.props.effectInstances.length > 0) {
             // Traverse to create the component chain
             let children = null;
 
-            for (var i = 0; i < this.state.effectInstances.length; i++) {
-                let currentEffect = this.state.effectInstances[i];
+            for (var i = 0; i < this.props.effectInstances.length; i++) {
+                let currentEffect = this.props.effectInstances[i];
 
                 let displayComponentName = currentEffect.name + "Display";
                 let component = this.lookupComponentByName(displayComponentName);
@@ -299,19 +291,17 @@ export default class LoginPage extends React.Component {
     }
 
     renderController() {
-        if (this.state.effectInstances.length > 0) {
-            let activeEntity = this.state.effectInstances[this.activeEntity];
+        if (this.props.effectInstances.length > 0) {
+            let activeEntity = this.props.effectInstances[this.activeEntity];
             let controllerComponentName = activeEntity.name + "Controller";
             let component = this.lookupComponentByName(controllerComponentName);
 
             return React.createElement(component, {
                 coreState:                activeEntity.getState(),
                 onParameterChanged:       activeEntity.onParameterChanged.bind(activeEntity),
-                //onParameterSelected:      (name) => this.updateCurrentTweakableParameters(name),
                 onRouteParameterSelected: this.handleRouteParameters,
-                mouseEvents:              this.state.mouseEvents,
+                mouseEvents:              this.mouseEvents,
                 mouseDisp:                this.nextMouseDisp,
-                //tweakableParameters:      this.state.currentTweakableParameters,
             });
         } else {
             return (<div></div>);
@@ -319,7 +309,7 @@ export default class LoginPage extends React.Component {
     }
 
     render() {
-        let blocks = this.state.effectInstances.map((instance, i) => (
+        let blocks = this.props.effectInstances.map((instance, i) => (
             <Block
                 key={i}
                 onPress={() => { this.activeEntity = i; }}
@@ -350,7 +340,7 @@ export default class LoginPage extends React.Component {
                 </div>
 
                 <Toolbar
-                    effectList={this.state.effectList}
+                    effectList={this.props.effectList}
                     onClick={this.handleAddFx.bind(this)}
                 />
             </div>
@@ -371,8 +361,8 @@ export default class LoginPage extends React.Component {
 /*
 
 <SynthesizerController
-    coreState={this.state.effectInstances[this.activeEntity].getState()}
-    onParameterChanged={this.state.effectInstances[this.activeEntity].onParameterChanged.bind(this.entities[this.activeEntity])}
+    coreState={this.props.effectInstances[this.activeEntity].getState()}
+    onParameterChanged={this.props.effectInstances[this.activeEntity].onParameterChanged.bind(this.entities[this.activeEntity])}
     mouseEvents={this.state.mouseEvents}
     mouseDisp={this.state.mouseDisp}
 />
@@ -397,6 +387,9 @@ const styles = {
         margin: 10
     }
 };
+
+
+export default connectToStores(Page);
 
 /*
 <StrobeDisplay state={this.strobe.getState() }>
