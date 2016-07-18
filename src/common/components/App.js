@@ -1,11 +1,11 @@
 import React from 'react';
 
-import LoginPage from './page';
+import Page from './page';
 
 export default ({children}) => {
   return (
     <div id="container">
-      <LoginPage/>
+      <Page/>
     </div>
   );
 }

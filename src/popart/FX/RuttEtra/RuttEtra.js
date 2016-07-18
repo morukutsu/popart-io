@@ -15,23 +15,30 @@ const shaders = GL.Shaders.create({
         }
 
         void main () {
-            float x = uv.x * 1280.0;
-            float y = uv.y * 720.0;
+            float x = uv.x;
+            float y = uv.y;
 
-            // TODO: dependent texture read due to the old 2x scaling algo
-            /*x = ceil(x / 2.0) * 2.0;
-            y = ceil(y / 2.0) * 2.0;*/
-
-            vec2 pos = vec2(x / 1280.0, y / 720.0);
+            vec2 pos = vec2(x, y);
 
             // Sample current pixel and compute its luminance
             vec4 c = texture2D(child, pos);
             float luminance = 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
 
             // Initial horizontal scanlines
-            float sampleY = pos.y - (luminance * 0.2);
-            if (sin(sampleY * 200.0) < 0.9)
+            float sampleY = pos.y - (luminance * 0.1); // sampling distance, parameter
+
+            float sinValue = sin(sampleY * 150.0); // parameter
+            float thresh = 0.9;
+
+            if (sinValue < thresh)
                 c = vec4(0.0, 0.0, 0.0, 0.0);
+            else
+            {
+                float diff = sinValue - thresh; // min 0, max 0.1
+                diff = diff * 10.0;             // min 0, max 1
+
+                c.rgb = c.rgb * diff; // DIFF: soft or hard, parameter
+            }
 
             gl_FragColor = c;
         }`
