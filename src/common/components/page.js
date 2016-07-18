@@ -1,6 +1,5 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import stylesCss from './style.css';
 import GL from 'gl-react';
 
 import { Effect, EffectCore }          from '../../popart/Effect';

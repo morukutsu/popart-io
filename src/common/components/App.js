@@ -1,6 +1,6 @@
 import React from 'react';
 
-import LoginPage from '../../pages/login/page';
+import LoginPage from './page';
 
 export default ({children}) => {
   return (
