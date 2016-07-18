@@ -8,7 +8,7 @@ body {
   font-family: 'Open Sans', sans-serif;
   /*font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;*/
   font-weight: 300;
-  background-color: #2f3241;
+  background-color: #1E1D20;
 }
 
 :global(#container) {

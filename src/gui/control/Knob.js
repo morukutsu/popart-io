@@ -124,26 +124,29 @@ const styles = {
 
     text: {
         fontWeight: 'bold',
-        userSelect: 'none'
+        userSelect: 'none',
+        color: 'white'
     },
 
     circle: {
         width: 60,
         height: 60,
-        border: '2px solid black',
+        border: '2px solid #1E1D20',
         borderRadius: 30,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#666666',
     },
 
     smallCircle: {
-        width: 12,
-        height: 12,
-        borderRadius: 6,
-        backgroundColor: 'black',
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+        backgroundColor: '#FD5A35',
         position: 'relative',
         left: -18,
+        boxShadow: '0px 2px 2px #BBBBBB',
     },
 
     numberText: {
@@ -151,6 +154,7 @@ const styles = {
         fontWeight: 'bold',
         top:  -40,
         fontSize: 14,
+        color: 'white',
     }
 };
 

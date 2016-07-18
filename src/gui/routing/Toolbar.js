@@ -36,14 +36,23 @@ const styles = {
     },
 
     effect: {
-        backgroundColor: '#74b1be',
-        margin: 10,
+        height: 40,
+        width: 150,
+        borderRadius: 8,
+        margin: 5,
         padding: 5,
+        boxShadow: '0px 3px 0px #BBBBBB',
+
+        alignItems: 'center',
+        justifyContent: 'center',
+        display: 'flex',
+        backgroundColor: '#FD5A35',
         cursor: 'pointer',
         fontWeight: 'bold',
+        color: 'white',
 
         ':hover': {
-            backgroundColor: 'rgb(240, 240, 240)',
+            backgroundColor: '#F77177',
         }
     }
 };

@@ -35,7 +35,7 @@ app.get('/white.png', (req, res) => {
 
 // Serve index page
 app.get('*', (req, res) => {
-  res.sendFile(__dirname + '/build/index.html');
+  res.sendFile(__dirname + '/build' + req.url);
 });
 
 

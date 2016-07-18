@@ -24,7 +24,7 @@ class EffectView extends React.Component {
 
 const styles = {
     surface: {
-        margin: 10
+        margin: 10,
     }
 };
 

@@ -21,19 +21,21 @@ class Block extends React.Component {
 const styles = {
     container: {
         width: 150,
-        height: 80,
-        margin: 10,
-        backgroundColor: '#74b1be',
-        //border: '1px solid rgb(50, 200, 250)',
+        height: 60,
+        backgroundColor: '#FD5A35',
+        borderRadius: 4,
+
+        margin: 5,
         alignItems: 'center',
         justifyContent: 'center',
         fontWeight: 'bold',
         cursor: 'pointer',
         display: 'flex',
         fontSize: 20,
+        color: 'white',
 
         ':hover': {
-            backgroundColor: 'rgb(240, 240, 240)',
+            backgroundColor: '#F77177',
         }
     },
 };
