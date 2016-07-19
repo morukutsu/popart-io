@@ -19,16 +19,10 @@ class RuttEtraController extends React.Component {
 
                 <div style={styles.main}>
                     <div style={styles.row}>
-                        <Knob
-                            text="length"
-                            min={0}
-                            max={Math.PI}
-                            value={this.props.coreState.IO.length.read() }
-                            onChange={(value) => this.props.onParameterChanged("length", value)}
-                            onClick={() => this.props.onParameterSelected("length", this.props.coreState.IO.length)}
-                            mouseEvents={this.props.mouseEvents}
-                            mouseDisp={this.props.mouseDisp}
-                        />
+                        <Knob text="multiplier" min={0} max={300} value={this.props.coreState.IO.multiplier.read() } onChange={(value) => this.props.onParameterChanged("multiplier", value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                        <Knob text="distance"   min={0} max={1}   value={this.props.coreState.IO.distance.read()   } onChange={(value) => this.props.onParameterChanged("distance", value)}   mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                        <Knob text="smooth"     min={0} max={1}   value={this.props.coreState.IO.smooth.read()     } onChange={(value) => this.props.onParameterChanged("smooth", value)}     mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                        <Knob text="thresh"     min={0} max={1}   value={this.props.coreState.IO.thresh.read()     } onChange={(value) => this.props.onParameterChanged("thresh", value)}     mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
                     </div>
                 </div>
             </div>

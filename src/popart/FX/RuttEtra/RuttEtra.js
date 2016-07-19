@@ -8,7 +8,7 @@ const shaders = GL.Shaders.create({
         precision highp float;
         varying vec2      uv;
         uniform sampler2D child;
-        //uniform float     length;
+        uniform float multiplier, distance, smooth, thresh;
 
         float tri(float v) {
             return abs(fract(v*5.0)*2.0-1.0);
@@ -25,19 +25,22 @@ const shaders = GL.Shaders.create({
             float luminance = 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
 
             // Initial horizontal scanlines
-            float sampleY = pos.y - (luminance * 0.1); // sampling distance, parameter
+            float sampleY = pos.y - (luminance * distance);
 
-            float sinValue = sin(sampleY * 150.0); // parameter
-            float thresh = 0.9;
+            float sinValue = sin(sampleY * multiplier);
 
             if (sinValue < thresh)
                 c = vec4(0.0, 0.0, 0.0, 0.0);
             else
             {
-                float diff = sinValue - thresh; // min 0, max 0.1
-                diff = diff * 10.0;             // min 0, max 1
+                float diff = sinValue - thresh;       // min 0, max 1-thresh
+                diff = diff * (1.0 / (1.0 - thresh));  // min 0, max 1
 
-                c.rgb = c.rgb * diff; // DIFF: soft or hard, parameter
+                diff += 1.0 - smooth;
+                diff = clamp(diff, 0.0, 1.0);
+
+                c.rgb = c.rgb * (diff) ;
+                smooth;
             }
 
             gl_FragColor = c;
@@ -50,10 +53,16 @@ export class RuttEtraCore {
         this.name = "RuttEtra";
 
         this.IO = {
-            'length' : new IO('float', 'input'),
+            'multiplier' : new IO('float', 'input'),
+            'distance'   : new IO('float', 'input'),
+            'smooth'     : new IO('float', 'input'),
+            'thresh'      : new IO('float', 'input'),
         };
 
-        this.IO.length.set(0.01);
+        this.IO.multiplier.set(60);
+        this.IO.distance.set(0.1);
+        this.IO.smooth.set(1.0);
+        this.IO.thresh.set(0.9);
 
         this.availableInputs = [];
 
@@ -87,7 +96,12 @@ export const RuttEtraDisplay = GL.createComponent(({ children, state }) => {
     return (
         <GL.Node
             shader={shaders.shader}
-            uniforms={{/*length: state.IO.length.read() */}}
+            uniforms={{
+                multiplier: state.IO.multiplier.read(),
+                distance:   state.IO.distance.read(),
+                smooth:     state.IO.smooth.read(),
+                thresh:     state.IO.thresh.read(),
+            }}
         >
             <GL.Uniform name="child">
                 {children}
