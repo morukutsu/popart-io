@@ -343,6 +343,8 @@ class Page extends React.Component {
                     effectList={this.props.effectList}
                     onClick={this.handleAddFx.bind(this)}
                 />
+
+            <div onClick={ () => Actions.save() }>Save</div>
             </div>
         );
     }

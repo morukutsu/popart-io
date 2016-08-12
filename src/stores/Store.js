@@ -1,5 +1,6 @@
 import alt from '../alt';
-import Actions from '../actions/Actions'
+import Actions from '../actions/Actions';
+import fs from 'fs';
 
 class Store {
     constructor() {
@@ -11,6 +12,16 @@ class Store {
 
     addEffect(effect) {
         this.effectInstances.push(effect);
+    }
+
+    save() {
+        let effectInstancesJson = JSON.stringify(this.effectInstances);
+        fs.writeFile("save.json", effectInstancesJson, (err) => console.log(err));
+        console.log("Content saved");
+    }
+
+    load() {
+
     }
 }
 
