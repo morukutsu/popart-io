@@ -18,6 +18,7 @@ import { SynthesizerCore,  SynthesizerDisplay }   from '../../popart/FX/Synthesi
 import SynthesizerController   from '../../popart/FX/Synthesizer/SynthesizerController';
 import RuttEtraController   from '../../popart/FX/RuttEtra/RuttEtraController';
 import EffectView from '../../popart/EffectView/EffectView';
+import EffectFactory from '../../popart/FX/EffectFactory';
 
 import Block from '../../gui/routing/Block.js';
 import Panel from '../../gui/routing/Panel.js';
@@ -193,7 +194,7 @@ class Page extends React.Component {
     handleAddFx(id) {
         // TODO: every instanciated element should have a unique id
         let coreComponentName = id + "Core";
-        let component = this.lookupComponentByName(coreComponentName);
+        let component = EffectFactory.lookupComponentByName(coreComponentName);
 
         // Instantiate the core component
         let effect = new component();
@@ -204,7 +205,7 @@ class Page extends React.Component {
         let previousEffect = instances[instances.length - 1];
         if (previousEffect) {
             // Enumerate all the inputs
-            let inputList = [];
+            /*let inputList = [];
             Object.keys(previousEffect.IO).forEach((parameterName) => {
                 let parameter = previousEffect.IO[parameterName];
                 if (parameter.inputOrOutput == "output") {
@@ -212,23 +213,10 @@ class Page extends React.Component {
                 }
             });
 
-            effect.onAvailableInputsChanged(inputList);
+            effect.onAvailableInputsChanged(inputList);*/
         }
 
         Actions.addEffect(effect);
-    }
-
-    lookupComponentByName(name) {
-        let lookup = {
-            'SynthesizerDisplay':    SynthesizerDisplay,
-            'SynthesizerController': SynthesizerController,
-            'SynthesizerCore':       SynthesizerCore,
-            'RuttEtraDisplay':       RuttEtraDisplay,
-            'RuttEtraController':    RuttEtraController,
-            'RuttEtraCore':          RuttEtraCore,
-        };
-
-        return lookup[name];
     }
 
     /*updateCurrentTweakableParameters(src) {
@@ -271,7 +259,7 @@ class Page extends React.Component {
                 let currentEffect = this.props.effectInstances[i];
 
                 let displayComponentName = currentEffect.name + "Display";
-                let component = this.lookupComponentByName(displayComponentName);
+                let component = EffectFactory.lookupComponentByName(displayComponentName);
 
                 // Create the react component
                 let componentInstance = React.createElement(component, {
@@ -294,7 +282,7 @@ class Page extends React.Component {
         if (this.props.effectInstances.length > 0) {
             let activeEntity = this.props.effectInstances[this.activeEntity];
             let controllerComponentName = activeEntity.name + "Controller";
-            let component = this.lookupComponentByName(controllerComponentName);
+            let component = EffectFactory.lookupComponentByName(controllerComponentName);
 
             return React.createElement(component, {
                 coreState:                activeEntity.getState(),
@@ -344,7 +332,8 @@ class Page extends React.Component {
                     onClick={this.handleAddFx.bind(this)}
                 />
 
-            <div onClick={ () => Actions.save() }>Save</div>
+                <div onClick={ () => Actions.save() } style={{size: 20, backgroundColor: "white", width: 80, cursor: "pointer", margin: 5}}>Save</div>
+                <div onClick={ () => Actions.load() } style={{size: 20, backgroundColor: "white", width: 80, cursor: "pointer", margin: 5}}>Load</div>
             </div>
         );
     }

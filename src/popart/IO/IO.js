@@ -7,6 +7,8 @@ export default class IO {
 
         this.isClamped = false;
         this.isScaled  = false;
+
+        // TODO: generate a UUID for each new component or IO
     }
 
     set(value) {

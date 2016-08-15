@@ -57,5 +57,5 @@ module.exports = {
     require('postcss-nested') // Enable nested rules, like in Sass
   ],
 
-  target: "node"
+  target: "electron"
 }

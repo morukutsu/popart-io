@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import GL                              from 'gl-react';
-import IO  from '../../IO/IO';
+import IO             from '../../IO/IO';
+import BaseEffectCore from '../BaseEffectCore';
 
 const shaders = GL.Shaders.create({
     shader: {
@@ -49,8 +50,10 @@ const shaders = GL.Shaders.create({
     }
 });
 
-export class SynthesizerCore {
+export class SynthesizerCore extends BaseEffectCore {
     constructor() {
+        super();
+
         this.name = "Synthesizer";
 
         this.IO = {
