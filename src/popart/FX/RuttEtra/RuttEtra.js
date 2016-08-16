@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import GL                              from 'gl-react';
 import IO  from '../../IO/IO';
+import BaseEffectCore from '../BaseEffectCore';
 
 const shaders = GL.Shaders.create({
     shader: {
@@ -48,15 +49,17 @@ const shaders = GL.Shaders.create({
     }
 });
 
-export class RuttEtraCore {
+export class RuttEtraCore extends BaseEffectCore {
     constructor() {
+        super();
+
         this.name = "RuttEtra";
 
         this.IO = {
-            'multiplier' : new IO('float', 'input'),
-            'distance'   : new IO('float', 'input'),
-            'smooth'     : new IO('float', 'input'),
-            'thresh'      : new IO('float', 'input'),
+            'multiplier' : new IO('multiplier', 'float', 'input'),
+            'distance'   : new IO('distance', 'float', 'input'),
+            'smooth'     : new IO('smooth', 'float', 'input'),
+            'thresh'     : new IO('thresh', 'float', 'input'),
         };
 
         this.IO.multiplier.set(60);
