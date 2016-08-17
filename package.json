@@ -40,7 +40,7 @@
     "coveralls": "^2.11.2",
     "css-loader": "^0.18.0",
     "enzyme": "^2.0.0",
-    "extract-text-webpack-plugin": "^0.8.2",
+    "extract-text-webpack-plugin": "^2.0.0-beta.3",
     "nyc": "^5.6.0",
     "postcss-loader": "^0.6.0",
     "postcss-nested": "^1.0.0",
@@ -48,8 +48,8 @@
     "react-hot-loader": "^1.3.0",
     "sinon": "^1.17.2",
     "style-loader": "^0.12.3",
-    "webpack": "^1.12.14",
-    "webpack-dev-server": "^1.14.1"
+    "webpack": "^2.1.0-beta.1",
+    "webpack-dev-server": "^2.1.0-beta.0"
   },
   "dependencies": {
     "alt": "^0.18.5",
@@ -61,9 +61,10 @@
     "express": "^4.12.3",
     "gl-react": "https://github.com/morukutsu/gl-react",
     "gl-react-dom": "https://github.com/morukutsu/gl-react-dom",
-    "radium": "^0.17.1",
-    "react": "^15.0.0",
-    "react-dom": "^0.14.7",
+    "radium": "^0.18.1",
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0",
+    "react-icons": "^2.2.1",
     "react-router": "^2.0.0"
   }
 }

@@ -26,7 +26,8 @@ app.on('ready', function() {
       height: 600,
       'web-preferences': {
           'web-security': false
-      }
+      },
+      //frame: false
   });
 
   // and load the index.html of the app.

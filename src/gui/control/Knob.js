@@ -140,9 +140,9 @@ const styles = {
     },
 
     smallCircle: {
-        width: 10,
-        height: 10,
-        borderRadius: 5,
+        width: 8,
+        height: 8,
+        borderRadius: 4,
         backgroundColor: '#FD5A35',
         position: 'relative',
         left: -18,

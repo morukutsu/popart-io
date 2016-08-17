@@ -35,14 +35,14 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new ExtractTextPlugin('style.css', { allChunks: true })
+    new ExtractTextPlugin({ filename: 'style.css', allChunks: true })
   ],
 
   // Transform source code using Babel and React Hot Loader
   module: {
     loaders: [
       { test: /\.jsx?$/, exclude: /node_modules/, loaders: ["react-hot", "babel-loader"] },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader') }
+      { test: /\.css$/, loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'} ) }
     ]
   },
 
@@ -57,5 +57,9 @@ module.exports = {
     require('postcss-nested') // Enable nested rules, like in Sass
   ],
 
-  target: "electron"
+  target: "node",
+
+  node: {
+    fs: true
+  }
 }
