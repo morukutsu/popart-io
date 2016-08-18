@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import GL                              from 'gl-react';
-import IO  from '../../IO/IO';
+import IO                              from '../../IO/IO';
+import BaseEffectCore                  from '../BaseEffectCore';
 
 const shaders = GL.Shaders.create({
     mosaic: {
@@ -26,16 +27,38 @@ const shaders = GL.Shaders.create({
     },
 });
 
-export class MosaicCore {
+export class MosaicCore extends BaseEffectCore {
     constructor() {
+        super();
+
+        this.name = "Mosaic";
+
         this.IO = {
-            'length' : new IO('float', 'input'),
+            'length' : new IO('length', 'float', 'input'),
         };
 
         this.IO.length.set(1);
+
+        this.availableInputs = [];
+
+        this.inputList = [];
+        Object.keys(this.IO).forEach((parameterName) => {
+            let parameter = this.IO[parameterName];
+            if (parameter.inputOrOutput == "input") {
+                this.inputList.push(parameter);
+            }
+        });
     }
 
     tick(dt) {
+    }
+
+    onParameterChanged(parameter, value) {
+        this.IO[parameter].set(value);
+    }
+
+    onAvailableInputsChanged(inputList) {
+        this.availableInputs = inputList;
     }
 
     getState() {

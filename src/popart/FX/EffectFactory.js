@@ -1,7 +1,9 @@
 import { RuttEtraCore,     RuttEtraDisplay }    from './RuttEtra/RuttEtra';
+import RuttEtraController                       from './RuttEtra/RuttEtraController';
 import { SynthesizerCore,  SynthesizerDisplay } from './Synthesizer/Synthesizer';
 import SynthesizerController                    from './Synthesizer/SynthesizerController';
-import RuttEtraController                       from './RuttEtra/RuttEtraController';
+import { MosaicCore,  MosaicDisplay }           from './Mosaic/Mosaic';
+import MosaicController                         from './Mosaic/MosaicController';
 
 var effectFactory = {
     lookupComponentByName: function(name) {
@@ -12,6 +14,9 @@ var effectFactory = {
             'RuttEtraDisplay':       RuttEtraDisplay,
             'RuttEtraController':    RuttEtraController,
             'RuttEtraCore':          RuttEtraCore,
+            'MosaicDisplay':         MosaicDisplay,
+            'MosaicController':      MosaicController,
+            'MosaicCore':            MosaicCore,
         };
 
         return lookup[name];

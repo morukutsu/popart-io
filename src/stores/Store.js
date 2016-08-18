@@ -7,7 +7,7 @@ class Store {
     constructor() {
         this.bindActions(Actions);
 
-        this.effectList      = ["Synthesizer", "RuttEtra"];
+        this.effectList      = ["Synthesizer", "RuttEtra", "Mosaic"];
         this.effectInstances = [];
     }
 

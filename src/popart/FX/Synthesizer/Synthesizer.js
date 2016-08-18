@@ -25,7 +25,7 @@ const shaders = GL.Shaders.create({
 
             // Modulation is taken from the input Red channel
             // TODO: use pixel brightness instead?
-            float modulationValue = inputColor.r;
+            float modulationValue = (inputColor.r + inputColor.g + inputColor.b) / 3.0;
 
             // Compute oscillator frequency, TODO: countMod is not okay for the moment
             float freq = count + (modulationValue * countMod * 50.0);
