@@ -8,6 +8,7 @@ import 'babel-polyfill';
 // Libraries
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
 import App from './common/components/App';
 
 // Base styling
@@ -17,12 +18,22 @@ import './common/base.css';
 const DOM_APP_EL_ID = 'app';
 
 // Render the router
-ReactDOM.render((
-  <App />
-), document.getElementById(DOM_APP_EL_ID));
+ReactDOM.render(
+    <AppContainer>
+        <App/>
+    </AppContainer>,
+    document.getElementById(DOM_APP_EL_ID)
+);
 
-/*
-<Router history={browserHistory}>
-  {Routes}
-</Router>
-*/
+if (module.hot) {
+    module.hot.accept('./common/components/App', () => {
+        const NextApp = require('./common/components/App').default;
+
+        ReactDOM.render(
+            <AppContainer>
+                <NextApp/>
+            </AppContainer>,
+            document.getElementById(DOM_APP_EL_ID)
+        );
+    });
+}

@@ -18,8 +18,10 @@ module.exports = {
 
   // Set entry point to ./src/main and include necessary files for hot load
   entry:  [
-    "webpack-dev-server/client?http://localhost:9090",
-    "webpack/hot/only-dev-server",
+    "webpack-hot-middleware/client?path=http://localhost:8080/__webpack_hmr",
+    //"webpack-dev-server/client?http://localhost:9090",
+    //"webpack/hot/only-dev-server",
+    "react-hot-loader/patch",
     "./src/main"
   ],
 
@@ -28,20 +30,23 @@ module.exports = {
   output: {
     path: __dirname + "/build/",
     filename: "app.js",
-    publicPath: "http://localhost:9090/build/"
+    publicPath: "http://localhost:8080/build/"
   },
 
   // Necessary plugins for hot load
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new ExtractTextPlugin({ filename: 'style.css', allChunks: true })
+    new ExtractTextPlugin({ filename: 'style.css', allChunks: true }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development')
+    })
   ],
 
   // Transform source code using Babel and React Hot Loader
   module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loaders: ["react-hot", "babel-loader"] },
+      { test: /\.jsx?$/, exclude: /node_modules/, loaders: ["babel-loader"] },
       { test: /\.css$/, loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'} ) }
     ]
   },
@@ -57,9 +62,5 @@ module.exports = {
     require('postcss-nested') // Enable nested rules, like in Sass
   ],
 
-  target: "node",
-
-  node: {
-    fs: true
-  }
+  target: "electron-renderer",
 }

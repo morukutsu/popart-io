@@ -1,6 +1,15 @@
 import express from 'express';
 const app = express();
 
+var webpack = require('webpack');
+var webpackConfig = require('./webpack.local.config');
+var compiler = webpack(webpackConfig);
+
+app.use(require("webpack-dev-middleware")(compiler, {
+    noInfo: true, publicPath: webpackConfig.output.publicPath
+}));
+
+app.use(require("webpack-hot-middleware")(compiler));
 
 /************************************************************
  *
@@ -16,7 +25,7 @@ app.get('/app.js', (req, res) => {
   if (process.env.PRODUCTION) {
     res.sendFile(__dirname + '/build/app.js');
   } else {
-    res.redirect('//localhost:9090/build/app.js');
+    res.redirect('//localhost:8080/build/app.js');
   }
 });
 
@@ -25,7 +34,7 @@ app.get('/style.css', (req, res) => {
   if (process.env.PRODUCTION) {
     res.sendFile(__dirname + '/build/style.css');
   } else {
-    res.redirect('//localhost:9090/build/style.css');
+    res.redirect('//localhost:8080/build/style.css');
   }
 });
 
@@ -49,7 +58,7 @@ app.get('*', (req, res) => {
  *
  *************************************************************/
 
-if (!process.env.PRODUCTION) {
+/*if (!process.env.PRODUCTION) {
   const webpack = require('webpack');
   const WebpackDevServer = require('webpack-dev-server');
   const config = require('./webpack.local.config');
@@ -64,7 +73,7 @@ if (!process.env.PRODUCTION) {
       console.log(err);
     }
   });
-}
+}*/
 
 
 /******************

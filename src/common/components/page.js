@@ -333,7 +333,7 @@ class Page extends React.Component {
                 />
 
                 <div onClick={ () => Actions.save() } style={{size: 20, backgroundColor: "white", width: 80, cursor: "pointer", margin: 5}}>Save</div>
-                
+
                 <div onClick={ () => Actions.load() } style={{size: 20, backgroundColor: "white", width: 80, cursor: "pointer", margin: 5}}>Load</div>
             </div>
         );
