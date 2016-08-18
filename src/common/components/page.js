@@ -301,6 +301,7 @@ class Page extends React.Component {
             <Block
                 key={i}
                 onPress={() => { this.activeEntity = i; }}
+                onRightClick={() => Actions.deleteEffect(i) }
                 name={instance.name}
             />
         ));

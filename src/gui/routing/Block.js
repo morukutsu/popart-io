@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
+import MdClose                      from 'react-icons/lib/md/close';
 
 class Block extends React.Component {
     constructor() {
@@ -11,8 +12,9 @@ class Block extends React.Component {
             <div
                 style={styles.container}
                 onClick={this.props.onPress}
+                onContextMenu={this.props.onRightClick}
             >
-                <div>{this.props.name}</div>
+                <div>{ this.props.name }</div>
             </div>
         );
     }

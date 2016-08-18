@@ -15,6 +15,10 @@ class Store {
         this.effectInstances.push(effect);
     }
 
+    deleteEffect(effectIndex) {
+        this.effectInstances.splice(effectIndex, 1);
+    }
+
     save() {
         let effectInstancesJson = JSON.stringify(this.effectInstances);
         fs.writeFile("save.json", effectInstancesJson, (err) => console.log(err));
