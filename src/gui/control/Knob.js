@@ -113,6 +113,7 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        width: 70,
     },
 
     container: {
@@ -125,7 +126,8 @@ const styles = {
     text: {
         fontWeight: 'bold',
         userSelect: 'none',
-        color: 'white'
+        color:      'white',
+        fontSize:   12,
     },
 
     circle: {
@@ -143,7 +145,7 @@ const styles = {
         width: 8,
         height: 8,
         borderRadius: 4,
-        backgroundColor: '#FD5A35',
+        backgroundColor: 'white',
         position: 'relative',
         left: -18,
         boxShadow: '0px 2px 2px #BBBBBB',
@@ -153,7 +155,7 @@ const styles = {
         position: 'relative',
         fontWeight: 'bold',
         top:  -40,
-        fontSize: 14,
+        fontSize: 12,
         color: 'white',
     }
 };

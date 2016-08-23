@@ -69,8 +69,6 @@ class Page extends React.Component {
             this.synthesizer2
         ];*/
 
-        this.activeEntity = 0;
-
         this.strobe.IO.onColor.set([0.2, 0.1, 0.4, 0.0]);
         this.strobe.IO.offColor.set([0.4, 0.2, 0.8, 0]);
 
@@ -280,7 +278,7 @@ class Page extends React.Component {
 
     renderController() {
         if (this.props.effectInstances.length > 0) {
-            let activeEntity = this.props.effectInstances[this.activeEntity];
+            let activeEntity = this.props.effectInstances[this.props.activeEntity];
             let controllerComponentName = activeEntity.name + "Controller";
             let component = EffectFactory.lookupComponentByName(controllerComponentName);
 
@@ -300,7 +298,7 @@ class Page extends React.Component {
         let blocks = this.props.effectInstances.map((instance, i) => (
             <Block
                 key={i}
-                onPress={() => { this.activeEntity = i; }}
+                onPress={() => Actions.selectEffect(i) }
                 onRightClick={() => Actions.deleteEffect(i) }
                 name={instance.name}
             />

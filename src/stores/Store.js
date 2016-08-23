@@ -9,6 +9,9 @@ class Store {
 
         this.effectList      = ["Synthesizer", "RuttEtra", "Mosaic"];
         this.effectInstances = [];
+
+        // Focus
+        this.activeEntity = 0;
     }
 
     addEffect(effect) {
@@ -16,7 +19,22 @@ class Store {
     }
 
     deleteEffect(effectIndex) {
+        let prevNumberOfInstances = this.effectInstances.length;
+
         this.effectInstances.splice(effectIndex, 1);
+
+        // Reselect the current activeEntity after the effect instances list changed
+        if (effectIndex <= this.activeEntity) {
+            this.activeEntity--;
+        }
+
+        if (this.activeEntity < 0) {
+            this.activeEntity = 0;
+        }
+    }
+
+    selectEffect(effectIndex) {
+        this.activeEntity = effectIndex;
     }
 
     save() {
