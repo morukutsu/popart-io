@@ -9,7 +9,7 @@ const shaders = GL.Shaders.create({
         precision highp float;
         varying vec2  uv;
         uniform float t;
-        uniform vec4 color;
+        uniform vec4 color, colorBack;
         uniform float x, y;
         uniform float count;
         uniform sampler2D modulation;
@@ -45,7 +45,8 @@ const shaders = GL.Shaders.create({
 
             // TODO: implement other color blending modes?
             vec4 outputColor = (inputColor * colorMod) + (color * (1.0 - colorMod));
-            gl_FragColor = outputColor * mult;
+            //vec4 outputColor = (inputColor) + (color * colorMod);
+            gl_FragColor = colorBack + (outputColor * mult);
         }`
     }
 });
@@ -63,6 +64,7 @@ export class SynthesizerCore extends BaseEffectCore {
             'y'        : new IO('y',        'float', 'input'),
             'count'    : new IO('count',    'float', 'input'),
             'color'    : new IO('color',    'color', 'input'),
+            'colorBack': new IO('colorBack','color', 'input'),
             'phase'    : new IO('phase',    'float', 'input'),
             'phaseMod' : new IO('phaseMod', 'float', 'input'),
             'colorMod' : new IO('colorMod', 'float', 'input'),
@@ -79,6 +81,7 @@ export class SynthesizerCore extends BaseEffectCore {
         this.IO.y.set(1.0);
         this.IO.count.set(1.0);
         this.IO.color.set([1.0, 1.0, 1.0, 1.0]);
+        this.IO.colorBack.set([0.0, 0.0, 0.0, 1.0]);
         this.IO.phase.set(0);
         this.IO.phaseMod.set(1);
         this.IO.colorMod.set(0);
@@ -122,17 +125,18 @@ export const SynthesizerDisplay = GL.createComponent(({ children, state }) => {
         <GL.Node
             shader={shaders.shader}
             uniforms={{
-                t:        state.time,
-                color:    state.IO.color.read(),
-                x:        state.IO.x.read(),
-                y:        state.IO.y.read(),
-                count:    state.IO.count.read(),
-                phase:    state.IO.phase.read(),
-                phaseMod: state.IO.phaseMod.read(),
-                colorMod: state.IO.colorMod.read(),
-                countMod: state.IO.countMod.read(),
-                xMod:     state.IO.xMod.read(),
-                yMod:     state.IO.yMod.read(),
+                t:         state.time,
+                color:     state.IO.color.read(),
+                colorBack: state.IO.colorBack.read(),
+                x:         state.IO.x.read(),
+                y:         state.IO.y.read(),
+                count:     state.IO.count.read(),
+                phase:     state.IO.phase.read(),
+                phaseMod:  state.IO.phaseMod.read(),
+                colorMod:  state.IO.colorMod.read(),
+                countMod:  state.IO.countMod.read(),
+                xMod:      state.IO.xMod.read(),
+                yMod:      state.IO.yMod.read(),
             }}
         >
             <GL.Uniform name="modulation">

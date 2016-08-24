@@ -59,12 +59,14 @@ class Panel extends React.Component {
             <div
                 style={styles.container}
             >
-                <div style={styles.row}>
-                    { this.renderHeader() }
-                </div>
-                <div style={styles.row}>
-                    { this.props.children }
-                    { this.renderEmptyBlocks() }
+                <div style={styles.internalContainer}>
+                    <div style={styles.row}>
+                        { this.renderHeader() }
+                    </div>
+                    <div style={styles.row}>
+                        { this.props.children }
+                        { this.renderEmptyBlocks() }
+                    </div>
                 </div>
             </div>
         );
@@ -76,6 +78,12 @@ const styles = {
 
     },
 
+    internalContainer: {
+        backgroundColor: '#101010',
+        padding: 5,
+        alignItems: 'initial'
+    },
+
     row: {
         display: 'flex',
         flexDirection: 'row'
@@ -83,7 +91,7 @@ const styles = {
 
     columnn: {
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
     },
 
     headerBlock: {
