@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
+import PureRenderMixin                 from 'react-addons-pure-render-mixin';
 
 class Knob extends React.Component {
     constructor() {
@@ -8,6 +9,17 @@ class Knob extends React.Component {
         this.state = {
             isTweaking: false,
         };
+
+        //this.shouldComponentUpdateBase = PureRenderMixin.shouldComponentUpdate.bind(this);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state.isTweaking) {
+            return true;
+        } else {
+            return nextProps.text      !== this.props.text || nextProps.min   !== this.props.min   ||
+                   nextProps.max       !== this.props.max  || nextProps.value !== this.props.value;
+        }
     }
 
     scaleAndAddToCurrentValue(value) {
