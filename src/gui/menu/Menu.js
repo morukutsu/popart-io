@@ -3,7 +3,7 @@ import Radium                          from 'radium';
 import MdClose                         from 'react-icons/lib/md/close';
 import PureRenderMixin                 from 'react-addons-pure-render-mixin';
 
-class Block extends React.Component {
+class Menu extends React.Component {
     constructor() {
         super();
     }
@@ -12,10 +12,10 @@ class Block extends React.Component {
         return (
             <div
                 style={styles.container}
-                onClick={this.props.onPress}
-                onContextMenu={this.props.onRightClick}
             >
-                <div>{ this.props.name }</div>
+                <div key={0} style={styles.item}>File</div>
+                <div key={1} style={styles.item}>Edit</div>
+                <div key={2} style={styles.item}>Render</div>
             </div>
         );
     }
@@ -23,24 +23,22 @@ class Block extends React.Component {
 
 const styles = {
     container: {
-        width: 150,
-        height: 60,
-        backgroundColor: '#FD5A35',
-        borderRadius: 4,
-
-        margin: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontWeight: 'bold',
-        cursor: 'pointer',
+        backgroundColor: '#090909',
+        WebkitAppRegion: "drag",
         display: 'flex',
-        fontSize: 20,
-        color: 'white',
+        flexDirection: 'row',
+        padding: 4
+    },
+
+    item: {
+        color: "lightGrey",
+        marginRight: 20,
+        cursor: 'pointer',
 
         ':hover': {
             backgroundColor: '#F77177',
         }
-    },
+    }
 };
 
-export default Radium(Block);
+export default Radium(Menu);

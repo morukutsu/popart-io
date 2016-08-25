@@ -22,12 +22,12 @@ app.on('window-all-closed', function() {
 app.on('ready', function() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-      width: 800,
-      height: 600,
+      width: 1280,
+      height: 720,
       'web-preferences': {
           'web-security': false
       },
-      //frame: false
+      frame: false
   });
 
   // and load the index.html of the app.

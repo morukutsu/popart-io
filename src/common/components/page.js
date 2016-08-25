@@ -20,9 +20,10 @@ import RuttEtraController   from '../../popart/FX/RuttEtra/RuttEtraController';
 import EffectView from '../../popart/EffectView/EffectView';
 import EffectFactory from '../../popart/FX/EffectFactory';
 
-import Block from '../../gui/routing/Block.js';
-import Panel from '../../gui/routing/Panel.js';
+import Block   from '../../gui/routing/Block.js';
+import Panel   from '../../gui/routing/Panel.js';
 import Toolbar from '../../gui/routing/Toolbar.js';
+import Menu    from '../../gui/menu/Menu.js';
 
 //import seaImage from '../../popart/data/image.jpg';
 
@@ -310,6 +311,8 @@ class Page extends React.Component {
                 onMouseUp={this.handleMouseUp.bind(this)}
                 onMouseMove={this.handleMouseMove.bind(this)}
             >
+                <Menu />
+
                 <div style={styles.mainPanel}>
                     <div style={styles.leftPanel}>
                         <Panel>
@@ -339,27 +342,6 @@ class Page extends React.Component {
     }
 };
 
-/*
-
-<Surface width={640} height={360} style={styles.surface}>
-    <SynthesizerDisplay state={this.synthesizer.getState() }>
-        <SynthesizerDisplay state={this.synthesizer2.getState() }/>
-    </SynthesizerDisplay>
-</Surface>
-
-*/
-
-/*
-
-<SynthesizerController
-    coreState={this.props.effectInstances[this.activeEntity].getState()}
-    onParameterChanged={this.props.effectInstances[this.activeEntity].onParameterChanged.bind(this.entities[this.activeEntity])}
-    mouseEvents={this.state.mouseEvents}
-    mouseDisp={this.state.mouseDisp}
-/>
-
-*/
-
 const styles = {
     mainPanel: {
         flexDirection: 'row',
@@ -368,6 +350,7 @@ const styles = {
 
     leftPanel: {
         flex: 1,
+        margin: 10
     },
 
     rightPanel: {
@@ -379,37 +362,4 @@ const styles = {
     }
 };
 
-
 export default connectToStores(Page);
-
-/*
-<StrobeDisplay state={this.strobe.getState() }>
-    <ImageDisplay state={this.image.getState() }/>
-</StrobeDisplay>
-*/
-
-/*
-<RGBSplitDisplay state={this.rgbSplit.getState() }>
-    <MosaicDisplay state={this.mosaic.getState() }>
-        <StrobeDisplay state={this.strobe.getState() }>
-            <BlurDisplay state={this.blur.getState() }>
-                <SquareDisplay state={this.square.getState() }/>
-            </BlurDisplay>
-        </StrobeDisplay>
-    </MosaicDisplay>
-</RGBSplitDisplay>
-*/
-
-/*
-<RuttEtraDisplay state={this.ruttEtra.getState() }>
-    <RGBSplitDisplay state={this.rgbSplit.getState() }>
-        <MosaicDisplay state={this.mosaic.getState() }>
-            <StrobeDisplay state={this.strobe.getState() }>
-                <BlurDisplay state={this.blur.getState() }>
-                    <SquareDisplay state={this.square.getState() }/>
-                </BlurDisplay>
-            </StrobeDisplay>
-        </MosaicDisplay>
-    </RGBSplitDisplay>
-</RuttEtraDisplay>
-*/

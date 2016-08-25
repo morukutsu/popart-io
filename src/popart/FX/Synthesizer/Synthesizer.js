@@ -4,7 +4,7 @@ import IO             from '../../IO/IO';
 import BaseEffectCore from '../BaseEffectCore';
 
 const shaders = GL.Shaders.create({
-    shader: {
+    synthesizer_shader: {
         frag: `
         precision highp float;
         varying vec2  uv;
@@ -123,7 +123,7 @@ export const SynthesizerDisplay = GL.createComponent(({ children, state }) => {
 
     return (
         <GL.Node
-            shader={shaders.shader}
+            shader={shaders.synthesizer_shader}
             uniforms={{
                 t:         state.time,
                 color:     state.IO.color.read(),
