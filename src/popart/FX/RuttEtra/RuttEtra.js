@@ -56,12 +56,14 @@ export class RuttEtraCore extends BaseEffectCore {
         this.name = "RuttEtra";
 
         this.IO = {
+            'mute'       : new IO('mute', 'bool', 'input'),
             'multiplier' : new IO('multiplier', 'float', 'input'),
             'distance'   : new IO('distance', 'float', 'input'),
             'smooth'     : new IO('smooth', 'float', 'input'),
             'thresh'     : new IO('thresh', 'float', 'input'),
         };
 
+        this.IO.mute.set(false);
         this.IO.multiplier.set(60);
         this.IO.distance.set(0.1);
         this.IO.smooth.set(1.0);
@@ -96,6 +98,10 @@ export class RuttEtraCore extends BaseEffectCore {
 }
 
 export const RuttEtraDisplay = GL.createComponent(({ children, state }) => {
+    if (state.IO.mute.read() ) {
+        return children;
+    }
+
     return (
         <GL.Node
             shader={shaders.shader}
@@ -107,7 +113,7 @@ export const RuttEtraDisplay = GL.createComponent(({ children, state }) => {
             }}
         >
             <GL.Uniform name="child">
-                {children}
+                { children }
             </GL.Uniform>
         </GL.Node>
     );

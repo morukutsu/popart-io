@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
-import Knob from '../../../gui/control/Knob';
-import RouteToMenu from '../../../gui/routing/RouteToMenu';
+import Knob                            from '../../../gui/control/Knob';
+import RouteToMenu                     from '../../../gui/routing/RouteToMenu';
+import BaseController                  from '../BaseController';
 
-class SynthesizerController extends React.Component {
+class SynthesizerController extends BaseController {
     constructor() {
         super();
 
@@ -31,6 +32,10 @@ class SynthesizerController extends React.Component {
             >
                 <div style={styles.title}>
                     Synthesizer
+
+                    <div style={styles.alignedRight}>
+                        { this.renderTitleButtons() }
+                    </div>
                 </div>
 
                 <div style={styles.main}>
@@ -89,17 +94,27 @@ const styles = {
         marginRight: 1,
     },
 
+    alignedRight: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        flexDirection: 'row',
+        flex: 1
+    },
+
     title: {
         height: 50,
         padding: 10,
         borderRadius: 6,
         display: 'flex',
         alignItems: 'center',
+        flexDirection: 'row',
         fontSize: 20,
         fontWeight: 'bold',
         backgroundColor: '#FD5A35',
         color: 'white',
+        flex: 1,
     },
+
 
     row: {
         display: 'flex',

@@ -1,7 +1,6 @@
-import alt from '../alt';
-import Actions from '../actions/Actions';
-import fs from 'fs';
-import EffectFactory from '../popart/FX/EffectFactory';
+import alt           from '../alt';
+import Actions       from '../actions/Actions';
+import fs            from 'fs';
 
 class Store {
     constructor() {
@@ -16,6 +15,7 @@ class Store {
 
     addEffect(effect) {
         this.effectInstances.push(effect);
+        //this.activeEntity++;
     }
 
     deleteEffect(effectIndex) {
@@ -40,12 +40,10 @@ class Store {
     save() {
         let effectInstancesJson = JSON.stringify(this.effectInstances);
         fs.writeFile("save.json", effectInstancesJson, (err) => console.log(err));
-        console.log("Content saved");
     }
 
-    load() {
+    load(EffectFactory) {
         let instances = JSON.parse(fs.readFileSync("save.json") );
-        console.log(instances);
 
         // Clear the current list of instances
         this.effectInstances = []

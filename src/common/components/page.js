@@ -19,6 +19,8 @@ import SynthesizerController   from '../../popart/FX/Synthesizer/SynthesizerCont
 import RuttEtraController   from '../../popart/FX/RuttEtra/RuttEtraController';
 import EffectView from '../../popart/EffectView/EffectView';
 import EffectFactory from '../../popart/FX/EffectFactory';
+import NullDisplay                     from '../../popart/FX/Null/Null';
+
 
 import Block   from '../../gui/routing/Block.js';
 import Panel   from '../../gui/routing/Panel.js';
@@ -273,7 +275,7 @@ class Page extends React.Component {
             // Return the last instianciated compnent
             return children;
         } else {
-            return (<div></div>);
+            return (<NullDisplay />);
         }
     }
 
@@ -336,7 +338,7 @@ class Page extends React.Component {
 
                 <div onClick={ () => Actions.save() } style={{size: 20, backgroundColor: "white", width: 80, cursor: "pointer", margin: 5}}>Save</div>
 
-                <div onClick={ () => Actions.load() } style={{size: 20, backgroundColor: "white", width: 80, cursor: "pointer", margin: 5}}>Load</div>
+                <div onClick={ () => Actions.load(EffectFactory) } style={{size: 20, backgroundColor: "white", width: 80, cursor: "pointer", margin: 5}}>Load</div>
             </div>
         );
     }

@@ -13,9 +13,12 @@ class Menu extends React.Component {
             <div
                 style={styles.container}
             >
-                <div key={0} style={styles.item}>File</div>
-                <div key={1} style={styles.item}>Edit</div>
-                <div key={2} style={styles.item}>Render</div>
+                <div style={styles.menuItems}>
+                    <div key={0} style={styles.item}>File</div>
+                    <div key={1} style={styles.item}>Edit</div>
+                    <div key={2} style={styles.item}>Render</div>
+                </div>
+                <div style={styles.draggableArea}></div>
             </div>
         );
     }
@@ -24,10 +27,20 @@ class Menu extends React.Component {
 const styles = {
     container: {
         backgroundColor: '#090909',
-        WebkitAppRegion: "drag",
         display: 'flex',
         flexDirection: 'row',
-        padding: 4
+        padding: 4,
+    },
+
+    menuItems: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+
+    draggableArea: {
+        WebkitAppRegion: "drag",
+        display: 'flex',
+        flex: 1,
     },
 
     item: {

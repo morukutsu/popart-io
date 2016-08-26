@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import GL                              from 'gl-react';
-import IO             from '../../IO/IO';
-import BaseEffectCore from '../BaseEffectCore';
+import IO                              from '../../IO/IO';
+import BaseEffectCore                  from '../BaseEffectCore';
+import NullDisplay                     from '../Null/Null';
 
 const shaders = GL.Shaders.create({
     synthesizer_shader: {
@@ -17,7 +18,7 @@ const shaders = GL.Shaders.create({
         uniform float phaseMod, colorMod, countMod, xMod, yMod;
 
         // TODO: fix the value of PI
-        #define PI 3.14
+        #define PI 3.1415926535897
 
         void main () {
             // Fetch color from the previous effect
@@ -58,6 +59,7 @@ export class SynthesizerCore extends BaseEffectCore {
         this.name = "Synthesizer";
 
         this.IO = {
+            'mute'     : new IO('mute',     'bool',  'input'),
             'waveform' : new IO('waveform', 'float', 'input'),
             'speed'    : new IO('speed',    'float', 'input'),
             'x'        : new IO('x',        'float', 'input'),
@@ -75,6 +77,7 @@ export class SynthesizerCore extends BaseEffectCore {
         };
 
         // Default values
+        this.IO.mute.set(false);
         this.IO.waveform.set(1.0);
         this.IO.speed.set(1.0);
         this.IO.x.set(0.0);
@@ -120,6 +123,10 @@ export class SynthesizerCore extends BaseEffectCore {
 }
 
 export const SynthesizerDisplay = GL.createComponent(({ children, state }) => {
+    let childrenToRender = children ? children : <NullDisplay />;
+    if (state.IO.mute.read() ) {
+        return childrenToRender;
+    }
 
     return (
         <GL.Node
@@ -140,7 +147,7 @@ export const SynthesizerDisplay = GL.createComponent(({ children, state }) => {
             }}
         >
             <GL.Uniform name="modulation">
-                { children ? children : <img src="/white.png" /> }
+                { children ? children : <NullDisplay /> }
             </GL.Uniform>
         </GL.Node>
     );
