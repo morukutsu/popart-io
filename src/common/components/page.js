@@ -183,6 +183,7 @@ class Page extends React.Component {
                 coreState:                activeEntity.getState(),
                 onParameterChanged:       activeEntity.onParameterChanged.bind(activeEntity),
                 onRouteParameterSelected: this.handleRouteParameters,
+                modulators:               this.props.modulatorsInstances,
                 mouseEvents:              this.mouseEvents,
                 mouseDisp:                this.nextMouseDisp,
             });

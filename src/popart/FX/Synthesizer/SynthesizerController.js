@@ -65,6 +65,8 @@ class SynthesizerController extends BaseController {
                         <Knob text="y mod"     min={0} max={1} value={this.props.coreState.IO.yMod.read() }     onChange={this.getUpdater("y mod", (value) => this.props.onParameterChanged("yMod", value)) }     mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
                     </div>
                 </div>
+
+                { this.renderMatrix() }
             </div>
         );
     }

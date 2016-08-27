@@ -5,6 +5,9 @@ export default class IO {
         this.inputOrOutput = inputOrOutput;
         this.pluggedIo     = null;
 
+        // When the IO is an output, we keep a list of every Inputs connected to it
+        this.pluggedToMe   = [];
+
         this.isClamped = false;
         this.isScaled  = false;
 
@@ -37,8 +40,13 @@ export default class IO {
         return outputValue;
     }
 
+    // Connect an output to an input
+    // io: an output
     plug(io) {
         this.pluggedIo = io;
+        
+        // TODO: use a map?
+        io.pluggedToMe.push(this);
     }
 
     clamp(enable, min, max) {
