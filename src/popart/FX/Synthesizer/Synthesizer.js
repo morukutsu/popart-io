@@ -96,25 +96,11 @@ export class SynthesizerCore extends BaseEffectCore {
 
         this.availableInputs = [];
 
-        this.inputList = [];
-        Object.keys(this.IO).forEach((parameterName) => {
-            let parameter = this.IO[parameterName];
-            if (parameter.inputOrOutput == "input") {
-                this.inputList.push(parameter);
-            }
-        });
+        this.buildInputList();
     }
 
     tick(dt) {
         this.time += dt * this.IO.speed.read();
-    }
-
-    onParameterChanged(parameter, value) {
-        this.IO[parameter].set(value);
-    }
-
-    onAvailableInputsChanged(inputList) {
-        this.availableInputs = inputList;
     }
 
     getState() {

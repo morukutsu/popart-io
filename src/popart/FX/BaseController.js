@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Button                          from '../../gui/control/Button';
-import Matrix                          from '../../gui/routing/Matrix';
+import ParameterDetails                from '../../gui/routing/ParameterDetails';
 
 export default class BaseController extends React.Component {
     constructor() {
@@ -13,10 +13,10 @@ export default class BaseController extends React.Component {
         );
     }
 
-    renderMatrix() {
+    renderParameterDetails() {
         return (
-            <Matrix
-                instance={this.props.coreState}
+            <ParameterDetails
+                selectedParameter={this.props.selectedParameter}
                 modulators={this.props.modulators}
             />
         );

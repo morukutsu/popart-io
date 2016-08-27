@@ -13,8 +13,9 @@ class Store {
         this.modulatorsInstances = [];
 
         // Focus
-        this.activeEntity    = 0;
-        this.activeModulator = 0;
+        this.activeEntity      = 0;
+        this.activeModulator   = 0;
+        this.selectedParameter = null;
     }
 
     addEffect(effect) {
@@ -45,16 +46,45 @@ class Store {
         this.modulatorsInstances.push(modulator);
     }
 
+    selectParameter(parameter) {
+        this.selectedParameter = parameter;
+    }
+
     save() {
-        let effectInstancesJson = JSON.stringify(this.effectInstances);
-        fs.writeFile("save.json", effectInstancesJson, (err) => console.log(err));
+        let saveData = {};
+
+        saveData.effectInstances     = this.effectInstances;
+        saveData.modulatorsInstances = this.modulatorsInstances;
+
+        let createLinks = (key, value) => {
+            if (key == "pluggedIo" || key == "pluggedEntity") {
+                if (value !== null) {
+                    return {
+                        link: true,
+                        uuid: value.uuid
+                    }
+                }
+            }
+
+            if (key == "inputList") {
+                return [];
+            }
+
+            return value;
+        };
+
+        let saveDataJson = JSON.stringify(saveData, createLinks, 4);
+        fs.writeFile("save.json", saveDataJson, (err) => console.log(err));
+
+        console.log(saveDataJson);
     }
 
     load(EffectFactory) {
-        let instances = JSON.parse(fs.readFileSync("save.json") );
+        let saveData  = JSON.parse(fs.readFileSync("save.json") );
 
-        // Clear the current list of instances
-        this.effectInstances = []
+        // Load instances
+        let instances = saveData.effectInstances;
+        this.effectInstances = [];
 
         // Iterate on the list of FX instances loaded from the file
         instances.forEach((instance) => {
@@ -69,6 +99,86 @@ class Store {
             // Register the component
             this.effectInstances.push(effect);
         });
+
+        // Load modulators
+        let modulators = saveData.modulatorsInstances;
+        this.modulatorsInstances = [];
+
+        modulators.forEach((modulator) => {
+            // Instantiate the modulator
+            let component = EffectFactory.lookupComponentByName(modulator.name);
+            let effect = new component();
+
+            effect.loadParametersValues(modulator);
+
+            this.modulatorsInstances.push(effect);
+        });
+
+        // Build the UUID to reference cache for resolving
+        let uuidCache = {};
+        let buildUUIDCacheRecursively = (element) => {
+            if (element == null) {
+                return;
+            }
+
+            if (typeof element == "object") {
+                // Recursion on arrays
+                if (Array.isArray(element)) {
+                    element.forEach((child, index) => {
+                        buildUUIDCacheRecursively(child);
+                    });
+                } else {
+                    // Recursion on objects
+                    Object.keys(element).forEach((key) => {
+                        if (element.hasOwnProperty(key) ) {
+                            buildUUIDCacheRecursively(element[key]);
+                        }
+                    });
+
+                    if (element.uuid && !element.link) {
+                        uuidCache[element.uuid] = element;
+                    }
+                }
+            }
+        }
+
+        buildUUIDCacheRecursively(this.effectInstances);
+        buildUUIDCacheRecursively(this.modulatorsInstances);
+        console.log(uuidCache);
+
+        // Resolve references
+        let resolveRecursively = (element, parent, keyOrIndex) => {
+            if (element == null) {
+                return;
+            }
+
+            if (typeof element == "object") {
+                // Recursion on arrays
+                if (Array.isArray(element)) {
+                    element.forEach((child, index) => {
+                        resolveRecursively(child, element, index);
+                    });
+                } else {
+                    // Detect the "link" keys we want to replace
+                    if (element.link) {
+                        console.log("Resolving", element.uuid, keyOrIndex);
+                        parent[keyOrIndex] = uuidCache[element.uuid];
+                        console.log(uuidCache[element.uuid]);
+                        console.log(parent);
+                    } else {
+                        // Recursion on objects
+                        Object.keys(element).forEach((key) => {
+                            if (element.hasOwnProperty(key) ) {
+                                resolveRecursively(element[key], element, key);
+                            }
+                        });
+                    }
+                }
+            }
+        };
+
+        resolveRecursively(this.effectInstances,     null, null);
+        resolveRecursively(this.modulatorsInstances, null, null);
     }
 }
 

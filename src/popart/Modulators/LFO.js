@@ -1,7 +1,10 @@
-import IO  from '../IO/IO';
+import IO   from '../IO/IO';
+import uuid from 'node-uuid';
 
 export default class LFO {
     constructor() {
+        this.uuid = uuid.v4();
+
         this.name = "LFO";
 
         this.IO = {
@@ -22,6 +25,44 @@ export default class LFO {
         this.IO.mute.set(false);
         this.IO.frequency.set(0.05);
         this.IO.waveform.set('sine');
+
+        this.buildInputList();
+    }
+
+    loadParametersValues(parameters) {
+        let IOValues = parameters.IO;
+
+        this.uuid = parameters.uuid;
+        this.time = parameters.time;
+
+        // Use the current input list and look for corresponding IO values
+        Object.keys(this.IO).forEach((key) => {
+            if (!this.IO.hasOwnProperty(key)) {
+                return;
+            }
+
+            let io = this.IO[key];
+            let inputName = io.name;
+
+            if (IOValues[inputName]) {
+                this.IO[inputName].set(IOValues[inputName].currentValue);
+                this.IO[inputName].uuid = IOValues[inputName].uuid;
+            } else {
+                // In this case, the parameter does not exist in the save file
+                // this may happen when loading a file made with an old version of the software
+                // TODO: initialize this parameter with a default value
+            }
+        });
+    }
+
+    buildInputList() {
+        this.inputList = [];
+        Object.keys(this.IO).forEach((parameterName) => {
+            let parameter = this.IO[parameterName];
+            if (parameter.inputOrOutput == "input") {
+                this.inputList.push(parameter);
+            }
+        });
     }
 
     tick(dt) {

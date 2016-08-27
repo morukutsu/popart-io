@@ -1,6 +1,10 @@
+import uuid from 'node-uuid';
+
 export default class IO {
     constructor(name, type, inputOrOutput) {
-        this.name = name;
+        this.uuid = uuid.v4();
+        
+        this.name          = name;
         this.type          = type;
         this.inputOrOutput = inputOrOutput;
         this.pluggedIo     = null;
@@ -41,12 +45,14 @@ export default class IO {
     }
 
     // Connect an output to an input
-    // io: an output
-    plug(io) {
-        this.pluggedIo = io;
-        
+    // io:     an output
+    // entity: the entity containing the input
+    plug(io, entity) {
+        this.pluggedIo     = io;
+        this.pluggedEntity = entity;
+
         // TODO: use a map?
-        io.pluggedToMe.push(this);
+        //io.pluggedToMe.push(this);
     }
 
     clamp(enable, min, max) {

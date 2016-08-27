@@ -27,8 +27,6 @@ import Panel   from '../../gui/routing/Panel.js';
 import Toolbar from '../../gui/routing/Toolbar.js';
 import Menu    from '../../gui/menu/Menu.js';
 
-//import seaImage from '../../popart/data/image.jpg';
-
 import LFO from '../../popart/Modulators/LFO';
 
 class Page extends React.Component {
@@ -55,7 +53,6 @@ class Page extends React.Component {
     }
 
     componentWillMount() {
-        //this.strobe.IO.trigger.plug(this.lfo.IO.output);
         this.update();
     }
 
@@ -90,12 +87,20 @@ class Page extends React.Component {
     }
 
     handleMouseUp(event) {
+        if (event.button != 0) {
+            return;
+        }
+
         this.mouseEvents = {
             mouseUp: true,
         };
     }
 
     handleMouseDown(event) {
+        if (event.button != 0) {
+            return;
+        }
+
         this.mouseEvents = {
             mouseUp: false,
         };
@@ -132,15 +137,8 @@ class Page extends React.Component {
         Actions.addModulator(effect);
     }
 
-    handleRouteParameters(dest) {
-        // TODO: fill src with the last selected parameter
-        let src = null;
-
-        this.routeParameters(src, dest);
-    }
-
-    routeParameters(src, dest) {
-
+    handleParameterSelected(parameter) {
+        Actions.selectParameter(parameter);
     }
 
     renderEffects() {
@@ -182,8 +180,9 @@ class Page extends React.Component {
             return React.createElement(component, {
                 coreState:                activeEntity.getState(),
                 onParameterChanged:       activeEntity.onParameterChanged.bind(activeEntity),
-                onRouteParameterSelected: this.handleRouteParameters,
+                onParameterSelected:      this.handleParameterSelected,
                 modulators:               this.props.modulatorsInstances,
+                selectedParameter:        this.props.selectedParameter,
                 mouseEvents:              this.mouseEvents,
                 mouseDisp:                this.nextMouseDisp,
             });

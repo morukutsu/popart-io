@@ -17,8 +17,8 @@ class Knob extends React.Component {
         if (this.state.isTweaking) {
             return true;
         } else {
-            return nextProps.text      !== this.props.text || nextProps.min   !== this.props.min   ||
-                   nextProps.max       !== this.props.max  || nextProps.value !== this.props.value;
+            return nextProps.text !== this.props.text || nextProps.min   !== this.props.min ||
+                   nextProps.max  !== this.props.max  || nextProps.value !== this.props.value;
         }
     }
 
