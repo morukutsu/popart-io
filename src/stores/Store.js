@@ -9,8 +9,12 @@ class Store {
         this.effectList      = ["Synthesizer", "RuttEtra", "Mosaic"];
         this.effectInstances = [];
 
+        this.modulatorsList      = ["LFO"];
+        this.modulatorsInstances = [];
+
         // Focus
-        this.activeEntity = 0;
+        this.activeEntity    = 0;
+        this.activeModulator = 0;
     }
 
     addEffect(effect) {
@@ -35,6 +39,10 @@ class Store {
 
     selectEffect(effectIndex) {
         this.activeEntity = effectIndex;
+    }
+
+    addModulator(modulator) {
+        this.modulatorsInstances.push(modulator);
     }
 
     save() {

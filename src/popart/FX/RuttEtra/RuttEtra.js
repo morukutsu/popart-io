@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import GL                              from 'gl-react';
-import IO  from '../../IO/IO';
-import BaseEffectCore from '../BaseEffectCore';
+import IO                              from '../../IO/IO';
+import BaseEffectCore                  from '../BaseEffectCore';
+import NullDisplay                     from '../Null/Null';
 
 const shaders = GL.Shaders.create({
     shader: {
@@ -98,8 +99,9 @@ export class RuttEtraCore extends BaseEffectCore {
 }
 
 export const RuttEtraDisplay = GL.createComponent(({ children, state }) => {
+    let childrenToRender = children ? children : <NullDisplay />;
     if (state.IO.mute.read() ) {
-        return children;
+        return childrenToRender;
     }
 
     return (
@@ -113,7 +115,7 @@ export const RuttEtraDisplay = GL.createComponent(({ children, state }) => {
             }}
         >
             <GL.Uniform name="child">
-                { children }
+                { childrenToRender }
             </GL.Uniform>
         </GL.Node>
     );

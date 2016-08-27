@@ -4,6 +4,7 @@ let Actions = alt.generateActions(
     'addEffect',
     'deleteEffect',
     'selectEffect',
+    'addModulator',
     'save',
     'load',
 );

@@ -17,9 +17,8 @@ class Button extends React.Component {
                 style={styles.container}
                 onClick={() => this.props.onClick(!this.props.value)}
             >
-                <div style={styles.text} >
-                    { this.props.text }
-                    { this.props.value ? <MdBlock size={20} width={30}/> : <MdCheck size={20} width={30}/> }
+                <div style={[styles.text, this.props.value ? styles.activeText : null]} >
+                    { this.props.value ? this.props.activeText : this.props.inactiveText }
                 </div>
             </div>
         );
@@ -47,6 +46,10 @@ const styles = {
         color:      'white',
         fontSize:   16,
     },
+
+    activeText: {
+        color: "grey",
+    }
 };
 
 export default Radium(Button);

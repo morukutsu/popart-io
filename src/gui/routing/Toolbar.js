@@ -10,11 +10,23 @@ class Toolbar extends React.Component {
         let effects = this.props.effectList.map((elem, i) => {
             return (
                 <div
-                    key={i}
+                    key={"effect" + i}
                     style={styles.effect}
-                    onClick={() => this.props.onClick(elem)}
+                    onClick={() => this.props.onEffectClick(elem)}
                 >
-                    {elem}
+                    { elem }
+                </div>
+            );
+        });
+
+        let modulators = this.props.modulatorsList.map((elem, i) => {
+            return (
+                <div
+                    key={"modulator" + i}
+                    style={styles.effect}
+                    onClick={() => this.props.onModulatorClick(elem)}
+                >
+                    { elem }
                 </div>
             );
         });
@@ -24,6 +36,7 @@ class Toolbar extends React.Component {
                 style={styles.container}
             >
                 { effects }
+                { modulators }
             </div>
         );
     }

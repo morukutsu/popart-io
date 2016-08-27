@@ -11,7 +11,7 @@ class Block extends React.Component {
     render() {
         return (
             <div
-                style={styles.container}
+                style={[styles.container, this.props.active ? styles.inactive : null]}
                 onClick={this.props.onPress}
                 onContextMenu={this.props.onRightClick}
             >
@@ -41,6 +41,10 @@ const styles = {
             backgroundColor: '#F77177',
         }
     },
+
+    inactive: {
+        backgroundColor: '#A63700'
+    }
 };
 
 export default Radium(Block);

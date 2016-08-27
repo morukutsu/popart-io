@@ -3,25 +3,31 @@ import Radium                          from 'radium';
 import MdChevronRight                  from 'react-icons/lib/md/chevron-right';
 import MdAddCircleOutline              from 'react-icons/lib/md/add-circle-outline';
 
-var STAGE_COUNT = 4;
-
 class Panel extends React.Component {
     constructor() {
         super();
     }
 
     getStageCount() {
-        if (this.props.children.length < STAGE_COUNT) {
-            return STAGE_COUNT;
-        } else {
-            return this.props.children.length + 1;
-        }
+        return this.props.effects.length + 1;
     }
 
     renderHeader() {
-        let stages = [];
-        for (var i = 0; i < this.getStageCount(); i++) {
-            stages.push(i);
+        let stages    = [];
+        let numStages = this.getStageCount();
+
+        for (var i = 0; i < numStages; i++) {
+            let text = "Stage " + i;
+
+            if (i == numStages - 1) {
+                text = ""
+            }
+
+            if (i == numStages - 2) {
+                text = "Output"
+            }
+
+            stages.push(text);
         }
 
         return stages.map((elem, index) => (
@@ -29,29 +35,47 @@ class Panel extends React.Component {
                 key={index}
                 style={styles.headerBlock}
             >
-                Stage { index }
+                { elem }
                 <MdChevronRight/>
             </div>
         ));
     }
 
     renderEmptyBlocks() {
-        let numberOfEmptyBlocks = this.getStageCount() - this.props.children.length;
+        let numberOfEmptyBlocks = this.getStageCount() - this.props.effects.length;
         let emptyBlocks = [];
 
         for (var i = 0; i < numberOfEmptyBlocks; i++) {
             emptyBlocks.push(
                 <div
                     key={i}
-                    style={styles.headerBlock}
+                    style={styles.emptyBlock}
                 >
-                    <MdAddCircleOutline/>
                     Add
+                    <MdAddCircleOutline style={{margin: 5}}/>
                 </div>
             );
         }
 
         return emptyBlocks;
+    }
+
+    renderModulatorsHeader() {
+        let MODULATORS_GRID_SIZE = 4;
+
+        let modulators = [];
+        for (var i = 0; i < MODULATORS_GRID_SIZE; i++) {
+            modulators.push(
+                <div
+                    key={i}
+                    style={styles.headerBlock}
+                >
+                    Modulator { i }
+                </div>
+            );
+        }
+
+        return modulators;
     }
 
     render() {
@@ -64,8 +88,15 @@ class Panel extends React.Component {
                         { this.renderHeader() }
                     </div>
                     <div style={styles.row}>
-                        { this.props.children }
+                        { this.props.effects }
                         { this.renderEmptyBlocks() }
+                    </div>
+
+                    <div style={styles.row}>
+                        { this.renderModulatorsHeader() }
+                    </div>
+                    <div style={styles.row}>
+                        { this.props.modulators }
                     </div>
                 </div>
             </div>
@@ -95,6 +126,23 @@ const styles = {
     },
 
     headerBlock: {
+        width: 150,
+        height: 40,
+        backgroundColor: '#3A3A3A',
+
+        borderRadius: 4,
+
+        margin: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontWeight: 'bold',
+        cursor: 'pointer',
+        display: 'flex',
+        fontSize: 20,
+        color: 'white',
+    },
+
+    emptyBlock: {
         width: 150,
         height: 60,
         backgroundColor: '#3A3A3A',

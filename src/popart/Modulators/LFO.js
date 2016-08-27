@@ -2,11 +2,14 @@ import IO  from '../IO/IO';
 
 export default class LFO {
     constructor() {
+        this.name = "LFO";
+
         this.IO = {
-            'frequency' : new IO('float',  'input'), // in Hertz
-            'waveform'  : new IO('string', 'input'), // wave form selector
-            'pulseWidth': new IO('float',  'input'), // square wave pulse width
-            'output'    : new IO('float',  'output') // [0..1] out LFO signal
+            'mute'      : new IO('mute',       'bool',   'input'),
+            'frequency' : new IO('frequency',  'float',  'input'), // in Hertz
+            'waveform'  : new IO('waveform',   'string', 'input'), // wave form selector
+            'pulseWidth': new IO('pulseWidth', 'float',  'input'), // square wave pulse width
+            'output'    : new IO('output',     'float',  'output') // [0..1] out LFO signal
         };
 
         this.time = 0.0;
@@ -16,10 +19,16 @@ export default class LFO {
             'sine'  : this.updateSine.bind(this),
         };
 
-        //this.IO.output.set(0.0);
+        this.IO.mute.set(false);
+        this.IO.frequency.set(0.05);
+        this.IO.waveform.set('sine');
     }
 
     tick(dt) {
+        if (this.IO.mute.read() ) {
+            return;
+        }
+
         let currentWaveform = this.IO.waveform.read();
         this.waveFormUpdaters[currentWaveform](dt);
     }

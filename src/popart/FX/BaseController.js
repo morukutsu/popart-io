@@ -8,7 +8,7 @@ export default class BaseController extends React.Component {
 
     renderTitleButtons() {
         return (
-            <Button text="mute" value={this.props.coreState.IO.mute.read() } onClick={(value) => this.props.onParameterChanged("mute", value)} />
+            <Button activeText="Off" inactiveText="On" value={this.props.coreState.IO.mute.read() } onClick={(value) => this.props.onParameterChanged("mute", value)} />
         );
     }
 }

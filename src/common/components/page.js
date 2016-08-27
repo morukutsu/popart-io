@@ -55,68 +55,7 @@ class Page extends React.Component {
     }
 
     componentWillMount() {
-        // FX
-        this.strobe = new StrobeCore();
-        this.square = new SquareCore();
-        this.image  = new ImageCore();
-        this.blur   = new BlurCore();
-        this.mosaic = new MosaicCore();
-        this.rgbSplit = new RGBSplitCore();
-        this.ruttEtra = new RuttEtraCore();
-
-        /*this.synthesizer = new SynthesizerCore();
-        this.synthesizer2 = new SynthesizerCore();
-
-        this.entities = [
-            this.synthesizer,
-            this.synthesizer2
-        ];*/
-
-        this.strobe.IO.onColor.set([0.2, 0.1, 0.4, 0.0]);
-        this.strobe.IO.offColor.set([0.4, 0.2, 0.8, 0]);
-
-        this.image.IO.image.set('http://favim.com/orig/201105/22/girl-lake-sad-sea-sit-Favim.com-52488.jpg');
-
-        // Modulation
-        this.lfo = new LFO();
-        this.lfo.IO.frequency.set(1);
-        this.lfo.IO.waveform.set('square');
-        //this.lfo.IO.pulseWidth.set(0.5);
-
-        this.sineLfo = new LFO();
-        this.sineLfo.IO.frequency.set(0.05);
-        this.sineLfo.IO.waveform.set('sine');
-
-        this.strobe.IO.trigger.plug(this.lfo.IO.output);
-
-        //this.square.IO.x.plug(this.sineLfo.IO.output);
-        this.square.IO.w.set(0.2);
-        this.square.IO.h.set(0.2);
-        //this.square.IO.squareColor.set([0.0, 0.25, 1.0, 1.0]);
-        this.square.IO.squareColor.set([1.0, 1.0, 1.0, 1.0]);
-        this.square.IO.x.set(0.5 - 0.2 / 2);
-        this.square.IO.y.set(0.5 - 0.2 / 2);
-
-        this.image.IO.y.plug(this.sineLfo.IO.output);
-        this.image.IO.y.scale(true, 0.35);
-        this.image.IO.y.clamp(true, 0.0, 1.0);
-
-        this.blur.IO.intensity.set(0.5);
-        //this.blur.IO.intensity.plug(this.sineLfo.IO.output);
-        //this.blur.IO.intensity.scale(true, 40);
-
-        this.mosaic.IO.length.plug(this.sineLfo.IO.output);
-        //this.mosaic.IO.length.scale(true, 0.8);
-        this.mosaic.IO.length.clamp(true, 0.1, 1.0);
-
-        //this.synthesizer.IO.x.plug(this.sineLfo.IO.output);
-        //this.synthesizer.IO.count.plug(this.sineLfo.IO.output);
-        //this.synthesizer2.IO.count.set(5.0);
-        //this.synthesizer2.IO.speed.set(0.01);
-        //this.synthesizer2.IO.x.set(0.5);
-
-        //this.synthesizer.IO.color.set([0.8, 0.0, 0.3, 1.0]);
-
+        //this.strobe.IO.trigger.plug(this.lfo.IO.output);
         this.update();
     }
 
@@ -127,16 +66,12 @@ class Page extends React.Component {
         }
 
         let dt = (timestamp - this.prevTimestamp) / 1000.0;
-        this.strobe.tick(dt);
-        this.lfo.tick(dt);
-        this.sineLfo.tick(dt);
-        this.square.tick(dt);
-        this.blur.tick(dt);
-        this.mosaic.tick(dt);
 
-        //this.synthesizer.tick(dt);
-        //this.synthesizer2.tick(dt);
         this.props.effectInstances.forEach((instance) => {
+            instance.tick(dt);
+        });
+
+        this.props.modulatorsInstances.forEach((instance) => {
             instance.tick(dt);
         });
 
@@ -153,17 +88,6 @@ class Page extends React.Component {
     componentWillUnmount () {
         cancelAnimationFrame(this.raf);
     }
-
-    //<SquareDisplay state={this.square.getState() }/>
-
-    /*
-    <Surface width={640} height={360} style={styles.surface}>
-    <SynthesizerDisplay state={this.synthesizer.getState() }>
-        <SynthesizerDisplay state={this.synthesizer2.getState() }/>
-    </SynthesizerDisplay>
-                        </Surface>
-
-    */
 
     handleMouseUp(event) {
         this.mouseEvents = {
@@ -199,44 +123,14 @@ class Page extends React.Component {
 
         // Instantiate the core component
         let effect = new component();
-
-        // Retrieve and set its availableInputs
-        // Get all the inputs from the previous element in the chain
-        let instances = this.props.effectInstances;
-        let previousEffect = instances[instances.length - 1];
-        if (previousEffect) {
-            // Enumerate all the inputs
-            /*let inputList = [];
-            Object.keys(previousEffect.IO).forEach((parameterName) => {
-                let parameter = previousEffect.IO[parameterName];
-                if (parameter.inputOrOutput == "output") {
-                    inputList.push(parameter);
-                }
-            });
-
-            effect.onAvailableInputsChanged(inputList);*/
-        }
-
         Actions.addEffect(effect);
     }
 
-    /*updateCurrentTweakableParameters(src) {
-        let tweakableParameters = [];
-
-        // Retrieve all the output parameters of all the effects
-        this.props.effectInstances.forEach((effect) => {
-            Object.keys(effect.IO).forEach((parameterName) => {
-                let parameter = effect.IO[parameterName];
-                if (parameter.inputOrOutput == "output") {
-                    tweakableParameters.push(parameter);
-                }
-            });
-        });
-
-        this.setState({
-            currentTweakableParameters: tweakableParameters
-        });
-    }*/
+    handleAddModulator(name) {
+        let component = EffectFactory.lookupComponentByName(name);
+        let effect = new component();
+        Actions.addModulator(effect);
+    }
 
     handleRouteParameters(dest) {
         // TODO: fill src with the last selected parameter
@@ -298,12 +192,21 @@ class Page extends React.Component {
     }
 
     render() {
-        let blocks = this.props.effectInstances.map((instance, i) => (
+        let effectBlocks = this.props.effectInstances.map((instance, i) => (
             <Block
                 key={i}
                 onPress={() => Actions.selectEffect(i) }
                 onRightClick={() => Actions.deleteEffect(i) }
                 name={instance.name}
+                active={instance.IO.mute.read() }
+            />
+        ));
+
+        let modulatorBlocks = this.props.modulatorsInstances.map((instance, i) => (
+            <Block
+                key={i}
+                name={instance.name}
+                active={instance.IO.mute.read() }
             />
         ));
 
@@ -317,9 +220,10 @@ class Page extends React.Component {
 
                 <div style={styles.mainPanel}>
                     <div style={styles.leftPanel}>
-                        <Panel>
-                            { blocks }
-                        </Panel>
+                        <Panel
+                            effects={effectBlocks}
+                            modulators={modulatorBlocks}
+                        />
                     </div>
 
                     <div style={styles.rightPanel}>
@@ -333,7 +237,9 @@ class Page extends React.Component {
 
                 <Toolbar
                     effectList={this.props.effectList}
-                    onClick={this.handleAddFx.bind(this)}
+                    modulatorsList={this.props.modulatorsList}
+                    onEffectClick={this.handleAddFx.bind(this)}
+                    onModulatorClick={this.handleAddModulator.bind(this)}
                 />
 
                 <div onClick={ () => Actions.save() } style={{size: 20, backgroundColor: "white", width: 80, cursor: "pointer", margin: 5}}>Save</div>

@@ -147,7 +147,7 @@ export const SynthesizerDisplay = GL.createComponent(({ children, state }) => {
             }}
         >
             <GL.Uniform name="modulation">
-                { children ? children : <NullDisplay /> }
+                { childrenToRender }
             </GL.Uniform>
         </GL.Node>
     );
