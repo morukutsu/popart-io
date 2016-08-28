@@ -199,6 +199,8 @@ class Page extends React.Component {
                 onRightClick={() => Actions.deleteEffect(i) }
                 name={instance.name}
                 active={instance.IO.mute.read() }
+                color="#FD5A35"
+                hoverColor="#F77177"
             />
         ));
 
@@ -207,6 +209,8 @@ class Page extends React.Component {
                 key={i}
                 name={instance.name}
                 active={instance.IO.mute.read() }
+                color="#873DB9"
+                hoverColor="#CF72FF"
             />
         ));
 

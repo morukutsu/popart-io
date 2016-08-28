@@ -9,9 +9,16 @@ class Block extends React.Component {
     }
 
     render() {
+        let colorStyle = {
+            backgroundColor: this.props.color,
+            ':hover': {
+                backgroundColor: this.props.hoverColor
+            }
+        };
+
         return (
             <div
-                style={[styles.container, this.props.active ? styles.inactive : null]}
+                style={[styles.container, this.props.active ? styles.inactive : null, colorStyle]}
                 onClick={this.props.onPress}
                 onContextMenu={this.props.onRightClick}
             >
@@ -25,7 +32,6 @@ const styles = {
     container: {
         width: 150,
         height: 60,
-        backgroundColor: '#FD5A35',
         borderRadius: 4,
 
         margin: 5,
@@ -36,10 +42,6 @@ const styles = {
         display: 'flex',
         fontSize: 20,
         color: 'white',
-
-        ':hover': {
-            backgroundColor: '#F77177',
-        }
     },
 
     inactive: {

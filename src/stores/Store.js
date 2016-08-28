@@ -58,7 +58,7 @@ class Store {
 
         let createLinks = (key, value) => {
             if (key == "pluggedIo" || key == "pluggedEntity") {
-                if (value !== null) {
+                if (value) {
                     return {
                         link: true,
                         uuid: value.uuid
@@ -144,7 +144,6 @@ class Store {
 
         buildUUIDCacheRecursively(this.effectInstances);
         buildUUIDCacheRecursively(this.modulatorsInstances);
-        console.log(uuidCache);
 
         // Resolve references
         let resolveRecursively = (element, parent, keyOrIndex) => {
@@ -161,10 +160,7 @@ class Store {
                 } else {
                     // Detect the "link" keys we want to replace
                     if (element.link) {
-                        console.log("Resolving", element.uuid, keyOrIndex);
                         parent[keyOrIndex] = uuidCache[element.uuid];
-                        console.log(uuidCache[element.uuid]);
-                        console.log(parent);
                     } else {
                         // Recursion on objects
                         Object.keys(element).forEach((key) => {

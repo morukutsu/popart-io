@@ -3,6 +3,8 @@ import Radium                          from 'radium';
 import MdChevronRight                  from 'react-icons/lib/md/chevron-right';
 import MdAddCircleOutline              from 'react-icons/lib/md/add-circle-outline';
 
+var MIN_GRID_WIDTH = 4;
+
 class Panel extends React.Component {
     constructor() {
         super();
@@ -30,7 +32,7 @@ class Panel extends React.Component {
             stages.push(text);
         }
 
-        return stages.map((elem, index) => (
+        let stagesComponents = stages.map((elem, index) => (
             <div
                 key={index}
                 style={styles.headerBlock}
@@ -39,6 +41,21 @@ class Panel extends React.Component {
                 <MdChevronRight/>
             </div>
         ));
+
+        let fillers = [];
+        if (stagesComponents.length < MIN_GRID_WIDTH) {
+            for (var i = 0; i < MIN_GRID_WIDTH - stagesComponents.length; i++) {
+                fillers.push(
+                    <div
+                        key={"fillers" + i}
+                        style={styles.headerBlock}
+                    >
+                    </div>
+                );
+            }
+        }
+
+        return [stagesComponents, fillers];
     }
 
     renderEmptyBlocks() {
@@ -57,7 +74,52 @@ class Panel extends React.Component {
             );
         }
 
-        return emptyBlocks;
+        let fillers = [];
+        if (this.getStageCount() < MIN_GRID_WIDTH) {
+            for (var i = 0; i < MIN_GRID_WIDTH - (this.getStageCount() ); i++) {
+                fillers.push(
+                    <div
+                        key={"fillers" + i}
+                        style={styles.emptyBlock}
+                    >
+                    </div>
+                );
+            }
+        }
+
+        return [emptyBlocks, fillers];
+    }
+
+    renderEmptyModulatorBlocks() {
+        let numberOfEmptyBlocks = 1;
+        let emptyBlocks = [];
+
+        for (var i = 0; i < numberOfEmptyBlocks; i++) {
+            emptyBlocks.push(
+                <div
+                    key={i}
+                    style={styles.emptyBlock}
+                >
+                    Add
+                    <MdAddCircleOutline style={{margin: 5}}/>
+                </div>
+            );
+        }
+
+        let fillers = [];
+        if (this.getStageCount() < MIN_GRID_WIDTH) {
+            for (var i = 0; i < MIN_GRID_WIDTH - (this.props.modulators.length + 1); i++) {
+                fillers.push(
+                    <div
+                        key={"fillers" + i}
+                        style={styles.emptyBlock}
+                    >
+                    </div>
+                );
+            }
+        }
+
+        return [emptyBlocks, fillers];
     }
 
     renderModulatorsHeader() {
@@ -97,6 +159,7 @@ class Panel extends React.Component {
                     </div>
                     <div style={styles.row}>
                         { this.props.modulators }
+                        { this.renderEmptyModulatorBlocks() }
                     </div>
                 </div>
             </div>
