@@ -3,7 +3,7 @@ import uuid from 'node-uuid';
 export default class IO {
     constructor(name, type, inputOrOutput) {
         this.uuid = uuid.v4();
-        
+
         this.name          = name;
         this.type          = type;
         this.inputOrOutput = inputOrOutput;
@@ -50,9 +50,11 @@ export default class IO {
     plug(io, entity) {
         this.pluggedIo     = io;
         this.pluggedEntity = entity;
+    }
 
-        // TODO: use a map?
-        //io.pluggedToMe.push(this);
+    unplug() {
+        this.pluggedIo     = null;
+        this.pluggedEntity = null;
     }
 
     clamp(enable, min, max) {

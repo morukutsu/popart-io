@@ -7,27 +7,51 @@ class ParameterDetails extends React.Component {
         super();
     }
 
-    connect(modulatorName, selected) {
-        // TODO: solve modulators name conflicts with unique ids
-        let modulator = null;
-        this.props.modulators.every((mod) => {
-            if (mod.name == modulatorName) {
-                modulator = mod;
-                return false;
+    connect(event, selected) {
+        let modulatorName = event.target.value;
+
+        if (modulatorName == "none") {
+            // Unplug
+            selected.unplug();
+        } else {
+            // Plug
+            // Retrieve the DOM node of the selected option
+            let selectedOption = null;
+            for (var i = 0; i < event.target.options.length; i++) {
+                if (event.target.options[i].selected) {
+                    selectedOption = event.target.options[i];
+                    break;
+                }
             }
 
-            return true;
-        });
+            // Retrieve the modulator using its unique id
+            let modulatorId = selectedOption.dataset.modulatorId;
 
-        selected.plug(modulator.IO.output, modulator);
-        console.log("Plugged some IO with the LFO", modulatorName, selected.name);
+            let modulator = null;
+            this.props.modulators.every((mod) => {
+                if (mod.uuid == modulatorId) {
+                    modulator = mod;
+                    return false;
+                }
+
+                return true;
+            });
+
+            selected.plug(modulator.IO.output, modulator);
+        }
     }
 
     render() {
         let content = null;
         if (this.props.selectedParameter) {
+            // TODO: how to manage modulators with multiple outputs?
             let options = this.props.modulators.map((modulator, index) => (
-                <option key={index}>{ modulator.name }</option>
+                <option
+                    key={index}
+                    data-modulator-id={modulator.uuid}
+                >
+                    { modulator.name }
+                </option>
             ));
 
             let selectedValue = "none";
@@ -40,7 +64,7 @@ class ParameterDetails extends React.Component {
                     <span style={styles.modulator}>{ this.props.selectedParameter.name }</span>
                     <select
                         value={selectedValue}
-                        onChange={(selected) => this.connect(selected.target.value, this.props.selectedParameter)}
+                        onChange={(event) => this.connect(event, this.props.selectedParameter)}
                     >
                         <option>none</option>
                         { options }
