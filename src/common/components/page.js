@@ -212,6 +212,7 @@ class Page extends React.Component {
             <Block
                 key={i}
                 onPress={() => Actions.selectModulator(i) }
+                onRightClick={() => Actions.deleteModulator(i) }
                 name={instance.name}
                 active={instance.IO.mute.read() }
                 color="#873DB9"

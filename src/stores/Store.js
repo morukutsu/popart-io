@@ -53,6 +53,21 @@ class Store {
         this.lastSelectedEntityType = 'modulator';
     }
 
+    deleteModulator(modulatorIndex) {
+        let prevNumberOfInstances = this.modulatorsInstances.length;
+
+        this.modulatorsInstances.splice(modulatorIndex, 1);
+
+        // Reselect the current activeEntity after the effect instances list changed
+        if (modulatorIndex <= this.activeModulator) {
+            this.activeModulator--;
+        }
+
+        if (this.activeModulator < 0) {
+            this.activeModulator = 0;
+        }
+    }
+
     selectParameter(parameter) {
         this.selectedParameter = parameter;
     }
