@@ -99,4 +99,16 @@ export default class LFO {
         this.IO.output.set(Math.sin(this.time));
         this.time += sinusIncrement;
     }
+
+    getState() {
+        return this;
+    }
+
+    onParameterChanged(parameter, value) {
+        this.IO[parameter].set(value);
+    }
+
+    getState() {
+        return this;
+    }
 }

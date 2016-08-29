@@ -5,6 +5,7 @@ import SynthesizerController                    from './Synthesizer/SynthesizerC
 import { MosaicCore,  MosaicDisplay }           from './Mosaic/Mosaic';
 import MosaicController                         from './Mosaic/MosaicController';
 import LFO                                      from '../Modulators/LFO';
+import LFOController                            from '../Modulators/LFOController';
 
 var effectFactory = {
     lookupComponentByName: function(name) {
@@ -19,6 +20,7 @@ var effectFactory = {
             'MosaicController':      MosaicController,
             'MosaicCore':            MosaicCore,
             'LFO':                   LFO,
+            'LFOController':         LFOController,
         };
 
         return lookup[name];

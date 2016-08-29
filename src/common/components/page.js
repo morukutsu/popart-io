@@ -172,10 +172,14 @@ class Page extends React.Component {
     }
 
     renderController() {
-        if (this.props.effectInstances.length > 0) {
-            let activeEntity = this.props.effectInstances[this.props.activeEntity];
+        // Generic code to manage the effect controllers and the modulator controllers
+        let list           = this.props.lastSelectedEntityType == 'effect' ? this.props.effectInstances : this.props.modulatorsInstances;
+        let activeEntityId = this.props.lastSelectedEntityType == 'effect' ? this.props.activeEntity    : this.props.activeModulator;
+
+        if (list.length > 0) {
+            let activeEntity            = list[activeEntityId];
             let controllerComponentName = activeEntity.name + "Controller";
-            let component = EffectFactory.lookupComponentByName(controllerComponentName);
+            let component               = EffectFactory.lookupComponentByName(controllerComponentName);
 
             return React.createElement(component, {
                 coreState:                activeEntity.getState(),
@@ -207,6 +211,7 @@ class Page extends React.Component {
         let modulatorBlocks = this.props.modulatorsInstances.map((instance, i) => (
             <Block
                 key={i}
+                onPress={() => Actions.selectModulator(i) }
                 name={instance.name}
                 active={instance.IO.mute.read() }
                 color="#873DB9"

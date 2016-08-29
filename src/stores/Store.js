@@ -13,6 +13,7 @@ class Store {
         this.modulatorsInstances = [];
 
         // Focus
+        this.lastSelectedEntityType = 'effect';
         this.activeEntity      = 0;
         this.activeModulator   = 0;
         this.selectedParameter = null;
@@ -40,10 +41,16 @@ class Store {
 
     selectEffect(effectIndex) {
         this.activeEntity = effectIndex;
+        this.lastSelectedEntityType = 'effect';
     }
 
     addModulator(modulator) {
         this.modulatorsInstances.push(modulator);
+    }
+
+    selectModulator(modulatorIndex) {
+        this.activeModulator = modulatorIndex;
+        this.lastSelectedEntityType = 'modulator';
     }
 
     selectParameter(parameter) {

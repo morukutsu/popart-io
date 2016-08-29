@@ -41,4 +41,8 @@ export default class BaseEffectCore {
     onParameterChanged(parameter, value) {
         this.IO[parameter].set(value);
     }
+
+    getState() {
+        return this;
+    }
 };
