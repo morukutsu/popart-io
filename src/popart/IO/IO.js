@@ -10,7 +10,7 @@ export default class IO {
         this.pluggedIo     = null;
 
         // When the IO is an output, we keep a list of every Inputs connected to it
-        this.pluggedToMe   = [];
+        this.pluggedToMe = {};
 
         this.isClamped = false;
         this.isScaled  = false;
@@ -48,11 +48,15 @@ export default class IO {
     // io:     an output
     // entity: the entity containing the input
     plug(io, entity) {
-        this.pluggedIo     = io;
+        this.pluggedIo     = io;       // output (io) is connected to input (this)
         this.pluggedEntity = entity;
+
+        this.pluggedIo.pluggedToMe[this.uuid] = this;
     }
 
     unplug() {
+        delete this.pluggedIo.pluggedToMe[this.uuid];
+
         this.pluggedIo     = null;
         this.pluggedEntity = null;
     }

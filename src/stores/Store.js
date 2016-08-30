@@ -84,7 +84,21 @@ class Store {
                     return {
                         link: true,
                         uuid: value.uuid
-                    }
+                    };
+                }
+            }
+
+            if (key == "pluggedToMe") {
+                if (value) {
+                    let newValue = {};
+                    Object.keys(value).forEach((uuid) => {
+                        newValue[uuid] = {
+                            link: true,
+                            uuid: uuid
+                        };
+                    });
+
+                    return newValue;
                 }
             }
 
@@ -168,7 +182,7 @@ class Store {
         buildUUIDCacheRecursively(this.modulatorsInstances);
 
         // Resolve references
-        let resolveRecursively = (element, parent, keyOrIndex) => {
+        let resolveRecursively = (element, parent, keyOrIndex, depth) => {
             if (element == null) {
                 return;
             }
@@ -177,7 +191,7 @@ class Store {
                 // Recursion on arrays
                 if (Array.isArray(element)) {
                     element.forEach((child, index) => {
-                        resolveRecursively(child, element, index);
+                        resolveRecursively(child, element, index, depth + 1);
                     });
                 } else {
                     // Detect the "link" keys we want to replace
@@ -187,7 +201,17 @@ class Store {
                         // Recursion on objects
                         Object.keys(element).forEach((key) => {
                             if (element.hasOwnProperty(key) ) {
-                                resolveRecursively(element[key], element, key);
+                                if (key == "pluggedToMe") {
+                                    // TODO: find the right way to fix this
+                                    // This key creates a loop in the data structure graph
+                                    // We handle it by directly resolving if possible
+                                    // FIX: Stop recursion if depth is too high
+                                    if (depth <= 6) {
+                                        resolveRecursively(element[key], element, key, depth + 1);
+                                    }
+                                } else {
+                                    resolveRecursively(element[key], element, key, depth + 1);
+                                }
                             }
                         });
                     }
@@ -195,8 +219,8 @@ class Store {
             }
         };
 
-        resolveRecursively(this.effectInstances,     null, null);
-        resolveRecursively(this.modulatorsInstances, null, null);
+        resolveRecursively(this.effectInstances,     null, null, 0);
+        resolveRecursively(this.modulatorsInstances, null, null, 0);
     }
 }
 

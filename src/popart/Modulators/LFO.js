@@ -29,6 +29,10 @@ export default class LFO {
         this.buildInputList();
     }
 
+    cleanup() {
+
+    }
+
     loadParametersValues(parameters) {
         let IOValues = parameters.IO;
 
@@ -47,6 +51,7 @@ export default class LFO {
             if (IOValues[inputName]) {
                 this.IO[inputName].set(IOValues[inputName].currentValue);
                 this.IO[inputName].uuid = IOValues[inputName].uuid;
+                this.IO[inputName].pluggedToMe = IOValues[inputName].pluggedToMe;
             } else {
                 // In this case, the parameter does not exist in the save file
                 // this may happen when loading a file made with an old version of the software
