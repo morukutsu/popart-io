@@ -5,6 +5,31 @@ import ParameterDetails                from '../../gui/routing/ParameterDetails'
 export default class BaseController extends React.Component {
     constructor() {
         super();
+
+        this.knobsProps = {};
+    }
+
+    componentWillMount() {
+        this.updateKnobsProps(this.props);
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        this.updateKnobsProps(nextProps);
+    }
+
+    updateKnobsProps(props) {
+        // We build the props programmatically to simplify the Knobs rendering code
+        props.coreState.inputList.forEach((input) => {
+            this.knobsProps[input.name] = {
+                value:       input.read(),
+                rawValue:    input.readRaw(),
+                isModulated: input.isPlugged(),
+                onChange:    (value) => props.onParameterChanged(input.name, value),
+                mouseEvents: props.mouseEvents,
+                mouseDisp:   props.mouseDisp,
+                onClick:     () => props.onParameterSelected(input)
+            };
+        });
     }
 
     renderTitleButtons() {

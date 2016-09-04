@@ -4,16 +4,18 @@ export default class IO {
     constructor(name, type, inputOrOutput) {
         this.uuid = uuid.v4();
 
-        this.name          = name;
-        this.type          = type;
-        this.inputOrOutput = inputOrOutput;
-        this.pluggedIo     = null;
+        this.name            = name;
+        this.type            = type;
+        this.inputOrOutput   = inputOrOutput;
+        this.pluggedIo       = null;
+        this.modulationRange = 1.0;
 
         // When the IO is an output, we keep a list of every Inputs connected to it
         this.pluggedToMe = {};
 
-        this.isClamped = false;
-        this.isScaled  = false;
+        this.isClamped   = false;
+        this.isScaled    = false;
+        this.isModulated = false;
 
         // TODO: generate a UUID for each new component or IO
     }
@@ -25,7 +27,11 @@ export default class IO {
     read() {
         let outputValue = this.currentValue;
         if (this.pluggedIo) {
-            outputValue = this.pluggedIo.read();
+            if (this.isModulated) {
+                outputValue = this.currentValue + this.pluggedIo.read();
+            } else {
+                outputValue = this.pluggedIo.read();
+            }
         }
 
         if (this.isScaled) {
@@ -44,6 +50,10 @@ export default class IO {
         return outputValue;
     }
 
+    readRaw() {
+        return this.currentValue;
+    }
+
     // Connect an output to an input
     // io:     an output
     // entity: the entity containing the input
@@ -59,6 +69,21 @@ export default class IO {
 
         this.pluggedIo     = null;
         this.pluggedEntity = null;
+        this.isModulated   = false;
+    }
+
+    // Combined with plugging, it allows to modulate the current value instead of
+    // replacing the input value directly
+    modulate(enable) {
+        this.isModulated = enable;
+    }
+
+    getModulationRange() {
+        return this.modulationRange;
+    }
+
+    setModulationRange(range) {
+        this.modulationRange = range;
     }
 
     clamp(enable, min, max) {

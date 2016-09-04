@@ -15,7 +15,7 @@ class RuttEtraController extends BaseController {
                 style={styles.container}
             >
                 <div style={styles.title}>
-                    <div style={{flex: 1}}>Rutt Etra</div>
+                    Rutt Etra
 
                     <div style={styles.alignedRight}>
                         { this.renderTitleButtons() }
@@ -24,10 +24,10 @@ class RuttEtraController extends BaseController {
 
                 <div style={styles.main}>
                     <div style={styles.row}>
-                        <Knob text="multiplier" min={0} max={300} value={this.props.coreState.IO.multiplier.read() } onChange={(value) => this.props.onParameterChanged("multiplier", value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
-                        <Knob text="distance"   min={0} max={1}   value={this.props.coreState.IO.distance.read()   } onChange={(value) => this.props.onParameterChanged("distance", value)}   mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
-                        <Knob text="smooth"     min={0} max={1}   value={this.props.coreState.IO.smooth.read()     } onChange={(value) => this.props.onParameterChanged("smooth", value)}     mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
-                        <Knob text="thresh"     min={0} max={1}   value={this.props.coreState.IO.thresh.read()     } onChange={(value) => this.props.onParameterChanged("thresh", value)}     mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                        <Knob text="multiplier" min={0} max={300} {...this.knobsProps["multiplier"]} />
+                        <Knob text="distance"   min={0} max={1}   {...this.knobsProps["distance"]} />
+                        <Knob text="smooth"     min={0} max={1}   {...this.knobsProps["smooth"]} />
+                        <Knob text="thresh"     min={0} max={1}   {...this.knobsProps["thresh"]} />
                     </div>
                 </div>
             </div>

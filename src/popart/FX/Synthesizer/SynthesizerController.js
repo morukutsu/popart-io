@@ -7,36 +7,12 @@ import BaseController                  from '../BaseController';
 class SynthesizerController extends BaseController {
     constructor() {
         super();
-
-        this.updaters   = {};
-        this.knobsProps = {};
     }
 
     handleColorParameterChanged(parameterName, colorChannel, colorValue) {
         let value = this.props.coreState.IO[parameterName].read();
         value[colorChannel] = colorValue;
         this.props.onParameterChanged(parameterName, value);
-    }
-
-    componentWillMount() {
-        this.updateKnobsProps(this.props);
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-        this.updateKnobsProps(nextProps);
-    }
-
-    updateKnobsProps(props) {
-        // We build the props programmatically to simplify the Knobs rendering code
-        props.coreState.inputList.forEach((input) => {
-            this.knobsProps[input.name] = {
-                value:       input.read(),
-                onChange:    (value) => props.onParameterChanged(input.name, value),
-                mouseEvents: props.mouseEvents,
-                mouseDisp:   props.mouseDisp,
-                onClick:     () => props.onParameterSelected(input)
-            };
-        });
     }
 
     render() {
@@ -62,13 +38,13 @@ class SynthesizerController extends BaseController {
                     </div>
 
                     <div style={styles.row}>
-                        <Knob text="R (front)" min={0} max={1} value={this.props.coreState.IO.color.read()[0] } onChange={(value) => this.handleColorParameterChanged("color", 0, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
-                        <Knob text="G (front)" min={0} max={1} value={this.props.coreState.IO.color.read()[1] } onChange={(value) => this.handleColorParameterChanged("color", 1, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
-                        <Knob text="B (front)" min={0} max={1} value={this.props.coreState.IO.color.read()[2] } onChange={(value) => this.handleColorParameterChanged("color", 2, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                        <Knob text="R (front)" min={0} max={1} value={this.props.coreState.IO.color.read()[0] } rawValue={this.props.coreState.IO.color.read()[0] } onChange={(value) => this.handleColorParameterChanged("color", 0, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                        <Knob text="G (front)" min={0} max={1} value={this.props.coreState.IO.color.read()[1] } rawValue={this.props.coreState.IO.color.read()[1] } onChange={(value) => this.handleColorParameterChanged("color", 1, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                        <Knob text="B (front)" min={0} max={1} value={this.props.coreState.IO.color.read()[2] } rawValue={this.props.coreState.IO.color.read()[2] } onChange={(value) => this.handleColorParameterChanged("color", 2, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
 
-                        <Knob text="R (back)" min={0} max={1} value={this.props.coreState.IO.colorBack.read()[0] } onChange={(value) => this.handleColorParameterChanged("colorBack", 0, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
-                        <Knob text="G (back)" min={0} max={1} value={this.props.coreState.IO.colorBack.read()[1] } onChange={(value) => this.handleColorParameterChanged("colorBack", 1, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
-                        <Knob text="B (back)" min={0} max={1} value={this.props.coreState.IO.colorBack.read()[2] } onChange={(value) => this.handleColorParameterChanged("colorBack", 2, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                        <Knob text="R (back)" min={0} max={1} value={this.props.coreState.IO.colorBack.read()[0] } rawValue={this.props.coreState.IO.colorBack.read()[0] } onChange={(value) => this.handleColorParameterChanged("colorBack", 0, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                        <Knob text="G (back)" min={0} max={1} value={this.props.coreState.IO.colorBack.read()[1] } rawValue={this.props.coreState.IO.colorBack.read()[1] } onChange={(value) => this.handleColorParameterChanged("colorBack", 1, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                        <Knob text="B (back)" min={0} max={1} value={this.props.coreState.IO.colorBack.read()[2] } rawValue={this.props.coreState.IO.colorBack.read()[2] } onChange={(value) => this.handleColorParameterChanged("colorBack", 2, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
                     </div>
 
                     <div style={styles.row}>
@@ -85,13 +61,6 @@ class SynthesizerController extends BaseController {
         );
     }
 };
-
-/*
-<RouteToMenu
-    availableInputs={this.props.coreState.availableInputs}
-    inputList={this.props.coreState.inputList}
-/>
-*/
 
 const styles = {
     container: {

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import PureRenderMixin                 from 'react-addons-pure-render-mixin';
+import Knob                            from '../control/Knob';
 
 class ParameterDetails extends React.Component {
     constructor() {
@@ -38,6 +39,7 @@ class ParameterDetails extends React.Component {
             });
 
             selected.plug(modulator.IO.output, modulator);
+            selected.modulate(true);
         }
     }
 

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import PureRenderMixin                 from 'react-addons-pure-render-mixin';
+import Arc                             from './Arc';
 
 class Knob extends React.Component {
     constructor() {
@@ -17,8 +18,9 @@ class Knob extends React.Component {
         if (this.state.isTweaking) {
             return true;
         } else {
-            return nextProps.text !== this.props.text || nextProps.min   !== this.props.min ||
-                   nextProps.max  !== this.props.max  || nextProps.value !== this.props.value;
+            return nextProps.text        !== this.props.text || nextProps.min   !== this.props.min ||
+                   nextProps.max         !== this.props.max  || nextProps.value !== this.props.value ||
+                   nextProps.isModulated !== this.props.isModulated || nextProps.rawValue !== this.props.rawValue;
         }
     }
 
@@ -48,7 +50,7 @@ class Knob extends React.Component {
     handleMouseDown(event) {
         this.setState({
             isTweaking: true,
-            valueWhenTweakingStarted: this.props.value
+            valueWhenTweakingStarted: this.props.rawValue
         });
 
         this.props.onClick && this.props.onClick();
@@ -78,11 +80,13 @@ class Knob extends React.Component {
     }
 
     render() {
+        let valueToDisplay = this.state.isTweaking ? this.props.rawValue : this.props.value;
+
         // Scale to [0, 100]
         let range = this.props.max - this.props.min;
 
         // Move to 0..range instead of min..max
-        let scaledValue = this.props.value - this.props.min;
+        let scaledValue = valueToDisplay - this.props.min;
         scaledValue = scaledValue * (100.0 / (range));
 
         // Compute angle for the knob rotation
@@ -94,6 +98,13 @@ class Knob extends React.Component {
             transform: 'rotate(' + angle + 'deg)',
         };
 
+        let arcStyle = {
+            position: 'relative',
+            top: -97,
+            height: 0,
+            display: this.props.isModulated ? 'block' : 'none',
+        };
+
         return (
             <div style={styles.outerContainer}>
                 <div
@@ -102,17 +113,21 @@ class Knob extends React.Component {
                     onMouseDown={this.handleMouseDown.bind(this)}
                 >
                     <div style={[styles.circle, rotateStyle]} >
-                        <div style={styles.smallCircle}>
+                        <div style={[styles.smallCircle, this.props.isModulated ? styles.modulated : null]}>
                         </div>
                     </div>
 
                     <div style={styles.numberText}>
-                        { this.props.value.toFixed(1) }
+                        { valueToDisplay.toFixed(1) }
                     </div>
                 </div>
 
                 <div style={styles.text} >
                     { this.props.text }
+                </div>
+
+                <div style={arcStyle}>
+                    <Arc completed={0.2} stroke="#FD5A35" diameter={80}/>
                 </div>
             </div>
         );
@@ -121,7 +136,7 @@ class Knob extends React.Component {
 
 const styles = {
     outerContainer: {
-        margin: 5,
+        margin: 12,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -133,6 +148,7 @@ const styles = {
         height: 60,
         cursor: 'pointer',
         textAlign: 'center',
+        zIndex: 1,
     },
 
     text: {
@@ -140,6 +156,7 @@ const styles = {
         userSelect: 'none',
         color:      'white',
         fontSize:   12,
+        marginTop: 10
     },
 
     circle: {
@@ -151,6 +168,11 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#666666',
+    },
+
+    modulated: {
+        backgroundColor: '#FD5A35',
+        color:           '#FD5A35',
     },
 
     smallCircle: {
