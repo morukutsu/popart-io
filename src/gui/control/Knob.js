@@ -106,10 +106,15 @@ class Knob extends React.Component {
         };
 
         // Modulator arc parameters
-        let modulationRange = 0.3;
+        let modulationRange = this.props.modulationRange;
+
+        // Scale the raw value to [0, 1] then offset it by half the modulation range
+        // => center the knob on the middle of the arc
         let scaledRawValue = (this.props.rawValue - this.props.min) / range - modulationRange / 2.0;
         let arcOffset = scaledRawValue;
 
+        // When the raw value is close to the beggining or the end of the range
+        // Modulation range or offset must be adjusted so it does not overflow
         if (arcOffset < 0.0) {
             modulationRange += arcOffset;
         }
@@ -119,7 +124,6 @@ class Knob extends React.Component {
         }
 
         arcOffset = Math.max(0.0, arcOffset);
-        //arcOffset = Math.min(1.0 - modulationRange, arcOffset);
 
         return (
             <div style={styles.outerContainer}>
