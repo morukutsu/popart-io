@@ -91,8 +91,8 @@ class Knob extends React.Component {
 
         // Compute angle for the knob rotation
         let angle = scaledValue * (360/100);
-        angle = angle.toFixed(0) - 70;
-        angle = Math.min(angle, 250);
+        angle = angle.toFixed(0) - 90;
+        angle = Math.min(angle, 270);
 
         let rotateStyle = {
             transform: 'rotate(' + angle + 'deg)',
@@ -100,10 +100,26 @@ class Knob extends React.Component {
 
         let arcStyle = {
             position: 'relative',
-            top: -97,
+            top: -94,
             height: 0,
             display: this.props.isModulated ? 'block' : 'none',
         };
+
+        // Modulator arc parameters
+        let modulationRange = 0.3;
+        let scaledRawValue = (this.props.rawValue - this.props.min) / range - modulationRange / 2.0;
+        let arcOffset = scaledRawValue;
+
+        if (arcOffset < 0.0) {
+            modulationRange += arcOffset;
+        }
+
+        if (arcOffset > 1.0 - modulationRange) {
+            modulationRange -= arcOffset - (1.0 - modulationRange);
+        }
+
+        arcOffset = Math.max(0.0, arcOffset);
+        //arcOffset = Math.min(1.0 - modulationRange, arcOffset);
 
         return (
             <div style={styles.outerContainer}>
@@ -127,7 +143,7 @@ class Knob extends React.Component {
                 </div>
 
                 <div style={arcStyle}>
-                    <Arc completed={0.2} stroke="#FD5A35" diameter={80}/>
+                    <Arc completed={modulationRange} offset={arcOffset} stroke="#FD5A35" diameter={80}/>
                 </div>
             </div>
         );
@@ -176,13 +192,13 @@ const styles = {
     },
 
     smallCircle: {
-        width: 8,
-        height: 8,
-        borderRadius: 4,
+        width: 10,
+        height: 10,
+        borderRadius: 5,
         backgroundColor: 'white',
         position: 'relative',
         left: -18,
-        boxShadow: '0px 2px 2px #BBBBBB',
+        //boxShadow: '0px 2px 2px #BBBBBB',
     },
 
     numberText: {

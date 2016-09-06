@@ -8,7 +8,7 @@ export default class IO {
         this.type            = type;
         this.inputOrOutput   = inputOrOutput;
         this.pluggedIo       = null;
-        this.modulationRange = 1.0;
+        this.modulationRange = 0.3;
 
         // When the IO is an output, we keep a list of every Inputs connected to it
         this.pluggedToMe = {};
@@ -28,7 +28,7 @@ export default class IO {
         let outputValue = this.currentValue;
         if (this.pluggedIo) {
             if (this.isModulated) {
-                outputValue = this.currentValue + this.pluggedIo.read();
+                outputValue = this.currentValue + (this.pluggedIo.read() * this.getModulationRange() );
             } else {
                 outputValue = this.pluggedIo.read();
             }

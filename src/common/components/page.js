@@ -267,12 +267,14 @@ const styles = {
     },
 
     leftPanel: {
-        flex: 1,
+        flexGrow: 1,
+        flexShrink: 2,
         margin: 10
     },
 
     rightPanel: {
         flex: 1,
+        flexBasis: 640
     },
 
     surface: {

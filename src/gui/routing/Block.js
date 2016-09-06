@@ -30,7 +30,7 @@ class Block extends React.Component {
 
 const styles = {
     container: {
-        width: 150,
+        width: 125,
         height: 60,
         borderRadius: 4,
 

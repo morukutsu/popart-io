@@ -24,6 +24,7 @@ export default class BaseController extends React.Component {
                 value:       input.read(),
                 rawValue:    input.readRaw(),
                 isModulated: input.isPlugged(),
+                modulationRange: input.getModulationRange(),
                 onChange:    (value) => props.onParameterChanged(input.name, value),
                 mouseEvents: props.mouseEvents,
                 mouseDisp:   props.mouseDisp,

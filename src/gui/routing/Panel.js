@@ -169,7 +169,6 @@ class Panel extends React.Component {
 
 const styles = {
     container: {
-
     },
 
     internalContainer: {
@@ -189,7 +188,7 @@ const styles = {
     },
 
     headerBlock: {
-        width: 150,
+        width: 125,
         height: 40,
         backgroundColor: '#3A3A3A',
 
@@ -206,7 +205,7 @@ const styles = {
     },
 
     emptyBlock: {
-        width: 150,
+        width: 125,
         height: 60,
         backgroundColor: '#3A3A3A',
 

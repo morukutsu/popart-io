@@ -24,7 +24,7 @@ class LFOController extends BaseController {
 
                 <div style={styles.main}>
                     <div style={styles.row}>
-                        <Knob text="frequency" min={0} max={2} value={this.props.coreState.IO.frequency.read() } onChange={(value) => this.props.onParameterChanged("frequency", value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                        <Knob text="frequency" min={0} max={2} {...this.knobsProps["frequency"]}  />
                     </div>
                 </div>
             </div>
