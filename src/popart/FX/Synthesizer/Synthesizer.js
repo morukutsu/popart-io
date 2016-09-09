@@ -59,20 +59,20 @@ export class SynthesizerCore extends BaseEffectCore {
         this.name = "Synthesizer";
 
         this.IO = {
-            'mute'     : new IO('mute',     'bool',  'input'),
+            'mute'     : new IO('mute',     'bool',  'input', false, true),
             'waveform' : new IO('waveform', 'float', 'input'),
-            'speed'    : new IO('speed',    'float', 'input'),
-            'x'        : new IO('x',        'float', 'input'),
-            'y'        : new IO('y',        'float', 'input'),
-            'count'    : new IO('count',    'float', 'input'),
+            'speed'    : new IO('speed',    'float', 'input', 0,  5),
+            'x'        : new IO('x',        'float', 'input', -1, 1),
+            'y'        : new IO('y',        'float', 'input', -1, 1),
+            'count'    : new IO('count',    'float', 'input', 0, 50),
             'color'    : new IO('color',    'color', 'input'),
             'colorBack': new IO('colorBack','color', 'input'),
-            'phase'    : new IO('phase',    'float', 'input'),
-            'phaseMod' : new IO('phaseMod', 'float', 'input'),
-            'colorMod' : new IO('colorMod', 'float', 'input'),
-            'countMod' : new IO('countMod', 'float', 'input'),
-            'xMod'     : new IO('xMod',     'float', 'input'),
-            'yMod'     : new IO('yMod',     'float', 'input'),
+            'phase'    : new IO('phase',    'float', 'input', 0, Math.PI),
+            'phaseMod' : new IO('phaseMod', 'float', 'input', 0, 1),
+            'colorMod' : new IO('colorMod', 'float', 'input', 0, 1),
+            'countMod' : new IO('countMod', 'float', 'input', 0, 1),
+            'xMod'     : new IO('xMod',     'float', 'input', 0, 1),
+            'yMod'     : new IO('yMod',     'float', 'input', 0, 1),
             'out'      : new IO('out',      'image', 'output'),
         };
 

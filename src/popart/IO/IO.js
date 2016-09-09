@@ -1,14 +1,16 @@
 import uuid from 'node-uuid';
 
 export default class IO {
-    constructor(name, type, inputOrOutput) {
+    constructor(name, type, inputOrOutput, modulateMin, modulateMax) {
         this.uuid = uuid.v4();
 
         this.name            = name;
         this.type            = type;
         this.inputOrOutput   = inputOrOutput;
+        this.modulateBounds  = [modulateMin, modulateMax];
+
         this.pluggedIo       = null;
-        this.modulationRange = 0.3;
+        this.modulationRange = 0.5;
 
         // When the IO is an output, we keep a list of every Inputs connected to it
         this.pluggedToMe = {};
@@ -28,7 +30,8 @@ export default class IO {
         let outputValue = this.currentValue;
         if (this.pluggedIo) {
             if (this.isModulated) {
-                outputValue = this.currentValue + (this.pluggedIo.read() * this.getModulationRange() );
+                let modulateRange = this.modulateBounds[1] - this.modulateBounds[0];
+                outputValue = this.currentValue + (this.pluggedIo.read() * this.getModulationRange() * modulateRange / 2.0);
             } else {
                 outputValue = this.pluggedIo.read();
             }

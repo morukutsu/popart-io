@@ -30,6 +30,8 @@ class RuttEtraController extends BaseController {
                         <Knob text="thresh"     min={0} max={1}   {...this.knobsProps["thresh"]} />
                     </div>
                 </div>
+
+                { this.renderParameterDetails() }
             </div>
         );
     }

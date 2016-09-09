@@ -113,7 +113,7 @@ class Knob extends BaseKnob {
 
 const styles = {
     outerContainer: {
-        margin: 12,
+        margin: 8,
         display: 'flex',
         flexDirection: 'column',
         width: 60,
@@ -135,7 +135,9 @@ const styles = {
         userSelect: 'none',
         color:      'white',
         fontSize:   12,
-        marginTop:  0
+        marginTop:  0,
+        width: 60,
+        textAlign: 'center'
     },
 
     circle: {

@@ -31,8 +31,8 @@ class SynthesizerController extends BaseController {
                 <div style={styles.main}>
                     <div style={styles.row}>
                         <Knob text="speed" min={0}  max={5}       {...this.knobsProps["speed"]} />
-                        <Knob text="x"     min={-1} max={1}       {...this.knobsProps["x"]} />
-                        <Knob text="y"     min={-1} max={1}       {...this.knobsProps["y"]} />
+                        <Knob text="x"     min={-1} max={1}       {...this.knobsProps["x"]}     />
+                        <Knob text="y"     min={-1} max={1}       {...this.knobsProps["y"]}     />
                         <Knob text="count" min={0}  max={50}      {...this.knobsProps["count"]} />
                         <Knob text="phase" min={0}  max={Math.PI} {...this.knobsProps["phase"]} />
                     </div>
@@ -51,8 +51,8 @@ class SynthesizerController extends BaseController {
                         <Knob text="phase mod" min={0} max={1} {...this.knobsProps["phaseMod"]} />
                         <Knob text="color mod" min={0} max={1} {...this.knobsProps["colorMod"]} />
                         <Knob text="count mod" min={0} max={1} {...this.knobsProps["countMod"]} />
-                        <Knob text="x mod"     min={0} max={1} {...this.knobsProps["xMod"]} />
-                        <Knob text="y mod"     min={0} max={1} {...this.knobsProps["yMod"]} />
+                        <Knob text="x mod"     min={0} max={1} {...this.knobsProps["xMod"]}     />
+                        <Knob text="y mod"     min={0} max={1} {...this.knobsProps["yMod"]}     />
                     </div>
                 </div>
 
