@@ -99,9 +99,12 @@ class Knob extends React.Component {
         };
 
         let arcStyle = {
-            position: 'relative',
-            top: -94,
+            position: 'absolute',
+            top: -10,
+            right: -5,
             height: 0,
+            padding: 0,
+            margin: 0,
             display: this.props.isModulated ? 'block' : 'none',
         };
 
@@ -127,6 +130,10 @@ class Knob extends React.Component {
 
         return (
             <div style={styles.outerContainer}>
+                <div style={arcStyle}>
+                    <Arc completed={modulationRange} offset={arcOffset} stroke="#FD5A35" diameter={80}/>
+                </div>
+
                 <div
                     style={styles.container}
                     onDragStart={(e) => { e.preventDefault(); return false; }}
@@ -145,10 +152,6 @@ class Knob extends React.Component {
                 <div style={styles.text} >
                     { this.props.text }
                 </div>
-
-                <div style={arcStyle}>
-                    <Arc completed={modulationRange} offset={arcOffset} stroke="#FD5A35" diameter={80}/>
-                </div>
             </div>
         );
     }
@@ -161,6 +164,7 @@ const styles = {
         flexDirection: 'column',
         alignItems: 'center',
         width: 70,
+        position: 'relative',
     },
 
     container: {
