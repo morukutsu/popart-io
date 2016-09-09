@@ -24,7 +24,7 @@ class LFOController extends BaseController {
 
                 <div style={styles.main}>
                     <div style={styles.row}>
-                        <Knob text="frequency" min={0} max={2} {...this.knobsProps["frequency"]}  />
+                        <Knob text="frequency" {...this.knobsProps["frequency"]}  />
                     </div>
                 </div>
             </div>

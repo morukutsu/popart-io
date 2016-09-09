@@ -24,10 +24,10 @@ class RuttEtraController extends BaseController {
 
                 <div style={styles.main}>
                     <div style={styles.row}>
-                        <Knob text="multiplier" min={0} max={300} {...this.knobsProps["multiplier"]} />
-                        <Knob text="distance"   min={0} max={1}   {...this.knobsProps["distance"]} />
-                        <Knob text="smooth"     min={0} max={1}   {...this.knobsProps["smooth"]} />
-                        <Knob text="thresh"     min={0} max={1}   {...this.knobsProps["thresh"]} />
+                        <Knob text="multiplier" {...this.knobsProps["multiplier"]} />
+                        <Knob text="distance"   {...this.knobsProps["distance"]}   />
+                        <Knob text="smooth"     {...this.knobsProps["smooth"]}     />
+                        <Knob text="thresh"     {...this.knobsProps["thresh"]}     />
                     </div>
                 </div>
 
