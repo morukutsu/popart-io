@@ -100,12 +100,13 @@ class Knob extends React.Component {
 
         let arcStyle = {
             position: 'absolute',
-            top: -10,
-            right: -5,
+            top: 0,
+            right: 0,
             height: 0,
             padding: 0,
             margin: 0,
             display: this.props.isModulated ? 'block' : 'none',
+            zIndex: 0
         };
 
         // Modulator arc parameters
@@ -130,17 +131,20 @@ class Knob extends React.Component {
 
         return (
             <div style={styles.outerContainer}>
-                <div style={arcStyle}>
-                    <Arc completed={modulationRange} offset={arcOffset} stroke="#FD5A35" diameter={80}/>
-                </div>
-
                 <div
                     style={styles.container}
                     onDragStart={(e) => { e.preventDefault(); return false; }}
                     onMouseDown={this.handleMouseDown.bind(this)}
                 >
-                    <div style={[styles.circle, rotateStyle]} >
-                        <div style={[styles.smallCircle, this.props.isModulated ? styles.modulated : null]}>
+
+
+                    <div style={[styles.circle]}>
+                        <div style={arcStyle}>
+                            <Arc completed={modulationRange} offset={arcOffset} stroke="#FFFFFF" diameter={60} strokeWidth={10} />
+                        </div>
+
+                        <div style={rotateStyle}>
+                            <div style={[styles.smallCircle, this.props.isModulated ? styles.modulated : null]}/>
                         </div>
                     </div>
 
@@ -163,7 +167,7 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        width: 70,
+        width: 60,
         position: 'relative',
     },
 
@@ -172,7 +176,7 @@ const styles = {
         height: 60,
         cursor: 'pointer',
         textAlign: 'center',
-        zIndex: 1,
+        //zIndex: 1,
     },
 
     text: {
@@ -205,8 +209,8 @@ const styles = {
         borderRadius: 5,
         backgroundColor: 'white',
         position: 'relative',
-        left: -18,
-        //boxShadow: '0px 2px 2px #BBBBBB',
+        left: -20,
+        //zIndex: 0
     },
 
     numberText: {
