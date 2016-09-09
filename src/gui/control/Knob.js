@@ -2,80 +2,21 @@ import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import PureRenderMixin                 from 'react-addons-pure-render-mixin';
 import Arc                             from './Arc';
+import BaseKnob                        from './BaseKnob';
+import ModulationKnob                  from './ModulationKnob';
 
-class Knob extends React.Component {
+class Knob extends BaseKnob {
     constructor() {
         super();
-
-        this.state = {
-            isTweaking: false,
-        };
-
-        //this.shouldComponentUpdateBase = PureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (this.state.isTweaking) {
+        if (this.state.isTweaking || this.refs.modulationKnob.state.isTweaking) {
             return true;
         } else {
             return nextProps.text        !== this.props.text || nextProps.min   !== this.props.min ||
                    nextProps.max         !== this.props.max  || nextProps.value !== this.props.value ||
                    nextProps.isModulated !== this.props.isModulated || nextProps.rawValue !== this.props.rawValue;
-        }
-    }
-
-    scaleAndAddToCurrentValue(value) {
-        // Compute scaling factor to scale [-100, 100] to [min, max]
-        let range         = this.props.max - this.props.min;
-        let scalingFactor = range / 100.0;
-
-        // Retrieve the value registered when the user clicked on the Knob
-        let currentValue = (-this.props.min + this.state.valueWhenTweakingStarted) * (100.0 / (range));
-
-        // Clamp the new value to [0, 100]
-        let nextValue = currentValue + value;
-        if (nextValue < 0) {
-            nextValue = 0;
-        }
-
-        if (nextValue > 100) {
-            nextValue = 100;
-        }
-
-        // Rescale to [min, max]
-        nextValue = this.props.min + (nextValue * scalingFactor);
-        return nextValue;
-    }
-
-    handleMouseDown(event) {
-        this.setState({
-            isTweaking: true,
-            valueWhenTweakingStarted: this.props.rawValue
-        });
-
-        this.props.onClick && this.props.onClick();
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.state.isTweaking && !nextProps.mouseEvents.mouseUp) {
-            let diff = nextProps.mouseDisp.y;
-
-            if (diff < -100) {
-                diff = -100;
-            }
-
-            if (diff > 100) {
-                diff = 100;
-            }
-
-            diff = this.scaleAndAddToCurrentValue(diff);
-            this.props.onChange(diff);
-        }
-
-        if (nextProps.mouseEvents.mouseUp) {
-            this.setState({
-                isTweaking: false,
-            });
         }
     }
 
@@ -100,7 +41,7 @@ class Knob extends React.Component {
 
         let arcStyle = {
             position: 'absolute',
-            top: 0,
+            top: 10,
             right: 0,
             height: 0,
             padding: 0,
@@ -131,13 +72,22 @@ class Knob extends React.Component {
 
         return (
             <div style={styles.outerContainer}>
+                <ModulationKnob
+                    ref='modulationKnob'
+                    min={0}
+                    max={1}
+                    rawValue={this.props.modulationRange}
+                    onChange={this.props.onModulationRangeChanged}
+                    mouseEvents={this.props.mouseEvents}
+                    mouseDisp={this.props.mouseDisp}
+                    visible={this.props.isModulated}
+                />
+
                 <div
                     style={styles.container}
                     onDragStart={(e) => { e.preventDefault(); return false; }}
                     onMouseDown={this.handleMouseDown.bind(this)}
                 >
-
-
                     <div style={[styles.circle]}>
                         <div style={arcStyle}>
                             <Arc completed={modulationRange} offset={arcOffset} stroke="#FFFFFF" diameter={60} strokeWidth={10} />
@@ -166,7 +116,6 @@ const styles = {
         margin: 12,
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
         width: 60,
         position: 'relative',
     },
@@ -177,6 +126,8 @@ const styles = {
         cursor: 'pointer',
         textAlign: 'center',
         //zIndex: 1,
+        alignItems: 'center',
+
     },
 
     text: {
@@ -184,7 +135,7 @@ const styles = {
         userSelect: 'none',
         color:      'white',
         fontSize:   12,
-        marginTop: 10
+        marginTop:  0
     },
 
     circle: {

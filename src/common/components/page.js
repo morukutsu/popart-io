@@ -184,6 +184,7 @@ class Page extends React.Component {
             return React.createElement(component, {
                 coreState:                activeEntity.getState(),
                 onParameterChanged:       activeEntity.onParameterChanged.bind(activeEntity),
+                onModulationRangeChanged: activeEntity.onModulationRangeChanged ? activeEntity.onModulationRangeChanged.bind(activeEntity) : null,
                 onParameterSelected:      this.handleParameterSelected,
                 modulators:               this.props.modulatorsInstances,
                 selectedParameter:        this.props.selectedParameter,

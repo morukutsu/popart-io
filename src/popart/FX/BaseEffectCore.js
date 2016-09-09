@@ -16,10 +16,13 @@ export default class BaseEffectCore {
             let inputName = input.name;
 
             if (IOValues[inputName]) {
+                // TODO: find out a non explicit way to reload all of these parameters
                 this.IO[inputName].set(IOValues[inputName].currentValue);
-                this.IO[inputName].uuid          = IOValues[inputName].uuid;
-                this.IO[inputName].pluggedIo     = IOValues[inputName].pluggedIo;
-                this.IO[inputName].pluggedEntity = IOValues[inputName].pluggedEntity;
+                this.IO[inputName].uuid            = IOValues[inputName].uuid;
+                this.IO[inputName].pluggedIo       = IOValues[inputName].pluggedIo;
+                this.IO[inputName].pluggedEntity   = IOValues[inputName].pluggedEntity;
+                this.IO[inputName].modulationRange = IOValues[inputName].modulationRange;
+                this.IO[inputName].isModulated     = IOValues[inputName].isModulated;
             } else {
                 // In this case, the parameter does not exist in the save file
                 // this may happen when loading a file made with an old version of the software
@@ -40,6 +43,10 @@ export default class BaseEffectCore {
 
     onParameterChanged(parameter, value) {
         this.IO[parameter].set(value);
+    }
+
+    onModulationRangeChanged(parameter, value) {
+        this.IO[parameter].setModulationRange(value);
     }
 
     getState() {

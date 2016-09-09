@@ -21,14 +21,15 @@ export default class BaseController extends React.Component {
         // We build the props programmatically to simplify the Knobs rendering code
         props.coreState.inputList.forEach((input) => {
             this.knobsProps[input.name] = {
-                value:       input.read(),
-                rawValue:    input.readRaw(),
-                isModulated: input.isPlugged(),
-                modulationRange: input.getModulationRange(),
-                onChange:    (value) => props.onParameterChanged(input.name, value),
-                mouseEvents: props.mouseEvents,
-                mouseDisp:   props.mouseDisp,
-                onClick:     () => props.onParameterSelected(input)
+                value:                     input.read(),
+                rawValue:                  input.readRaw(),
+                isModulated:               input.isPlugged(),
+                modulationRange:           input.getModulationRange(),
+                onChange:                  (value) => props.onParameterChanged(input.name, value),
+                mouseEvents:               props.mouseEvents,
+                mouseDisp:                 props.mouseDisp,
+                onClick:                   () => props.onParameterSelected(input),
+                onModulationRangeChanged:  (value) => props.onModulationRangeChanged(input.name, value),
             };
         });
     }
