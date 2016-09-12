@@ -19,7 +19,9 @@ export default class IO {
         this.isScaled    = false;
         this.isModulated = false;
 
-        // TODO: generate a UUID for each new component or IO
+        if (modulateMin !== undefined && modulateMax !== undefined) {
+            this.clamp(true, modulateMin, modulateMax);
+        }
     }
 
     set(value) {

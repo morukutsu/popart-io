@@ -59,7 +59,7 @@ export class SynthesizerCore extends BaseEffectCore {
         this.name = "Synthesizer";
 
         this.IO = {
-            'mute'     : new IO('mute',     'bool',  'input', false, true),
+            'mute'     : new IO('mute',     'bool',  'input'),
             'waveform' : new IO('waveform', 'float', 'input'),
             'speed'    : new IO('speed',    'float', 'input', 0,  5),
             'x'        : new IO('x',        'float', 'input', -1, 1),

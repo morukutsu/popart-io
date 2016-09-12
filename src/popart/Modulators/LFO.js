@@ -8,7 +8,7 @@ export default class LFO {
         this.name = "LFO";
 
         this.IO = {
-            'mute'      : new IO('mute',       'bool',   'input', false, true),
+            'mute'      : new IO('mute',       'bool',   'input'),
             'frequency' : new IO('frequency',  'float',  'input', 0, 2), // in Hertz
             'waveform'  : new IO('waveform',   'string', 'input'), // wave form selector
             'pulseWidth': new IO('pulseWidth', 'float',  'input'), // square wave pulse width

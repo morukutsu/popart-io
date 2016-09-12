@@ -57,7 +57,7 @@ export class RuttEtraCore extends BaseEffectCore {
         this.name = "RuttEtra";
 
         this.IO = {
-            'mute'       : new IO('mute',       'bool',  'input', false, true),
+            'mute'       : new IO('mute',       'bool',  'input'),
             'multiplier' : new IO('multiplier', 'float', 'input', 0, 300),
             'distance'   : new IO('distance',   'float', 'input', 0, 1),
             'smooth'     : new IO('smooth',     'float', 'input', 0, 1),
