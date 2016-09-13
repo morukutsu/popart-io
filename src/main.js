@@ -17,6 +17,14 @@ import './common/base.css';
 // ID of the DOM element to mount app on
 const DOM_APP_EL_ID = 'app';
 
+// DEBUG: react dev tools
+//import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
+
+/*console.log(REACT_DEVELOPER_TOOLS);
+installExtension(REACT_DEVELOPER_TOOLS)
+  .then((name) => console.log(`Added Extension:  ${name}`))
+  .catch((err) => console.log('An error occurred: ', err));*/
+
 // Render the router
 ReactDOM.render(
     <AppContainer>

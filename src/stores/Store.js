@@ -54,6 +54,17 @@ class Store {
     }
 
     deleteModulator(modulatorIndex) {
+        // Unplug any modulated parameter connected to this modulator
+        let modulator = this.modulatorsInstances[modulatorIndex];
+        if (modulator.IO.output) {
+            let outputIo = modulator.IO.output;
+
+            Object.keys(outputIo.pluggedToMe).forEach((uuid) => {
+                outputIo.pluggedToMe[uuid].unplug();
+            });
+        }
+
+        // Delete the modulator
         let prevNumberOfInstances = this.modulatorsInstances.length;
 
         this.modulatorsInstances.splice(modulatorIndex, 1);

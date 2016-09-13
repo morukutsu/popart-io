@@ -96,9 +96,6 @@ export class SynthesizerCore extends BaseEffectCore {
 
         this.availableInputs = [];
 
-        // TODO: find a better way to clamp
-        this.IO.x.clamp(true, -1.0, 1.0);
-
         this.buildInputList();
     }
 
