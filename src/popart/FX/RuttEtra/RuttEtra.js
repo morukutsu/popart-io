@@ -70,27 +70,11 @@ export class RuttEtraCore extends BaseEffectCore {
         this.IO.smooth.set(1.0);
         this.IO.thresh.set(0.9);
 
-        this.availableInputs = [];
-
-        this.inputList = [];
-        Object.keys(this.IO).forEach((parameterName) => {
-            let parameter = this.IO[parameterName];
-            if (parameter.inputOrOutput == "input") {
-                this.inputList.push(parameter);
-            }
-        });
+        this.buildInputList();
     }
 
     tick(dt) {
 
-    }
-
-    onParameterChanged(parameter, value) {
-        this.IO[parameter].set(value);
-    }
-
-    onAvailableInputsChanged(inputList) {
-        this.availableInputs = inputList;
     }
 
     getState() {

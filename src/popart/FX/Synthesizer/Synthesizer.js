@@ -92,10 +92,6 @@ export class SynthesizerCore extends BaseEffectCore {
         this.IO.xMod.set(0);
         this.IO.yMod.set(0);
 
-        this.time = 0.0;
-
-        this.availableInputs = [];
-
         this.buildInputList();
     }
 

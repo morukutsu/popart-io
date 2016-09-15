@@ -3,6 +3,7 @@ import uuid from 'node-uuid';
 export default class BaseEffectCore {
     constructor() {
         this.uuid = uuid.v4();
+        this.time = 0.0;
     }
 
     loadParametersValues(parameters) {

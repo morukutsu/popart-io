@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import GL                              from 'gl-react';
 import IO                              from '../../IO/IO';
 import BaseEffectCore                  from '../BaseEffectCore';
+import NullDisplay                     from '../Null/Null';
 
 const shaders = GL.Shaders.create({
     mosaic: {
@@ -34,31 +35,17 @@ export class MosaicCore extends BaseEffectCore {
         this.name = "Mosaic";
 
         this.IO = {
-            'length' : new IO('length', 'float', 'input'),
+            'mute'   : new IO('mute',   'bool',  'input'),
+            'length' : new IO('length', 'float', 'input', 0, 1),
         };
 
         this.IO.length.set(1);
 
-        this.availableInputs = [];
-
         this.inputList = [];
-        Object.keys(this.IO).forEach((parameterName) => {
-            let parameter = this.IO[parameterName];
-            if (parameter.inputOrOutput == "input") {
-                this.inputList.push(parameter);
-            }
-        });
+        this.buildInputList();
     }
 
     tick(dt) {
-    }
-
-    onParameterChanged(parameter, value) {
-        this.IO[parameter].set(value);
-    }
-
-    onAvailableInputsChanged(inputList) {
-        this.availableInputs = inputList;
     }
 
     getState() {
@@ -67,13 +54,18 @@ export class MosaicCore extends BaseEffectCore {
 }
 
 export const MosaicDisplay = GL.createComponent(({ children, state }) => {
+    let childrenToRender = children ? children : <NullDisplay />;
+    if (state.IO.mute.read() ) {
+        return childrenToRender;
+    }
+
     return (
         <GL.Node
             shader={shaders.mosaic}
             uniforms={{length: state.IO.length.read() }}
         >
             <GL.Uniform name="child">
-                {children}
+                { childrenToRender }
             </GL.Uniform>
         </GL.Node>
     );

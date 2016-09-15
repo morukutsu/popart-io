@@ -2,8 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import Knob                            from '../../../gui/control/Knob';
 import RouteToMenu                     from '../../../gui/routing/RouteToMenu';
+import BaseController                  from '../BaseController';
 
-class MosaicController extends React.Component {
+class MosaicController extends BaseController {
     constructor() {
         super();
     }
@@ -15,13 +16,19 @@ class MosaicController extends React.Component {
             >
                 <div style={styles.title}>
                     Mosaic
+
+                    <div style={styles.alignedRight}>
+                        { this.renderTitleButtons() }
+                    </div>
                 </div>
 
                 <div style={styles.main}>
                     <div style={styles.row}>
-                        <Knob text="length" min={0} max={1} value={this.props.coreState.IO.length.read() } onChange={(value) => this.props.onParameterChanged("length", value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                        <Knob text="length" {...this.knobsProps["length"]}  />
                     </div>
                 </div>
+
+                { this.renderParameterDetails() }
             </div>
         );
     }
@@ -56,6 +63,13 @@ const styles = {
         color: 'white',
     },
 
+    alignedRight: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        flexDirection: 'row',
+        flex: 1
+    },
+    
     row: {
         display: 'flex',
         flexDirection: 'row'
