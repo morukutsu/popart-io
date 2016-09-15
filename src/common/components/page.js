@@ -35,13 +35,6 @@ class Page extends React.Component {
 
         this.update = this.update.bind(this); // binding
         this.prevTimestamp = 0.0;
-
-        this.mouseEvents = {
-            mouseUp: false,
-        };
-
-        this.mouseStartX = 0;
-        this.mouseStartY = 0;
     }
 
     static getStores() {
@@ -84,41 +77,6 @@ class Page extends React.Component {
 
     componentWillUnmount () {
         cancelAnimationFrame(this.raf);
-    }
-
-    handleMouseUp(event) {
-        if (event.button != 0) {
-            return;
-        }
-
-        this.mouseEvents = {
-            mouseUp: true,
-        };
-    }
-
-    handleMouseDown(event) {
-        if (event.button != 0) {
-            return;
-        }
-
-        this.mouseEvents = {
-            mouseUp: false,
-        };
-
-        this.nextMouseDisp = {
-            x: 0,
-            y: 0,
-        };
-
-        this.mouseStartX = event.screenX;
-        this.mouseStartY = event.screenY;
-    }
-
-    handleMouseMove(event) {
-        this.nextMouseDisp = {
-            x: this.mouseStartX - event.screenX,
-            y: this.mouseStartY - event.screenY,
-        };
     }
 
     handleAddFx(id) {
@@ -188,8 +146,6 @@ class Page extends React.Component {
                 onParameterSelected:      this.handleParameterSelected,
                 modulators:               this.props.modulatorsInstances,
                 selectedParameter:        this.props.selectedParameter,
-                mouseEvents:              this.mouseEvents,
-                mouseDisp:                this.nextMouseDisp,
             });
         } else {
             return (<div></div>);
@@ -222,11 +178,7 @@ class Page extends React.Component {
         ));
 
         return (
-            <div
-                onMouseDown={this.handleMouseDown.bind(this)}
-                onMouseUp={this.handleMouseUp.bind(this)}
-                onMouseMove={this.handleMouseMove.bind(this)}
-            >
+            <div>
                 <Menu />
 
                 <div style={styles.mainPanel}>

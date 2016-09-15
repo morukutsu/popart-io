@@ -5,7 +5,10 @@ class BaseKnob extends React.Component {
         super();
 
         this.state = {
-            isTweaking: false,
+            isTweaking:  false,
+            mouseUp:     false,
+            mouseStartX: 0,
+            mouseStartY: 0,
         };
     }
 
@@ -32,6 +35,16 @@ class BaseKnob extends React.Component {
         return nextValue;
     }
 
+    handleMouseUp(event) {
+        if (event.button != 0) {
+            return;
+        }
+
+        this.setState({
+            mouseUp: true
+        });
+    }
+
     handleMouseDown(event) {
         this.setState({
             isTweaking: true,
@@ -39,11 +52,34 @@ class BaseKnob extends React.Component {
         });
 
         this.props.onClick && this.props.onClick();
+
+        if (event.button != 0) {
+            return;
+        }
+
+        this.setState({
+            mouseUp: false,
+            nextMouseDisp: {
+                x: 0,
+                y: 0,
+            },
+            mouseStartX: event.screenX,
+            mouseStartY: event.screenY,
+        });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.state.isTweaking && !nextProps.mouseEvents.mouseUp) {
-            let diff = nextProps.mouseDisp.y;
+    handleMouseMove(event) {
+        this.setState({
+            nextMouseDisp: {
+                x: this.state.mouseStartX - event.screenX,
+                y: this.state.mouseStartY - event.screenY,
+            },
+        });
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        if (this.state.isTweaking) {
+            let diff = nextState.nextMouseDisp.y;
 
             if (diff < -100) {
                 diff = -100;
@@ -55,12 +91,13 @@ class BaseKnob extends React.Component {
 
             diff = this.scaleAndAddToCurrentValue(diff);
             this.props.onChange(diff);
-        }
 
-        if (nextProps.mouseEvents.mouseUp) {
-            this.setState({
-                isTweaking: false,
-            });
+            if (nextState.mouseUp) {
+                this.setState({
+                    isTweaking: false,
+                    mouseUp: false,
+                });
+            }
         }
     }
 };

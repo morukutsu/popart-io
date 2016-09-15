@@ -18,6 +18,8 @@ class Knob extends BaseKnob {
                    nextProps.max         !== this.props.max  || nextProps.value !== this.props.value ||
                    nextProps.isModulated !== this.props.isModulated || nextProps.rawValue !== this.props.rawValue;
         }
+
+        return true;
     }
 
     render() {
@@ -78,8 +80,6 @@ class Knob extends BaseKnob {
                     max={1}
                     rawValue={this.props.modulationRange}
                     onChange={this.props.onModulationRangeChanged}
-                    mouseEvents={this.props.mouseEvents}
-                    mouseDisp={this.props.mouseDisp}
                     visible={this.props.isModulated}
                 />
 
@@ -106,6 +106,18 @@ class Knob extends BaseKnob {
                 <div style={styles.text} >
                     { this.props.text }
                 </div>
+
+                {
+                    this.state.isTweaking ?
+                    <div
+                        style={styles.mouseReactiveArea}
+                        onMouseUp={this.handleMouseUp.bind(this)}
+                        onMouseMove={this.handleMouseMove.bind(this)}
+                    />
+                    :
+                    null
+                }
+
             </div>
         );
     }
@@ -172,6 +184,16 @@ const styles = {
         top:  -40,
         fontSize: 12,
         color: 'white',
+    },
+
+    mouseReactiveArea: {
+        width: 500,
+        height: 500,
+        /*backgroundColor: '#FD5A35',
+        opacity: 0.3,*/
+        position: 'absolute',
+        top:  -250 + 60 / 2,
+        left: -250 + 60 / 2
     }
 };
 

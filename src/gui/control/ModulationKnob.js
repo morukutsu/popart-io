@@ -34,16 +34,33 @@ class ModulationKnob extends BaseKnob {
         }
 
         return (
-            <div
-                style={[styles.circle, this.props.visible ? styles.visible : styles.hidden ]}
-                onDragStart={onDragStart}
-                onMouseDown={onMouseDown}
-            />
+            <div style={styles.outerContainer}>
+                <div
+                    style={[styles.circle, this.props.visible ? styles.visible : styles.hidden ]}
+                    onDragStart={onDragStart}
+                    onMouseDown={onMouseDown}
+                />
+
+                {
+                    this.state.isTweaking ?
+                    <div
+                        style={styles.mouseReactiveArea}
+                        onMouseUp={this.handleMouseUp.bind(this)}
+                        onMouseMove={this.handleMouseMove.bind(this)}
+                    />
+                    :
+                    null
+                }
+            </div>
         );
     }
 };
 
 const styles = {
+    outerContainer: {
+        position: 'relative',
+    },
+
     circle: {
         width: 10,
         height: 10,
@@ -60,6 +77,17 @@ const styles = {
 
     visible: {
         cursor: 'pointer',
+    },
+
+    mouseReactiveArea: {
+        width: 500,
+        height: 500,
+        /*backgroundColor: '#FD5A35',
+        opacity: 0.3,*/
+        position: 'absolute',
+        top:  -250 + 10 / 2,
+        left: -250 + 10 / 2,
+        zIndex: 10
     }
 };
 
