@@ -10,6 +10,18 @@ class Panel extends React.Component {
         super();
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.effects.length    !== nextProps.effects.length ||
+            this.props.modulators.length !== nextProps.modulators.length)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     getStageCount() {
         return this.props.effects.length + 1;
     }

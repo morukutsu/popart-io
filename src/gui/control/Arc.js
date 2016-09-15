@@ -1,6 +1,13 @@
-import React from 'react';
+import React           from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 class Arc extends React.Component {
+    constructor() {
+        super();
+
+        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+    }
+    
     render() {
         const completed = Math.max(0, Math.min(1, this.props.completed));
 
