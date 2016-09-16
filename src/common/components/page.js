@@ -1,33 +1,17 @@
-import React from 'react';
+import React              from 'react';
 import { browserHistory } from 'react-router';
-import GL from 'gl-react';
-import alt from '../../alt';
-import Actions from '../../actions/Actions.js';
-import Store   from '../../stores/Store.js';
-import connectToStores from 'alt-utils/lib/connectToStores';
+import GL                 from 'gl-react';
+import alt                from '../../alt';
+import Actions            from '../../actions/Actions.js';
+import Store              from '../../stores/Store.js';
+import connectToStores    from 'alt-utils/lib/connectToStores';
 
-import { Effect, EffectCore }          from '../../popart/Effect';
-import { StrobeCore, StrobeDisplay }   from '../../popart/FX/Strobe/Strobe';
-import { SquareCore, SquareDisplay }   from '../../popart/FX/Square/Square';
-import { ImageCore,  ImageDisplay }   from '../../popart/FX/Image/Image';
-import { BlurCore,  BlurDisplay }   from '../../popart/FX/Blur/Blur';
-import { MosaicCore,  MosaicDisplay }   from '../../popart/FX/Mosaic/Mosaic';
-import { RGBSplitCore,  RGBSplitDisplay }   from '../../popart/FX/RGBSplit/RGBSplit';
-import { RuttEtraCore,  RuttEtraDisplay }   from '../../popart/FX/RuttEtra/RuttEtra';
-import { SynthesizerCore,  SynthesizerDisplay }   from '../../popart/FX/Synthesizer/Synthesizer';
-import SynthesizerController   from '../../popart/FX/Synthesizer/SynthesizerController';
-import RuttEtraController   from '../../popart/FX/RuttEtra/RuttEtraController';
-import EffectView from '../../popart/EffectView/EffectView';
-import EffectFactory from '../../popart/FX/EffectFactory';
-import NullDisplay                     from '../../popart/FX/Null/Null';
-
-
-import Block   from '../../gui/routing/Block.js';
-import Panel   from '../../gui/routing/Panel.js';
-import Toolbar from '../../gui/routing/Toolbar.js';
-import Menu    from '../../gui/menu/Menu.js';
-
-import LFO from '../../popart/Modulators/LFO';
+import EffectView         from '../../popart/EffectView/EffectView';
+import EffectFactory      from '../../popart/FX/EffectFactory';
+import Block              from '../../gui/routing/Block.js';
+import Panel              from '../../gui/routing/Panel.js';
+import Toolbar            from '../../gui/routing/Toolbar.js';
+import Menu               from '../../gui/menu/Menu.js';
 
 class Page extends React.Component {
     constructor() {
