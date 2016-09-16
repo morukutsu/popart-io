@@ -99,36 +99,6 @@ class Page extends React.Component {
         Actions.selectParameter(parameter);
     }
 
-    renderEffects() {
-        // TODO: here we have to use a graph to display all the effects correctly
-        // Currently the routing is done from left to right
-        if (this.props.effectInstances.length > 0) {
-            // Traverse to create the component chain
-            let children = null;
-
-            for (var i = 0; i < this.props.effectInstances.length; i++) {
-                let currentEffect = this.props.effectInstances[i];
-
-                let displayComponentName = currentEffect.name + "Display";
-                let component = EffectFactory.lookupComponentByName(displayComponentName);
-
-                // Create the react component
-                let componentInstance = React.createElement(component, {
-                    state:    currentEffect.getState(),
-                    children: children
-                });
-
-                // Set the current component to be the children of the next one
-                children = componentInstance;
-            }
-
-            // Return the last instianciated compnent
-            return children;
-        } else {
-            return (<NullDisplay />);
-        }
-    }
-
     renderController() {
         // Generic code to manage the effect controllers and the modulator controllers
         let list           = this.props.lastSelectedEntityType == 'effect' ? this.props.effectInstances : this.props.modulatorsInstances;
@@ -190,9 +160,9 @@ class Page extends React.Component {
                     </div>
 
                     <div style={styles.rightPanel}>
-                        <EffectView>
-                            { this.renderEffects() }
-                        </EffectView>
+                        <EffectView
+                            effectInstances={this.props.effectInstances}
+                        />
 
                         { this.renderController() }
                     </div>
