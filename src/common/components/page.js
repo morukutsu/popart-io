@@ -12,6 +12,7 @@ import Block              from '../../gui/routing/Block.js';
 import Panel              from '../../gui/routing/Panel.js';
 import Toolbar            from '../../gui/routing/Toolbar.js';
 import Menu               from '../../gui/menu/Menu.js';
+import Events             from '../../popart/Events';
 
 class Page extends React.Component {
     constructor() {
@@ -57,6 +58,8 @@ class Page extends React.Component {
         });
 
         this.prevTimestamp = timestamp;
+
+        Events.emit('refresh');
     }
 
     componentWillUnmount () {

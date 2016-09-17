@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Surface }                     from 'gl-react-dom';
 import EffectFactory                   from '../FX/EffectFactory';
 import NullDisplay                     from '../FX/Null/Null';
+import Events                          from '../Events';
 
 class EffectView extends React.Component {
     constructor() {
@@ -13,6 +14,19 @@ class EffectView extends React.Component {
     }
 
     componentWillMount() {
+        Events.on('refresh', this.onRefresh.bind(this));
+    }
+
+    componentWillUnmount() {
+        // TODO: check the behavior of this functions when it is called
+        Events.removeListener('refresh', this.onRefresh.bind(this));
+    }
+
+    onRefresh() {
+        // Trigger render
+        this.setState({
+            dummy: 1
+        });
     }
 
     renderEffects() {
