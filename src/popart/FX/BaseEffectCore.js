@@ -1,4 +1,5 @@
 import uuid from 'node-uuid';
+import RefreshManager from '../RefreshManager';
 
 export default class BaseEffectCore {
     constructor() {
@@ -43,6 +44,9 @@ export default class BaseEffectCore {
     }
 
     onParameterChanged(parameter, value) {
+        // Here we should trigger the refresh manager
+        RefreshManager.scheduleRefresh();
+        
         this.IO[parameter].set(value);
     }
 

@@ -13,6 +13,7 @@ import Panel              from '../../gui/routing/Panel.js';
 import Toolbar            from '../../gui/routing/Toolbar.js';
 import Menu               from '../../gui/menu/Menu.js';
 import Events             from '../../popart/Events';
+import RefreshManager     from '../../popart/RefreshManager';
 
 class Page extends React.Component {
     constructor() {
@@ -53,10 +54,18 @@ class Page extends React.Component {
         this.raf = window.requestAnimationFrame(this.update);
 
         // Trigger render
+        /*if (RefreshManager.getRefreshFlag() ) {
+            this.setState({
+                dummy: 1
+            });
+
+            RefreshManager.clearRefresh();
+        }*/
+
         this.setState({
             dummy: 1
         });
-
+        
         this.prevTimestamp = timestamp;
 
         Events.emit('refresh');

@@ -25,6 +25,7 @@ export default class BaseController extends React.Component {
         // We build the props programmatically to simplify the Knobs rendering code
         props.coreState.inputList.forEach((input) => {
             this.knobsProps[input.name] = {
+                input:                     input,
                 min:                       input.modulateBounds[0],
                 max:                       input.modulateBounds[1],
                 value:                     input.read(),

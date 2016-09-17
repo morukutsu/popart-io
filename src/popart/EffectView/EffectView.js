@@ -14,12 +14,12 @@ class EffectView extends React.Component {
     }
 
     componentWillMount() {
-        Events.on('refresh', this.onRefresh.bind(this));
+        //Events.on('refresh', this.onRefresh.bind(this));
     }
 
     componentWillUnmount() {
         // TODO: check the behavior of this functions when it is called
-        Events.removeListener('refresh', this.onRefresh.bind(this));
+        //Events.removeListener('refresh', this.onRefresh.bind(this));
     }
 
     onRefresh() {

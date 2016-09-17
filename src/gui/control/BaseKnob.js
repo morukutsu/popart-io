@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import RefreshManager                  from '../../popart/RefreshManager';
 
 class BaseKnob extends React.Component {
     constructor() {
@@ -46,6 +47,8 @@ class BaseKnob extends React.Component {
     }
 
     handleMouseDown(event) {
+        RefreshManager.scheduleRefresh();
+
         this.setState({
             isTweaking: true,
             valueWhenTweakingStarted: this.props.rawValue
