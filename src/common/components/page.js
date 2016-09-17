@@ -65,7 +65,7 @@ class Page extends React.Component {
         this.setState({
             dummy: 1
         });
-        
+
         this.prevTimestamp = timestamp;
 
         Events.emit('refresh');
@@ -119,30 +119,6 @@ class Page extends React.Component {
     }
 
     render() {
-        let effectBlocks = this.props.effectInstances.map((instance, i) => (
-            <Block
-                key={i}
-                onPress={() => Actions.selectEffect(i) }
-                onRightClick={() => Actions.deleteEffect(i) }
-                name={instance.name}
-                active={instance.IO.mute.read() }
-                color="#FD5A35"
-                hoverColor="#F77177"
-            />
-        ));
-
-        let modulatorBlocks = this.props.modulatorsInstances.map((instance, i) => (
-            <Block
-                key={i}
-                onPress={() => Actions.selectModulator(i) }
-                onRightClick={() => Actions.deleteModulator(i) }
-                name={instance.name}
-                active={instance.IO.mute.read() }
-                color="#873DB9"
-                hoverColor="#CF72FF"
-            />
-        ));
-
         return (
             <div>
                 <Menu />
@@ -150,8 +126,8 @@ class Page extends React.Component {
                 <div style={styles.mainPanel}>
                     <div style={styles.leftPanel}>
                         <Panel
-                            effects={effectBlocks}
-                            modulators={modulatorBlocks}
+                            effectInstances={this.props.effectInstances}
+                            modulatorsInstances={this.props.modulatorsInstances}
                         />
                     </div>
 

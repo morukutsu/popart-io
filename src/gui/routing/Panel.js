@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import MdChevronRight                  from 'react-icons/lib/md/chevron-right';
 import MdAddCircleOutline              from 'react-icons/lib/md/add-circle-outline';
+import Actions                         from '../../actions/Actions.js';
+import Block                          from './Block.js';
 
 var MIN_GRID_WIDTH = 4;
 
@@ -11,8 +13,8 @@ class Panel extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.effects.length    !== nextProps.effects.length ||
-            this.props.modulators.length !== nextProps.modulators.length)
+        if (this.props.effectInstances.length    !== nextProps.effectInstances.length ||
+            this.props.modulatorsInstances.length !== nextProps.modulatorsInstances.length)
         {
             return true;
         }
@@ -23,7 +25,7 @@ class Panel extends React.Component {
     }
 
     getStageCount() {
-        return this.props.effects.length + 1;
+        return this.props.effectInstances.length + 1;
     }
 
     renderHeader() {
@@ -71,7 +73,7 @@ class Panel extends React.Component {
     }
 
     renderEmptyBlocks() {
-        let numberOfEmptyBlocks = this.getStageCount() - this.props.effects.length;
+        let numberOfEmptyBlocks = this.getStageCount() - this.props.effectInstances.length;
         let emptyBlocks = [];
 
         for (var i = 0; i < numberOfEmptyBlocks; i++) {
@@ -120,7 +122,7 @@ class Panel extends React.Component {
 
         let fillers = [];
         if (this.getStageCount() < MIN_GRID_WIDTH) {
-            for (var i = 0; i < MIN_GRID_WIDTH - (this.props.modulators.length + 1); i++) {
+            for (var i = 0; i < MIN_GRID_WIDTH - (this.props.modulatorsInstances.length + 1); i++) {
                 fillers.push(
                     <div
                         key={"fillers" + i}
@@ -153,6 +155,30 @@ class Panel extends React.Component {
     }
 
     render() {
+        let effectBlocks = this.props.effectInstances.map((instance, i) => (
+            <Block
+                key={i}
+                onPress={() => Actions.selectEffect(i) }
+                onRightClick={() => Actions.deleteEffect(i) }
+                name={instance.name}
+                active={instance.IO.mute.read() }
+                color="#FD5A35"
+                hoverColor="#F77177"
+            />
+        ));
+
+        let modulatorBlocks = this.props.modulatorsInstances.map((instance, i) => (
+            <Block
+                key={i}
+                onPress={() => Actions.selectModulator(i) }
+                onRightClick={() => Actions.deleteModulator(i) }
+                name={instance.name}
+                active={instance.IO.mute.read() }
+                color="#873DB9"
+                hoverColor="#CF72FF"
+            />
+        ));
+
         return (
             <div
                 style={styles.container}
@@ -162,7 +188,7 @@ class Panel extends React.Component {
                         { this.renderHeader() }
                     </div>
                     <div style={styles.row}>
-                        { this.props.effects }
+                        { effectBlocks }
                         { this.renderEmptyBlocks() }
                     </div>
 
@@ -170,7 +196,7 @@ class Panel extends React.Component {
                         { this.renderModulatorsHeader() }
                     </div>
                     <div style={styles.row}>
-                        { this.props.modulators }
+                        { modulatorBlocks }
                         { this.renderEmptyModulatorBlocks() }
                     </div>
                 </div>
