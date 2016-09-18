@@ -1,6 +1,7 @@
 import alt           from '../alt';
 import Actions       from '../actions/Actions';
 import fs            from 'fs';
+import electron      from 'electron';
 
 class Store {
     constructor() {
@@ -126,8 +127,11 @@ class Store {
         console.log(saveDataJson);
     }
 
-    load(EffectFactory) {
-        let saveData  = JSON.parse(fs.readFileSync("save.json") );
+    load(parameters) {
+        const EffectFactory = parameters.EffectFactory;
+        const path          = parameters.path;
+
+        let saveData  = JSON.parse(fs.readFileSync(path) );
 
         // Load instances
         let instances = saveData.effectInstances;
@@ -232,6 +236,17 @@ class Store {
 
         resolveRecursively(this.effectInstances,     null, null, 0);
         resolveRecursively(this.modulatorsInstances, null, null, 0);
+    }
+
+    openFile(EffectFactory) {
+        let dialog = electron.remote.dialog;
+        let files = dialog.showOpenDialog({properties: ['openFile']});
+        if (files && files.length > 0) {
+            this.load({
+                EffectFactory: EffectFactory,
+                path:          files[0]
+            });
+        }
     }
 }
 

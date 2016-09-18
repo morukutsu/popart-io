@@ -2,23 +2,91 @@ import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import MdClose                         from 'react-icons/lib/md/close';
 import PureRenderMixin                 from 'react-addons-pure-render-mixin';
+import DropMenu                        from './DropMenu';
+import Actions                         from '../../actions/Actions';
+import EffectFactory                   from '../../popart/FX/EffectFactory';
 
 class Menu extends React.Component {
     constructor() {
         super();
+
+        this.menus = [
+            {
+                name: "File",
+                onClick: () => this.setActiveDropMenu(0),
+                children: [
+                    { name: "New"        },
+                    { name: "Open File...", onClick: () => Actions.openFile(EffectFactory) },
+                    { name: "Save"       },
+                    { name: "Save as..." },
+                ]
+            },
+            {
+                name: "Edit",
+                onClick: () => this.setActiveDropMenu(1),
+            },
+            {
+                name: "Render",
+                onClick: () => this.setActiveDropMenu(2),
+            }
+        ];
+
+        this.state = {
+            activeDropMenu: null
+        };
+
+        this.onDropMenuItemSelected = this.onDropMenuItemSelected.bind(this);
+    }
+
+    setActiveDropMenu(id) {
+        this.setState({
+            activeDropMenu: this.menus[id].children
+        });
+    }
+
+    onDropMenuItemSelected() {
+        this.setState({
+            activeDropMenu: null
+        });
+    }
+
+    renderMenu(menuDescription) {
+        return menuDescription.map((menu, index) => {
+            return (
+                <div
+                    key={index}
+                    style={styles.item}
+                    onClick={menu.onClick}>{ menu.name }
+                </div>
+            );
+        });
     }
 
     render() {
+        let menus = this.renderMenu(this.menus);
+
         return (
-            <div
-                style={styles.container}
-            >
-                <div style={styles.menuItems}>
-                    <div key={0} style={styles.item}>File</div>
-                    <div key={1} style={styles.item}>Edit</div>
-                    <div key={2} style={styles.item}>Render</div>
+            <div>
+                <div
+                    style={styles.container}
+                >
+                    <div style={styles.menuItems}>
+                        { menus }
+                    </div>
+                    <div style={styles.draggableArea}></div>
                 </div>
-                <div style={styles.draggableArea}></div>
+
+                <div style={styles.dropMenu}>
+                    {
+                        this.state.activeDropMenu ?
+                        <DropMenu
+                            items={this.menus[0].children}
+                            onDropMenuItemSelected={this.onDropMenuItemSelected}
+                        />
+                        :
+                        null
+                    }
+                </div>
             </div>
         );
     }
@@ -30,6 +98,7 @@ const styles = {
         display: 'flex',
         flexDirection: 'row',
         padding: 4,
+        position: 'relative'
     },
 
     menuItems: {
@@ -47,10 +116,21 @@ const styles = {
         color: "lightGrey",
         marginRight: 20,
         cursor: 'pointer',
+        paddingTop: 2,
+        paddingBottom: 2,
+        paddingLeft: 8,
+        paddingRight: 8,
+        borderRadius: 4,
+
+        transition: 'background-color 0.1s',
 
         ':hover': {
-            backgroundColor: '#F77177',
+            backgroundColor: '#0093D4',
         }
+    },
+
+    dropMenu: {
+        position: 'absolute'
     }
 };
 

@@ -10,6 +10,7 @@ let Actions = alt.generateActions(
     'selectParameter',
     'save',
     'load',
+    'openFile',
 );
 
 export default alt.createActions(Actions);
