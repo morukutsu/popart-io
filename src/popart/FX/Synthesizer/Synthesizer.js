@@ -59,21 +59,25 @@ export class SynthesizerCore extends BaseEffectCore {
         this.name = "Synthesizer";
 
         this.IO = {
-            'mute'     : new IO('mute',     'bool',  'input'),
-            'waveform' : new IO('waveform', 'float', 'input'),
-            'speed'    : new IO('speed',    'float', 'input', 0,  5),
-            'x'        : new IO('x',        'float', 'input', -1, 1),
-            'y'        : new IO('y',        'float', 'input', -1, 1),
-            'count'    : new IO('count',    'float', 'input', 0, 50),
-            'color'    : new IO('color',    'color', 'input'),
-            'colorBack': new IO('colorBack','color', 'input'),
-            'phase'    : new IO('phase',    'float', 'input', 0, Math.PI),
-            'phaseMod' : new IO('phaseMod', 'float', 'input', 0, 1),
-            'colorMod' : new IO('colorMod', 'float', 'input', 0, 1),
-            'countMod' : new IO('countMod', 'float', 'input', 0, 1),
-            'xMod'     : new IO('xMod',     'float', 'input', 0, 1),
-            'yMod'     : new IO('yMod',     'float', 'input', 0, 1),
-            'out'      : new IO('out',      'image', 'output'),
+            'mute'       : new IO('mute',       'bool',  'input'),
+            'waveform'   : new IO('waveform',   'float', 'input'),
+            'speed'      : new IO('speed',      'float', 'input', 0,  5),
+            'x'          : new IO('x',          'float', 'input', -1, 1),
+            'y'          : new IO('y',          'float', 'input', -1, 1),
+            'count'      : new IO('count',      'float', 'input', 0, 50),
+            'colorR'     : new IO('colorR',     'float', 'input', 0, 1),
+            'colorG'     : new IO('colorG',     'float', 'input', 0, 1),
+            'colorB'     : new IO('colorB',     'float', 'input', 0, 1),
+            'colorBackR' : new IO('colorBackR', 'float', 'input', 0, 1),
+            'colorBackG' : new IO('colorBackG', 'float', 'input', 0, 1),
+            'colorBackB' : new IO('colorBackB', 'float', 'input', 0, 1),
+            'phase'      : new IO('phase',      'float', 'input', 0, Math.PI),
+            'phaseMod'   : new IO('phaseMod',   'float', 'input', 0, 1),
+            'colorMod'   : new IO('colorMod',   'float', 'input', 0, 1),
+            'countMod'   : new IO('countMod',   'float', 'input', 0, 1),
+            'xMod'       : new IO('xMod',       'float', 'input', 0, 1),
+            'yMod'       : new IO('yMod',       'float', 'input', 0, 1),
+            'out'        : new IO('out',        'image', 'output'),
         };
 
         // Default values
@@ -83,8 +87,12 @@ export class SynthesizerCore extends BaseEffectCore {
         this.IO.x.set(0.0);
         this.IO.y.set(1.0);
         this.IO.count.set(1.0);
-        this.IO.color.set([1.0, 1.0, 1.0, 1.0]);
-        this.IO.colorBack.set([0.0, 0.0, 0.0, 1.0]);
+        this.IO.colorR.set(1.0);
+        this.IO.colorG.set(1.0);
+        this.IO.colorB.set(1.0);
+        this.IO.colorBackR.set(0.0);
+        this.IO.colorBackG.set(0.0);
+        this.IO.colorBackB.set(0.0);
         this.IO.phase.set(0);
         this.IO.phaseMod.set(1);
         this.IO.colorMod.set(0);
@@ -111,8 +119,8 @@ export const SynthesizerDisplay = GL.createComponent(({ children, state }) => {
             shader={shaders.synthesizer_shader}
             uniforms={{
                 t:         state.time,
-                color:     state.IO.color.read(),
-                colorBack: state.IO.colorBack.read(),
+                color:     [state.IO.colorR.read(),     state.IO.colorG.read(),     state.IO.colorB.read(),     1.0],
+                colorBack: [state.IO.colorBackR.read(), state.IO.colorBackG.read(), state.IO.colorBackB.read(), 1.0],
                 x:         state.IO.x.read(),
                 y:         state.IO.y.read(),
                 count:     state.IO.count.read(),

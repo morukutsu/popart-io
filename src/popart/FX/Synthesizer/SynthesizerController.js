@@ -9,12 +9,6 @@ class SynthesizerController extends BaseController {
         super();
     }
 
-    handleColorParameterChanged(parameterName, colorChannel, colorValue) {
-        let value = this.props.coreState.IO[parameterName].read();
-        value[colorChannel] = colorValue;
-        this.props.onParameterChanged(parameterName, value);
-    }
-
     render() {
         return (
             <div
@@ -31,28 +25,28 @@ class SynthesizerController extends BaseController {
                 <div style={styles.main}>
                     <div style={styles.row}>
                         <Knob text="speed" {...this.knobsProps["speed"]} />
-                        <Knob text="x"     {...this.knobsProps["x"]}     />
-                        <Knob text="y"     {...this.knobsProps["y"]}     />
+                        <Knob text="x"     {...this.knobsProps["x"]    } />
+                        <Knob text="y"     {...this.knobsProps["y"]    } />
                         <Knob text="count" {...this.knobsProps["count"]} />
                         <Knob text="phase" {...this.knobsProps["phase"]} />
                     </div>
 
                     <div style={styles.row}>
-                        <Knob text="R (front)" min={0} max={1} modulationRange={1.0} value={this.props.coreState.IO.color.read()[0] } rawValue={this.props.coreState.IO.color.read()[0] } onChange={(value) => this.handleColorParameterChanged("color", 0, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
-                        <Knob text="G (front)" min={0} max={1} modulationRange={1.0} value={this.props.coreState.IO.color.read()[1] } rawValue={this.props.coreState.IO.color.read()[1] } onChange={(value) => this.handleColorParameterChanged("color", 1, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
-                        <Knob text="B (front)" min={0} max={1} modulationRange={1.0} value={this.props.coreState.IO.color.read()[2] } rawValue={this.props.coreState.IO.color.read()[2] } onChange={(value) => this.handleColorParameterChanged("color", 2, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                        <Knob text="R (front)" {...this.knobsProps["colorR"]} />
+                        <Knob text="G (front)" {...this.knobsProps["colorG"]} />
+                        <Knob text="B (front)" {...this.knobsProps["colorB"]} />
 
-                        <Knob text="R (back)" min={0} max={1} modulationRange={1.0} value={this.props.coreState.IO.colorBack.read()[0] } rawValue={this.props.coreState.IO.colorBack.read()[0] } onChange={(value) => this.handleColorParameterChanged("colorBack", 0, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
-                        <Knob text="G (back)" min={0} max={1} modulationRange={1.0} value={this.props.coreState.IO.colorBack.read()[1] } rawValue={this.props.coreState.IO.colorBack.read()[1] } onChange={(value) => this.handleColorParameterChanged("colorBack", 1, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
-                        <Knob text="B (back)" min={0} max={1} modulationRange={1.0} value={this.props.coreState.IO.colorBack.read()[2] } rawValue={this.props.coreState.IO.colorBack.read()[2] } onChange={(value) => this.handleColorParameterChanged("colorBack", 2, value)} mouseEvents={this.props.mouseEvents} mouseDisp={this.props.mouseDisp} />
+                        <Knob text="R (back)" {...this.knobsProps["colorBackR"]} />
+                        <Knob text="G (back)" {...this.knobsProps["colorBackG"]} />
+                        <Knob text="B (back)" {...this.knobsProps["colorBackB"]} />
                     </div>
 
                     <div style={styles.row}>
                         <Knob text="phase mod" {...this.knobsProps["phaseMod"]} />
                         <Knob text="color mod" {...this.knobsProps["colorMod"]} />
                         <Knob text="count mod" {...this.knobsProps["countMod"]} />
-                        <Knob text="x mod"     {...this.knobsProps["xMod"]}     />
-                        <Knob text="y mod"     {...this.knobsProps["yMod"]}     />
+                        <Knob text="x mod"     {...this.knobsProps["xMod"]    } />
+                        <Knob text="y mod"     {...this.knobsProps["yMod"]    } />
                     </div>
                 </div>
 

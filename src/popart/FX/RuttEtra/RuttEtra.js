@@ -5,12 +5,13 @@ import BaseEffectCore                  from '../BaseEffectCore';
 import NullDisplay                     from '../Null/Null';
 
 const shaders = GL.Shaders.create({
-    shader: {
+    shader_ruttetra: {
         frag: `
         precision highp float;
         varying vec2      uv;
         uniform sampler2D child;
         uniform float multiplier, distance, smooth, thresh;
+        uniform vec4 color;
 
         float tri(float v) {
             return abs(fract(v*5.0)*2.0-1.0);
@@ -32,7 +33,7 @@ const shaders = GL.Shaders.create({
             float sinValue = sin(sampleY * multiplier);
 
             if (sinValue < thresh)
-                c = vec4(0.0, 0.0, 0.0, 0.0);
+                c = color;
             else
             {
                 float diff = sinValue - thresh;       // min 0, max 1-thresh
@@ -62,6 +63,9 @@ export class RuttEtraCore extends BaseEffectCore {
             'distance'   : new IO('distance',   'float', 'input', 0, 1),
             'smooth'     : new IO('smooth',     'float', 'input', 0, 1),
             'thresh'     : new IO('thresh',     'float', 'input', 0, 1),
+            'colorR'     : new IO('colorR',     'float', 'input', 0, 1),
+            'colorG'     : new IO('colorG',     'float', 'input', 0, 1),
+            'colorB'     : new IO('colorB',     'float', 'input', 0, 1),
         };
 
         this.IO.mute.set(false);
@@ -69,6 +73,9 @@ export class RuttEtraCore extends BaseEffectCore {
         this.IO.distance.set(0.1);
         this.IO.smooth.set(1.0);
         this.IO.thresh.set(0.9);
+        this.IO.colorR.set(0.0);
+        this.IO.colorG.set(0.0);
+        this.IO.colorB.set(0.0);
 
         this.buildInputList();
     }
@@ -90,12 +97,13 @@ export const RuttEtraDisplay = GL.createComponent(({ children, state }) => {
 
     return (
         <GL.Node
-            shader={shaders.shader}
+            shader={shaders.shader_ruttetra}
             uniforms={{
                 multiplier: state.IO.multiplier.read(),
                 distance:   state.IO.distance.read(),
                 smooth:     state.IO.smooth.read(),
                 thresh:     state.IO.thresh.read(),
+                color:      [state.IO.colorR.read(),     state.IO.colorG.read(),     state.IO.colorB.read(),     1.0],
             }}
         >
             <GL.Uniform name="child">

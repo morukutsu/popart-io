@@ -29,6 +29,11 @@ class RuttEtraController extends BaseController {
                         <Knob text="smooth"     {...this.knobsProps["smooth"]}     />
                         <Knob text="thresh"     {...this.knobsProps["thresh"]}     />
                     </div>
+                    <div style={styles.row}>
+                        <Knob text="R" {...this.knobsProps["colorR"]} />
+                        <Knob text="G" {...this.knobsProps["colorG"]} />
+                        <Knob text="B" {...this.knobsProps["colorB"]} />
+                    </div>
                 </div>
 
                 { this.renderParameterDetails() }
