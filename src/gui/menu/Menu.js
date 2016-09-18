@@ -15,10 +15,11 @@ class Menu extends React.Component {
                 name: "File",
                 onClick: () => this.setActiveDropMenu(0),
                 children: [
-                    { name: "New"        },
+                    { name: "New",          onClick: () => null                            },
                     { name: "Open File...", onClick: () => Actions.openFile(EffectFactory) },
-                    { name: "Save"       },
-                    { name: "Save as..." },
+                    { name: "Save",         onClick: () => null                            },
+                    { name: "Save as...",   onClick: () => Actions.saveFile()              },
+                    { name: "Quit",         onClick: () => Actions.quit()                  },
                 ]
             },
             {

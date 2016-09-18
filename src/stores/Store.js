@@ -84,7 +84,7 @@ class Store {
         this.selectedParameter = parameter;
     }
 
-    save() {
+    save(path) {
         let saveData = {};
 
         saveData.effectInstances     = this.effectInstances;
@@ -122,9 +122,7 @@ class Store {
         };
 
         let saveDataJson = JSON.stringify(saveData, createLinks, 4);
-        fs.writeFile("save.json", saveDataJson, (err) => console.log(err));
-
-        console.log(saveDataJson);
+        fs.writeFile(path, saveDataJson, (err) => console.log(err));
     }
 
     load(parameters) {
@@ -247,6 +245,19 @@ class Store {
                 path:          files[0]
             });
         }
+    }
+
+    saveFile(EffectFactory) {
+        let dialog = electron.remote.dialog;
+        let file = dialog.showSaveDialog();
+        if (file) {
+            this.save(file);
+        }
+    }
+
+    quit() {
+        let app = electron.remote.app;
+        app.quit();
     }
 }
 
