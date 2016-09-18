@@ -8,6 +8,11 @@ import ModulationKnob                  from './ModulationKnob';
 class Knob extends BaseKnob {
     constructor() {
         super();
+
+        this.handleMouseDown = this.handleMouseDown.bind(this);
+        this.handleMouseUp   = this.handleMouseUp.bind(this);
+        this.handleMouseMove = this.handleMouseMove.bind(this);
+        this.handleDragStart = this.handleDragStart.bind(this);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -20,6 +25,11 @@ class Knob extends BaseKnob {
         }
 
         return true;
+    }
+
+    handleDragStart(e) {
+        e.preventDefault();
+        return false;
     }
 
     render() {
@@ -85,8 +95,8 @@ class Knob extends BaseKnob {
 
                 <div
                     style={styles.container}
-                    onDragStart={(e) => { e.preventDefault(); return false; }}
-                    onMouseDown={this.handleMouseDown.bind(this)}
+                    onDragStart={this.handleDragStart}
+                    onMouseDown={this.handleMouseDown}
                 >
                     <div style={[styles.circle]}>
                         <div style={arcStyle}>
@@ -111,8 +121,8 @@ class Knob extends BaseKnob {
                     this.state.isTweaking ?
                     <div
                         style={styles.mouseReactiveArea}
-                        onMouseUp={this.handleMouseUp.bind(this)}
-                        onMouseMove={this.handleMouseMove.bind(this)}
+                        onMouseUp={this.handleMouseUp}
+                        onMouseMove={this.handleMouseMove}
                     />
                     :
                     null

@@ -10,11 +10,14 @@ var MIN_GRID_WIDTH = 4;
 class Panel extends React.Component {
     constructor() {
         super();
+
+        this.renderedEffectInstancesCount    = 0;
+        this.renderedModulatorsInstanceCount = 0;
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.effectInstances.length    !== nextProps.effectInstances.length ||
-            this.props.modulatorsInstances.length !== nextProps.modulatorsInstances.length)
+        if (this.renderedEffectInstancesCount     !== nextProps.effectInstances.length ||
+            this.renderedModulatorsInstanceCount  !== nextProps.modulatorsInstances.length)
         {
             return true;
         }
@@ -167,6 +170,8 @@ class Panel extends React.Component {
             />
         ));
 
+        this.renderedEffectInstancesCount = effectBlocks.length;
+
         let modulatorBlocks = this.props.modulatorsInstances.map((instance, i) => (
             <Block
                 key={i}
@@ -178,6 +183,8 @@ class Panel extends React.Component {
                 hoverColor="#CF72FF"
             />
         ));
+
+        this.renderedModulatorsInstanceCount = modulatorBlocks.length;
 
         return (
             <div

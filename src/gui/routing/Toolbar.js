@@ -6,6 +6,10 @@ class Toolbar extends React.Component {
         super();
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return false;
+    }
+    
     render() {
         let effects = this.props.effectList.map((elem, i) => {
             return (
