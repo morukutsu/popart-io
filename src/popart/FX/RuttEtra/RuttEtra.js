@@ -42,7 +42,8 @@ const shaders = GL.Shaders.create({
                 diff += 1.0 - smooth;
                 diff = clamp(diff, 0.0, 1.0);
 
-                c.rgb = c.rgb * (diff) ;
+                c.rgb = c.rgb * (diff);
+                c = c + color * (1.0 - diff);
                 smooth;
             }
 
