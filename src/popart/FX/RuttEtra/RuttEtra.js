@@ -44,7 +44,6 @@ const shaders = GL.Shaders.create({
 
                 c.rgb = c.rgb * (diff);
                 c = c + color * (1.0 - diff);
-                smooth;
             }
 
             gl_FragColor = c;

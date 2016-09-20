@@ -40,9 +40,16 @@ class Menu extends React.Component {
     }
 
     setActiveDropMenu(id) {
-        this.setState({
-            activeDropMenu: this.menus[id].children
-        });
+        // Close drop menu if we are trying to open the current menu
+        if (this.state.activeDropMenu == this.menus[id].children) {
+            this.setState({
+                activeDropMenu: null
+            });
+        } else {
+            this.setState({
+                activeDropMenu: this.menus[id].children
+            });
+        }
     }
 
     onDropMenuItemSelected() {

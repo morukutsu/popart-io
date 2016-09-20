@@ -57,6 +57,7 @@ const styles = {
     },
 
     item: {
+        width: 140,
         color: "lightGrey",
         cursor: 'pointer',
         paddingTop: 2,
