@@ -9,6 +9,8 @@ import LEDController                            from './LED/LEDController';
 
 import LFO                                      from '../Modulators/LFO';
 import LFOController                            from '../Modulators/LFOController';
+import Sequencer                                from '../Modulators/Sequencer';
+import SequencerController                      from '../Modulators/SequencerController';
 
 var effectFactory = {
     lookupComponentByName: function(name) {
@@ -28,6 +30,8 @@ var effectFactory = {
 
             'LFO':                   LFO,
             'LFOController':         LFOController,
+            'Sequencer':             Sequencer,
+            'SequencerController':   SequencerController,
         };
 
         return lookup[name];

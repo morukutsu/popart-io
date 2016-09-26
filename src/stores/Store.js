@@ -10,7 +10,7 @@ class Store {
         this.effectList      = ["Synthesizer", "RuttEtra", "Mosaic", "LED"];
         this.effectInstances = [];
 
-        this.modulatorsList      = ["LFO"];
+        this.modulatorsList      = ["LFO", "Sequencer"];
         this.modulatorsInstances = [];
 
         // Focus

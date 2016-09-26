@@ -11,22 +11,23 @@ class EffectView extends React.Component {
         this.state = {
 
         };
+
+        this.onRefresh = this.onRefresh.bind(this);
     }
 
     componentWillMount() {
-        //Events.on('refresh', this.onRefresh.bind(this));
+        //Events.on('refresh', this.onRefresh);
     }
 
     componentWillUnmount() {
-        // TODO: check the behavior of this functions when it is called
-        //Events.removeListener('refresh', this.onRefresh.bind(this));
+        //Events.removeListener('refresh', this.onRefresh);
     }
 
     onRefresh() {
         // Trigger render
-        this.setState({
+        /*this.setState({
             dummy: 1
-        });
+        });*/
     }
 
     renderEffects() {
@@ -61,7 +62,12 @@ class EffectView extends React.Component {
 
     render() {
         return (
-            <Surface width={640} height={360} style={styles.surface}>
+            <Surface
+                width={640}
+                height={360}
+                style={styles.surface}
+                ref="surface"
+            >
                 { this.renderEffects() }
             </Surface>
         );
