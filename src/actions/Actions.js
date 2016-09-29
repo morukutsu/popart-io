@@ -14,6 +14,8 @@ let Actions = alt.generateActions(
     'saveFile',
     'quit',
     'new',
+    'togglePlay',
+    'stop',
 );
 
 export default alt.createActions(Actions);

@@ -22,6 +22,9 @@ class Store {
         this.activeEntity      = 0;
         this.activeModulator   = 0;
         this.selectedParameter = null;
+
+        // Transport
+        this.isPaused = false;
     }
 
     new() {
@@ -266,6 +269,10 @@ class Store {
     quit() {
         let app = electron.remote.app;
         app.quit();
+    }
+
+    togglePlay() {
+        this.isPaused = !this.isPaused;
     }
 }
 

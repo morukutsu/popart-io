@@ -14,6 +14,7 @@ import Toolbar            from '../../gui/routing/Toolbar.js';
 import Menu               from '../../gui/menu/Menu.js';
 import Events             from '../../popart/Events';
 import RefreshManager     from '../../popart/RefreshManager';
+import TransportMenu      from '../../gui/transport/TransportMenu';
 
 class Page extends React.Component {
     constructor() {
@@ -43,13 +44,19 @@ class Page extends React.Component {
 
         let dt = (timestamp - this.prevTimestamp) / 1000.0;
 
-        this.props.effectInstances.forEach((instance) => {
-            instance.tick(dt);
-        });
+        if (!this.props.isPaused) {
+            this.props.effectInstances.forEach((instance) => {
+                instance.tick(dt);
+            });
 
-        this.props.modulatorsInstances.forEach((instance) => {
-            instance.tick(dt);
-        });
+            this.props.modulatorsInstances.forEach((instance) => {
+                instance.tick(dt);
+            });
+
+            this.setState({
+                dummy: 1
+            });
+        }
 
         this.raf = window.requestAnimationFrame(this.update);
 
@@ -61,10 +68,6 @@ class Page extends React.Component {
 
             RefreshManager.clearRefresh();
         }*/
-
-        this.setState({
-            dummy: 1
-        });
 
         this.prevTimestamp = timestamp;
 
@@ -125,6 +128,8 @@ class Page extends React.Component {
 
                 <div style={styles.mainPanel}>
                     <div style={styles.leftPanel}>
+                        <TransportMenu isPaused={this.props.isPaused}/>
+
                         <Panel
                             effectInstances={this.props.effectInstances}
                             modulatorsInstances={this.props.modulatorsInstances}
