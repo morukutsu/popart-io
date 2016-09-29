@@ -9,10 +9,10 @@ export default class LFO {
 
         this.IO = {
             'mute'      : new IO('mute',       'bool',   'input'),
-            'frequency' : new IO('frequency',  'float',  'input', 0, 2), // in Hertz
-            'waveform'  : new IO('waveform',   'string', 'input'), // wave form selector
-            'pulseWidth': new IO('pulseWidth', 'float',  'input'), // square wave pulse width
-            'output'    : new IO('output',     'float',  'output') // [0..1] out LFO signal
+            'frequency' : new IO('frequency',  'float',  'input', 0, 10), // in Hertz
+            'waveform'  : new IO('waveform',   'string', 'input'),        // wave form selector
+            'pulseWidth': new IO('pulseWidth', 'float',  'input'),        // square wave pulse width
+            'output'    : new IO('output',     'float',  'output')        // [0..1] out LFO signal
         };
 
         this.time = 0.0;

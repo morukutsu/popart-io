@@ -9,12 +9,12 @@ export default class Sequencer {
 
         this.IO = {
             'mute'      : new IO('mute',       'bool',   'input'),
-            'frequency' : new IO('frequency',  'float',  'input', 0, 2), // in Hertz
+            'frequency' : new IO('frequency',  'float',  'input', 0, 10), // in Hertz
 
-            'step0'     : new IO('step0',      'float',  'input', 0, 1),
-            'step1'     : new IO('step1',      'float',  'input', 0, 1),
-            'step2'     : new IO('step2',      'float',  'input', 0, 1),
-            'step3'     : new IO('step3',      'float',  'input', 0, 1),
+            'step0'     : new IO('step0',      'float',  'input', -1, 1),
+            'step1'     : new IO('step1',      'float',  'input', -1, 1),
+            'step2'     : new IO('step2',      'float',  'input', -1, 1),
+            'step3'     : new IO('step3',      'float',  'input', -1, 1),
 
             'output'    : new IO('output',     'float',  'output')       // [0..1] out LFO signal
         };

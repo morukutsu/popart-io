@@ -197,13 +197,14 @@ const styles = {
     },
 
     mouseReactiveArea: {
-        width: 500,
-        height: 500,
+        width: 2000,
+        height: 2000,
         /*backgroundColor: '#FD5A35',
         opacity: 0.3,*/
         position: 'absolute',
-        top:  -250 + 60 / 2,
-        left: -250 + 60 / 2
+        top:  -1000 + 60 / 2,
+        left: -1000 + 60 / 2,
+        zIndex: 1,
     }
 };
 

@@ -10,6 +10,7 @@ body {
   font-weight: 300;
   background-color: #1E1D20;
   min-height: 100%;
+  overflow: hidden;
 }
 
 html {
