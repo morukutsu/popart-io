@@ -13,6 +13,7 @@ let Actions = alt.generateActions(
     'openFile',
     'saveFile',
     'quit',
+    'new',
 );
 
 export default alt.createActions(Actions);

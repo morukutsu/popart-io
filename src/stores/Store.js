@@ -7,10 +7,14 @@ class Store {
     constructor() {
         this.bindActions(Actions);
 
-        this.effectList      = ["Synthesizer", "RuttEtra", "Mosaic", "LED"];
-        this.effectInstances = [];
+        this.effectList     = ["Synthesizer", "RuttEtra", "Mosaic", "LED"];
+        this.modulatorsList = ["LFO", "Sequencer"];
 
-        this.modulatorsList      = ["LFO", "Sequencer"];
+        this.reset();
+    }
+
+    reset() {
+        this.effectInstances = [];
         this.modulatorsInstances = [];
 
         // Focus
@@ -18,6 +22,10 @@ class Store {
         this.activeEntity      = 0;
         this.activeModulator   = 0;
         this.selectedParameter = null;
+    }
+
+    new() {
+        this.reset();
     }
 
     addEffect(effect) {

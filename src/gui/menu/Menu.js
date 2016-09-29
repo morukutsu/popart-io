@@ -15,7 +15,7 @@ class Menu extends React.Component {
                 name: "File",
                 onClick: () => this.setActiveDropMenu(0),
                 children: [
-                    { name: "New",          onClick: () => null                            },
+                    { name: "New",          onClick: () => Actions.new()                   },
                     { name: "Open File...", onClick: () => Actions.openFile(EffectFactory) },
                     { name: "Save",         onClick: () => null                            },
                     { name: "Save as...",   onClick: () => Actions.saveFile()              },
@@ -58,13 +58,22 @@ class Menu extends React.Component {
         });
     }
 
+    handleMenuMouseEnter(menu) {
+        if (this.state.activeDropMenu !== null && this.state.activeDropMenu !== menu.children) {
+            menu.onClick();
+        }
+    }
+
     renderMenu(menuDescription) {
         return menuDescription.map((menu, index) => {
             return (
                 <div
                     key={index}
                     style={styles.item}
-                    onClick={menu.onClick}>{ menu.name }
+                    onClick={menu.onClick}
+                    onMouseEnter={() => this.handleMenuMouseEnter(menu)}
+                >
+                    { menu.name }
                 </div>
             );
         });
