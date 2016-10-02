@@ -11,15 +11,31 @@ class Button extends React.Component {
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
+    renderInnerComponent() {
+        if (this.props.mode == "press") {
+            return (
+                <div style={[styles.text]} >
+                    { this.props.activeText }
+                </div>
+            );
+        } else {
+            return (
+                <div style={[styles.text, !this.props.value ? styles.activeText : null]} >
+                    { this.props.value ? this.props.activeText : this.props.inactiveText }
+                </div>
+            );
+        }
+    }
+
     render() {
+        const innerComponent = this.renderInnerComponent();
+
         return (
             <div
                 style={styles.container}
                 onClick={() => this.props.onClick(!this.props.value)}
             >
-                <div style={[styles.text, this.props.value ? styles.activeText : null]} >
-                    { this.props.value ? this.props.activeText : this.props.inactiveText }
-                </div>
+                { innerComponent }
             </div>
         );
     }
@@ -38,6 +54,7 @@ const styles = {
         paddingBottom: 4,
         paddingLeft: 8,
         paddingRight: 8,
+        margin: 4,
     },
 
     text: {
@@ -45,6 +62,12 @@ const styles = {
         userSelect: 'none',
         color:      'white',
         fontSize:   16,
+
+        ':hover': {
+            color: '#0093D4',
+        },
+
+        transition: 'color 0.1s',
     },
 
     activeText: {

@@ -10,6 +10,7 @@ export default class LFO {
         this.IO = {
             'mute'      : new IO('mute',       'bool',   'input'),
             'frequency' : new IO('frequency',  'float',  'input', 0, 10), // in Hertz
+            'bpmLock'   : new IO('bpmLock',    'bool',   'input'),
             'waveform'  : new IO('waveform',   'string', 'input'),        // wave form selector
             'pulseWidth': new IO('pulseWidth', 'float',  'input'),        // square wave pulse width
             'output'    : new IO('output',     'float',  'output')        // [0..1] out LFO signal
@@ -25,6 +26,7 @@ export default class LFO {
         this.IO.mute.set(false);
         this.IO.frequency.set(0.05);
         this.IO.waveform.set('sine');
+        this.IO.bpmLock.set(false);
 
         this.buildInputList();
     }
@@ -70,6 +72,10 @@ export default class LFO {
         });
     }
 
+    sync() {
+        this.time = 0.0;
+    }
+
     tick(dt) {
         if (this.IO.mute.read() ) {
             return;
@@ -80,7 +86,9 @@ export default class LFO {
     }
 
     tempoTick(period) {
-        //this.IO.frequency.set(1.0 / period);
+        if (this.IO.bpmLock.read()) {
+            this.IO.frequency.set(1.0 / period);
+        }
     }
 
     updateSquare(dt) {

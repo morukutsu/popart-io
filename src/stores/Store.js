@@ -279,6 +279,21 @@ class Store {
     changeBpm(bpm) {
         this.bpm = bpm;
     }
+
+    sync() {
+        this.effectInstances.forEach((instance) => {
+            instance.sync();
+        });
+
+        this.modulatorsInstances.forEach((instance) => {
+            instance.sync();
+        });
+    }
+
+    stop() {
+        this.sync();
+        this.isPaused = true;
+    }
 }
 
 export default alt.createStore(Store, 'Store');

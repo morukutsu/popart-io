@@ -55,6 +55,10 @@ export default class IO {
         return outputValue;
     }
 
+    readAsBool() {
+        return this.read() >= 0.5;
+    }
+
     readRaw() {
         return this.currentValue;
     }

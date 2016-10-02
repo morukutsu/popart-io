@@ -10,6 +10,7 @@ export default class Sequencer {
         this.IO = {
             'mute'      : new IO('mute',       'bool',   'input'),
             'frequency' : new IO('frequency',  'float',  'input', 0, 10), // in Hertz
+            'bpmLock'   : new IO('bpmLock',    'bool',   'input'),
 
             'step0'     : new IO('step0',      'float',  'input', -1, 1),
             'step1'     : new IO('step1',      'float',  'input', -1, 1),
@@ -23,6 +24,7 @@ export default class Sequencer {
 
         this.IO.mute.set(false);
         this.IO.frequency.set(0.05);
+        this.IO.bpmLock.set(false);
 
         this.IO.step0.set(0.0);
         this.IO.step1.set(0.0);
@@ -36,6 +38,11 @@ export default class Sequencer {
 
     cleanup() {
 
+    }
+
+    sync() {
+        this.time = 0.0;
+        this.currentStep = 0;
     }
 
     tick(dt) {
@@ -55,7 +62,9 @@ export default class Sequencer {
     }
 
     tempoTick(period) {
-        this.IO.frequency.set(1.0 / period);
+        if (this.IO.bpmLock.read()) {
+            this.IO.frequency.set(1.0 / period);
+        }
     }
 
     loadParametersValues(parameters) {

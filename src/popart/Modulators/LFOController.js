@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import Knob                            from '../../gui/control/Knob';
+import Button                          from '../../gui/control/Button';
 import RouteToMenu                     from '../../gui/routing/RouteToMenu';
 import BaseController                  from '../FX/BaseController';
 
@@ -25,6 +26,9 @@ class LFOController extends BaseController {
                 <div style={styles.main}>
                     <div style={styles.row}>
                         <Knob text="frequency" {...this.knobsProps["frequency"]}  />
+                    </div>
+                    <div style={styles.row}>
+                        <Button activeText="BPM Lock On" inactiveText="BPM Lock Off" value={this.props.coreState.IO.bpmLock.read() } onClick={(value) => this.props.onParameterChanged("bpmLock", value)} />
                     </div>
                 </div>
             </div>

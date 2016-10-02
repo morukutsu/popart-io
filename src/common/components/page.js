@@ -73,12 +73,12 @@ class Page extends React.Component {
                     instance.tempoTick(bpmPeriod);
                 }
             });
-
-            // Trigger render
-            this.setState({
-                dummy: 1
-            });
         }
+
+        // Trigger render
+        this.setState({
+            dummy: 1
+        });
 
         this.raf = window.requestAnimationFrame(this.update);
         this.prevTimestamp = timestamp;

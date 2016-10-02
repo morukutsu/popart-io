@@ -7,6 +7,10 @@ export default class BaseEffectCore {
         this.time = 0.0;
     }
 
+    sync() {
+        this.time = 0.0;
+    }
+
     loadParametersValues(parameters) {
         let IOValues = parameters.IO;
 
@@ -46,7 +50,7 @@ export default class BaseEffectCore {
     onParameterChanged(parameter, value) {
         // Here we should trigger the refresh manager
         RefreshManager.scheduleRefresh();
-        
+
         this.IO[parameter].set(value);
     }
 

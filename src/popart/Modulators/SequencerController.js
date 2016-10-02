@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import Knob                            from '../../gui/control/Knob';
+import Button                          from '../../gui/control/Button';
 import RouteToMenu                     from '../../gui/routing/RouteToMenu';
 import BaseController                  from '../FX/BaseController';
 
@@ -24,13 +25,16 @@ class SequencerController extends BaseController {
 
                 <div style={styles.main}>
                     <div style={styles.row}>
-                        <Knob text="frequency" {...this.knobsProps["frequency"]}  />
+                        <Knob text="frequency" {...this.knobsProps["frequency"]} />
                     </div>
                     <div style={styles.row}>
                         <Knob text="0" {...this.knobsProps["step0"]} />
                         <Knob text="1" {...this.knobsProps["step1"]} />
                         <Knob text="2" {...this.knobsProps["step2"]} />
                         <Knob text="3" {...this.knobsProps["step3"]} />
+                    </div>
+                    <div style={styles.row}>
+                        <Button activeText="BPM Lock On" inactiveText="BPM Lock Off" value={this.props.coreState.IO.bpmLock.read() } onClick={(value) => this.props.onParameterChanged("bpmLock", value)} />
                     </div>
                 </div>
             </div>
