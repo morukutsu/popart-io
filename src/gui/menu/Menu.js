@@ -37,6 +37,7 @@ class Menu extends React.Component {
         };
 
         this.onDropMenuItemSelected = this.onDropMenuItemSelected.bind(this);
+        this.handleClickOutside     = this.handleClickOutside.bind(this);
     }
 
     setActiveDropMenu(id) {
@@ -62,6 +63,12 @@ class Menu extends React.Component {
         if (this.state.activeDropMenu !== null && this.state.activeDropMenu !== menu.children) {
             menu.onClick();
         }
+    }
+
+    handleClickOutside() {
+        this.setState({
+            activeDropMenu: null
+        });
     }
 
     renderMenu(menuDescription) {
@@ -99,6 +106,7 @@ class Menu extends React.Component {
                         <DropMenu
                             items={this.menus[0].children}
                             onDropMenuItemSelected={this.onDropMenuItemSelected}
+                            onClickOutside={this.handleClickOutside}
                         />
                         :
                         null

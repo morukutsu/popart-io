@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import MdClose                         from 'react-icons/lib/md/close';
 import PureRenderMixin                 from 'react-addons-pure-render-mixin';
+import onClickOutside                  from 'react-onclickoutside';
 
 class DropMenu extends React.Component {
     constructor() {
@@ -11,6 +12,10 @@ class DropMenu extends React.Component {
     handleOnClick(handler) {
         this.props.onDropMenuItemSelected();
         handler && handler();
+    }
+
+    handleClickOutside(e) {
+        this.props.onClickOutside();
     }
 
     renderMenu(menuDescription) {
@@ -74,4 +79,4 @@ const styles = {
     }
 };
 
-export default Radium(DropMenu);
+export default onClickOutside(Radium(DropMenu));
