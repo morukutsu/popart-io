@@ -46,6 +46,10 @@ export class SquareCore {
     tick(dt) {
     }
 
+    tempoTick() {
+
+    }
+
     getState() {
         return this;
     }

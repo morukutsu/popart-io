@@ -106,6 +106,10 @@ export class SynthesizerCore extends BaseEffectCore {
     tick(dt) {
         this.time += dt * this.IO.speed.read();
     }
+
+    tempoTick() {
+
+    }
 }
 
 export const SynthesizerDisplay = GL.createComponent(({ children, state }) => {

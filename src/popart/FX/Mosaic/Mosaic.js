@@ -48,6 +48,10 @@ export class MosaicCore extends BaseEffectCore {
     tick(dt) {
     }
 
+    tempoTick() {
+
+    }
+
     getState() {
         return this;
     }

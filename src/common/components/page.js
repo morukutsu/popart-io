@@ -20,8 +20,9 @@ class Page extends React.Component {
     constructor() {
         super();
 
-        this.update = this.update.bind(this); // binding
+        this.update        = this.update.bind(this); // binding
         this.prevTimestamp = 0.0;
+        this.tempoTime     = 0.0;
     }
 
     static getStores() {
@@ -44,31 +45,42 @@ class Page extends React.Component {
 
         let dt = (timestamp - this.prevTimestamp) / 1000.0;
 
+        // Sync every instance with the tempo
+        this.tempoTime += dt;
+
+        const bpmHz     = this.props.bpm / 60.0;
+        const bpmPeriod = 1.0 / bpmHz;
+
+        let mustTickTempo = false;
+        if (this.tempoTime > bpmPeriod) {
+            this.tempoTime = 0.0;
+            mustTickTempo = true;
+        }
+
         if (!this.props.isPaused) {
             this.props.effectInstances.forEach((instance) => {
                 instance.tick(dt);
+
+                if (mustTickTempo) {
+                    instance.tempoTick(bpmPeriod);
+                }
             });
 
             this.props.modulatorsInstances.forEach((instance) => {
                 instance.tick(dt);
+
+                if (mustTickTempo) {
+                    instance.tempoTick(bpmPeriod);
+                }
             });
 
+            // Trigger render
             this.setState({
                 dummy: 1
             });
         }
 
         this.raf = window.requestAnimationFrame(this.update);
-
-        // Trigger render
-        /*if (RefreshManager.getRefreshFlag() ) {
-            this.setState({
-                dummy: 1
-            });
-
-            RefreshManager.clearRefresh();
-        }*/
-
         this.prevTimestamp = timestamp;
 
         Events.emit('refresh');
@@ -128,7 +140,10 @@ class Page extends React.Component {
 
                 <div style={styles.mainPanel}>
                     <div style={styles.leftPanel}>
-                        <TransportMenu isPaused={this.props.isPaused}/>
+                        <TransportMenu
+                            isPaused={this.props.isPaused}
+                            bpm={this.props.bpm}
+                        />
 
                         <Panel
                             effectInstances={this.props.effectInstances}

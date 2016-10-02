@@ -36,6 +36,10 @@ export class ImageCore {
         this.time += dt;
     }
 
+    tempoTick() {
+
+    }
+
     getState() {
         return this;
     }

@@ -36,6 +36,10 @@ export class RGBSplitCore {
 
     }
 
+    tempoTick() {
+
+    }
+
     getState() {
         return this;
     }

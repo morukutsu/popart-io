@@ -25,6 +25,7 @@ class Store {
 
         // Transport
         this.isPaused = false;
+        this.bpm      = 120;
     }
 
     new() {
@@ -273,6 +274,10 @@ class Store {
 
     togglePlay() {
         this.isPaused = !this.isPaused;
+    }
+
+    changeBpm(bpm) {
+        this.bpm = bpm;
     }
 }
 

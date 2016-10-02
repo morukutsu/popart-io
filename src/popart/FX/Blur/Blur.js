@@ -39,6 +39,10 @@ export class BlurCore {
     tick(dt) {
     }
 
+    tempoTick() {
+
+    }
+
     getState() {
         return this;
     }

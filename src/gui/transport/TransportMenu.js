@@ -26,6 +26,9 @@ class TransportMenu extends React.Component {
                 }
 
                 <MdStop size="40" style={styles.icon}/>
+
+                <input type="number" style={styles.input} value={this.props.bpm} onChange={(e) => Actions.changeBpm(e.target.value)}/>
+                <span style={styles.bpmText}>bpm</span>
             </div>
         );
     }
@@ -36,7 +39,8 @@ const styles = {
         height: 45,
         display: 'flex',
         alignItems: 'center',
-        backgroundColor: "#212121",
+        backgroundColor: '#101010',
+        padding: 5,
     },
 
     icon: {
@@ -48,6 +52,24 @@ const styles = {
          ':hover': {
              color: '#0093D4',
          }
+    },
+
+    input: {
+        textAlign: 'center',
+        marginTop: 4,
+        width: 60,
+        height: 30,
+        border:          "none",
+        borderRadius: 8,
+        backgroundColor: "black",
+        fontSize: 24,
+        fontWeight: "bold",
+        color: "#FD5A35"
+    },
+
+    bpmText: {
+        color: 'white',
+        marginLeft: 4
     }
 };
 

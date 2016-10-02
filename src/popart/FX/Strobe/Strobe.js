@@ -41,6 +41,10 @@ export class StrobeCore {
         }
     }
 
+    tempoTick() {
+
+    }
+
     getState() {
         return this;
     }

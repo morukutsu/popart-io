@@ -54,6 +54,10 @@ export default class Sequencer {
         }
     }
 
+    tempoTick(period) {
+        this.IO.frequency.set(1.0 / period);
+    }
+
     loadParametersValues(parameters) {
         let IOValues = parameters.IO;
 

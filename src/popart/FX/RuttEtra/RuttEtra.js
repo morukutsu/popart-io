@@ -84,6 +84,10 @@ export class RuttEtraCore extends BaseEffectCore {
 
     }
 
+    tempoTick() {
+
+    }
+
     getState() {
         return this;
     }

@@ -79,6 +79,10 @@ export default class LFO {
         this.waveFormUpdaters[currentWaveform](dt);
     }
 
+    tempoTick(period) {
+        //this.IO.frequency.set(1.0 / period);
+    }
+
     updateSquare(dt) {
         let periodInSeconds = 1.0 / this.IO.frequency.read();
         let pulseWidth = this.IO.pulseWidth.read();

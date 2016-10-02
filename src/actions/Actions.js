@@ -16,6 +16,7 @@ let Actions = alt.generateActions(
     'new',
     'togglePlay',
     'stop',
+    'changeBpm'
 );
 
 export default alt.createActions(Actions);

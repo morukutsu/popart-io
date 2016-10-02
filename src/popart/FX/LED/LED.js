@@ -106,6 +106,10 @@ export class LEDCore extends BaseEffectCore {
     tick(dt) {
     }
 
+    tempoTick() {
+
+    }
+
     getState() {
         return this;
     }
