@@ -47,28 +47,32 @@ class BaseKnob extends React.Component {
     }
 
     handleMouseDown(event) {
-        RefreshManager.scheduleRefresh();
+        if (event.button == 0) {
+            RefreshManager.scheduleRefresh();
 
-        this.setState({
-            isTweaking: true,
-            valueWhenTweakingStarted: this.props.rawValue
-        });
+            this.setState({
+                isTweaking: true,
+                valueWhenTweakingStarted: this.props.rawValue
+            });
 
-        this.props.onClick && this.props.onClick();
+            this.props.onClick && this.props.onClick();
 
-        if (event.button != 0) {
-            return;
+            if (event.button != 0) {
+                return;
+            }
+
+            this.setState({
+                mouseUp: false,
+                nextMouseDisp: {
+                    x: 0,
+                    y: 0,
+                },
+                mouseStartX: event.screenX,
+                mouseStartY: event.screenY,
+            });
+        } else if (event.button == 2) {
+            this.props.onRightClick && this.props.onRightClick(event);
         }
-
-        this.setState({
-            mouseUp: false,
-            nextMouseDisp: {
-                x: 0,
-                y: 0,
-            },
-            mouseStartX: event.screenX,
-            mouseStartY: event.screenY,
-        });
     }
 
     handleMouseMove(event) {

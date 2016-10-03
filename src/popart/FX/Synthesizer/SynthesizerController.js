@@ -50,7 +50,7 @@ class SynthesizerController extends BaseController {
                     </div>
                 </div>
 
-                { this.renderParameterDetails() }
+                { this.renderDropMenu() }
             </div>
         );
     }

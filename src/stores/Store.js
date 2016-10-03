@@ -55,6 +55,7 @@ class Store {
     selectEffect(effectIndex) {
         this.activeEntity = effectIndex;
         this.lastSelectedEntityType = 'effect';
+        this.selectedParameter = null;
     }
 
     addModulator(modulator) {
@@ -64,6 +65,7 @@ class Store {
     selectModulator(modulatorIndex) {
         this.activeModulator = modulatorIndex;
         this.lastSelectedEntityType = 'modulator';
+        this.selectedParameter = null;
     }
 
     deleteModulator(modulatorIndex) {

@@ -42,6 +42,8 @@ const styles = {
         display: 'flex',
         fontSize: 20,
         color: 'white',
+
+        transition: 'background-color 0.2s',
     },
 
     inactive: {

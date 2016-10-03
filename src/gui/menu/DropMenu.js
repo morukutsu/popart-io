@@ -23,7 +23,7 @@ class DropMenu extends React.Component {
             return (
                 <div
                     key={index}
-                    style={styles.item}
+                    style={[styles.item, menu.selected ? styles.selectedItem : null]}
                     onClick={() => this.handleOnClick(menu.onClick)}
                 >
                     { menu.name }
@@ -76,6 +76,11 @@ const styles = {
         ':hover': {
             backgroundColor: '#0093D4',
         }
+    },
+
+    selectedItem: {
+        fontWeight: 'bold',
+        color:      '#FD5A35'
     }
 };
 

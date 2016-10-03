@@ -10,6 +10,7 @@ export default class Sequencer {
         this.IO = {
             'mute'      : new IO('mute',       'bool',   'input'),
             'frequency' : new IO('frequency',  'float',  'input', 0, 10), // in Hertz
+            //'divider'   : new IO('divider',    'float',  'input', 0, 10), // in Hertz
             'bpmLock'   : new IO('bpmLock',    'bool',   'input'),
 
             'step0'     : new IO('step0',      'float',  'input', -1, 1),

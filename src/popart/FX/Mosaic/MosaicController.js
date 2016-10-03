@@ -28,7 +28,7 @@ class MosaicController extends BaseController {
                     </div>
                 </div>
 
-                { this.renderParameterDetails() }
+                { this.renderDropMenu() }
             </div>
         );
     }
@@ -69,7 +69,7 @@ const styles = {
         flexDirection: 'row',
         flex: 1
     },
-    
+
     row: {
         display: 'flex',
         flexDirection: 'row'

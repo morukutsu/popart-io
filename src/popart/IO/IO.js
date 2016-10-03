@@ -74,6 +74,11 @@ export default class IO {
     }
 
     unplug() {
+        if (!this.isPlugged() ) {
+            console.log("[Warning] Trying to unplug simething unplugged!");
+            return;
+        }
+
         delete this.pluggedIo.pluggedToMe[this.uuid];
 
         this.pluggedIo     = null;

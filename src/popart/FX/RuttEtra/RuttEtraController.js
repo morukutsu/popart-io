@@ -36,7 +36,7 @@ class RuttEtraController extends BaseController {
                     </div>
                 </div>
 
-                { this.renderParameterDetails() }
+                { this.renderDropMenu() }
             </div>
         );
     }
