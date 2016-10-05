@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import Knob                            from '../../gui/control/Knob';
 import Button                          from '../../gui/control/Button';
-import RouteToMenu                     from '../../gui/routing/RouteToMenu';
 import BaseController                  from '../FX/BaseController';
 
 class SequencerController extends BaseController {

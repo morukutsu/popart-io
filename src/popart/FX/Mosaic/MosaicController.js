@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import Knob                            from '../../../gui/control/Knob';
-import RouteToMenu                     from '../../../gui/routing/RouteToMenu';
 import BaseController                  from '../BaseController';
 
 class MosaicController extends BaseController {
