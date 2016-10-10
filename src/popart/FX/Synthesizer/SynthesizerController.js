@@ -3,6 +3,7 @@ import Radium                          from 'radium';
 import Knob                            from '../../../gui/control/Knob';
 import Color                           from '../../../gui/control/Color';
 import BaseController                  from '../BaseController';
+import Button                          from '../../../gui/control/Button';
 
 class SynthesizerController extends BaseController {
     constructor() {
@@ -29,6 +30,7 @@ class SynthesizerController extends BaseController {
                         <Knob text="y"     {...this.knobsProps["y"]    } />
                         <Knob text="count" {...this.knobsProps["count"]} />
                         <Knob text="phase" {...this.knobsProps["phase"]} />
+                        <Knob text="waveform" {...this.knobsProps["waveform"]} />
                     </div>
 
                     <div style={styles.row}>
@@ -46,6 +48,9 @@ class SynthesizerController extends BaseController {
                     <div style={styles.row}>
                         <Knob text="phase mod" {...this.knobsProps["phaseMod"]} />
                         <Knob text="color mod" {...this.knobsProps["colorMod"]} />
+                        <div style={[styles.alignButton, styles.width50]}>
+                            <Button activeText="Add" inactiveText="Mix" value={!this.props.coreState.IO.blending.read() } onClick={(value) => this.props.onParameterChanged("blending", !value)} />
+                        </div>
                         <Knob text="count mod" {...this.knobsProps["countMod"]} />
                         <Knob text="x mod"     {...this.knobsProps["xMod"]    } />
                         <Knob text="y mod"     {...this.knobsProps["yMod"]    } />
@@ -106,6 +111,14 @@ const styles = {
         marginTop: 5,
         borderRadius: 6,
         backgroundColor: '#464646',
+    },
+
+    alignButton: {
+        marginTop: 30,
+    },
+
+    width50: {
+        width: 50
     }
 };
 

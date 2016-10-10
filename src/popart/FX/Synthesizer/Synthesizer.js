@@ -16,9 +16,12 @@ const shaders = GL.Shaders.create({
         uniform sampler2D modulation;
         uniform float phase;
         uniform float phaseMod, colorMod, countMod, xMod, yMod;
+        uniform float blending;
+        uniform float waveform;
 
         // TODO: fix the value of PI
-        #define PI 3.1415926535897
+        #define PI      3.1415926535897
+        #define HALF_PI 1.5707963267948
 
         void main () {
             // Fetch color from the previous effect
@@ -37,19 +40,47 @@ const shaders = GL.Shaders.create({
             float value = freq * (t + (uv.y * oscY) + (uv.x * oscX));
 
             // Phase modulation
-            // TODO: in the train, check sin period is PI or 2PI?
             value += (modulationValue * phaseMod) * PI;
             value += phase;
 
             // Synthesizer function
-            float mult = abs(sin(value) );
+            float mult = 0.0;
+
+            if (waveform > 0.75) {
+                // Sin
+                mult = abs(sin(value) );
+            }
+            else if (waveform > 0.5)
+            {
+                // Triangle
+                float cv = mod(value, PI);
+                mult = (cv < HALF_PI ? cv : 2.0*HALF_PI - cv) / HALF_PI; // tri
+            }
+            else if (waveform > 0.25)
+            {
+                // Sawtooth
+                mult = (mod(value, PI)) / PI;
+            }
+            else
+            {
+                // Square
+                mult = step(HALF_PI, mod(value, PI));
+            }
 
             // Output front color and transition to the backdrop color
             vec4 synthColor = colorBack + (color * mult);
 
             // TODO: implement other color blending modes?
-            vec4 outputColor = (inputColor * colorMod) + (synthColor * (1.0 - colorMod));
-            //vec4 outputColor = (inputColor) + (color * colorMod);
+
+            // Blending
+            vec4 outputColor;
+            if (blending == 0.0) {
+                // Blend A: mix
+                outputColor = (inputColor * colorMod) + (synthColor * (1.0 - colorMod));
+            } else {
+                // Blend B: add
+                outputColor = (inputColor * colorMod) + (synthColor);
+            }
 
             gl_FragColor = outputColor;
         }`
@@ -64,7 +95,7 @@ export class SynthesizerCore extends BaseEffectCore {
 
         this.IO = {
             'mute'       : new IO('mute',       'bool',  'input'),
-            'waveform'   : new IO('waveform',   'float', 'input'),
+            'waveform'   : new IO('waveform',   'float', 'input', 0, 1),
             'speed'      : new IO('speed',      'float', 'input', 0,  5),
             'x'          : new IO('x',          'float', 'input', -1, 1),
             'y'          : new IO('y',          'float', 'input', -1, 1),
@@ -81,6 +112,7 @@ export class SynthesizerCore extends BaseEffectCore {
             'countMod'   : new IO('countMod',   'float', 'input', 0, 1),
             'xMod'       : new IO('xMod',       'float', 'input', 0, 1),
             'yMod'       : new IO('yMod',       'float', 'input', 0, 1),
+            'blending'   : new IO('blending',   'bool',  'input'),
             'out'        : new IO('out',        'image', 'output'),
         };
 
@@ -103,6 +135,7 @@ export class SynthesizerCore extends BaseEffectCore {
         this.IO.countMod.set(0);
         this.IO.xMod.set(0);
         this.IO.yMod.set(0);
+        this.IO.blending.set(false);
 
         this.buildInputList();
     }
@@ -138,6 +171,8 @@ export const SynthesizerDisplay = GL.createComponent(({ children, state }) => {
                 countMod:  state.IO.countMod.read(),
                 xMod:      state.IO.xMod.read(),
                 yMod:      state.IO.yMod.read(),
+                blending:  state.IO.blending.read() ? 0.0 : 1.0,
+                waveform:  state.IO.waveform.read(),
             }}
         >
             <GL.Uniform name="modulation">
