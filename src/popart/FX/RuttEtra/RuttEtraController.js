@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import Knob                            from '../../../gui/control/Knob';
 import BaseController                  from '../BaseController';
+import Color                           from '../../../gui/control/Color';
 
 class RuttEtraController extends BaseController {
     constructor() {
@@ -32,6 +33,7 @@ class RuttEtraController extends BaseController {
                         <Knob text="R" {...this.knobsProps["colorR"]} />
                         <Knob text="G" {...this.knobsProps["colorG"]} />
                         <Knob text="B" {...this.knobsProps["colorB"]} />
+                        <Color r={this.props.coreState.IO.colorR.read()} g={this.props.coreState.IO.colorG.read()} b={this.props.coreState.IO.colorB.read()} />
                     </div>
                 </div>
 

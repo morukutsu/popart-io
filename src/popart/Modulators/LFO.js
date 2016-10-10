@@ -1,9 +1,10 @@
-import IO   from '../IO/IO';
-import uuid from 'node-uuid';
+import IO            from '../IO/IO';
+import uuid          from 'node-uuid';
+import BaseModulator from './BaseModulator';
 
-export default class LFO {
+export default class LFO extends BaseModulator {
     constructor() {
-        this.uuid = uuid.v4();
+        super();
 
         this.name = "LFO";
 
@@ -33,47 +34,6 @@ export default class LFO {
 
     cleanup() {
 
-    }
-
-    loadParametersValues(parameters) {
-        let IOValues = parameters.IO;
-
-        this.uuid = parameters.uuid;
-        this.time = parameters.time;
-
-        // Use the current input list and look for corresponding IO values
-        Object.keys(this.IO).forEach((key) => {
-            if (!this.IO.hasOwnProperty(key)) {
-                return;
-            }
-
-            let io = this.IO[key];
-            let inputName = io.name;
-
-            if (IOValues[inputName]) {
-                this.IO[inputName].set(IOValues[inputName].currentValue);
-                this.IO[inputName].uuid = IOValues[inputName].uuid;
-                this.IO[inputName].pluggedToMe = IOValues[inputName].pluggedToMe;
-            } else {
-                // In this case, the parameter does not exist in the save file
-                // this may happen when loading a file made with an old version of the software
-                // TODO: initialize this parameter with a default value
-            }
-        });
-    }
-
-    buildInputList() {
-        this.inputList = [];
-        Object.keys(this.IO).forEach((parameterName) => {
-            let parameter = this.IO[parameterName];
-            if (parameter.inputOrOutput == "input") {
-                this.inputList.push(parameter);
-            }
-        });
-    }
-
-    sync() {
-        this.time = 0.0;
     }
 
     tick(dt) {
@@ -115,17 +75,5 @@ export default class LFO {
         let sinusIncrement = sinusPeriod / nDt;
         this.IO.output.set(Math.sin(this.time));
         this.time += sinusIncrement;
-    }
-
-    getState() {
-        return this;
-    }
-
-    onParameterChanged(parameter, value) {
-        this.IO[parameter].set(value);
-    }
-
-    getState() {
-        return this;
     }
 }

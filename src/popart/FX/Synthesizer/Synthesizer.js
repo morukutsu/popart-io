@@ -44,10 +44,14 @@ const shaders = GL.Shaders.create({
             // Synthesizer function
             float mult = abs(sin(value) );
 
+            // Output front color and transition to the backdrop color
+            vec4 synthColor = colorBack + (color * mult);
+
             // TODO: implement other color blending modes?
-            vec4 outputColor = (inputColor * colorMod) + (color * (1.0 - colorMod));
+            vec4 outputColor = (inputColor * colorMod) + (synthColor * (1.0 - colorMod));
             //vec4 outputColor = (inputColor) + (color * colorMod);
-            gl_FragColor = colorBack + (outputColor * mult);
+
+            gl_FragColor = outputColor;
         }`
     }
 });

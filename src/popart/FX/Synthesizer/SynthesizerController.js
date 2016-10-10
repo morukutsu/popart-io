@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import Knob                            from '../../../gui/control/Knob';
+import Color                           from '../../../gui/control/Color';
 import BaseController                  from '../BaseController';
 
 class SynthesizerController extends BaseController {
@@ -34,10 +35,12 @@ class SynthesizerController extends BaseController {
                         <Knob text="R (front)" {...this.knobsProps["colorR"]} />
                         <Knob text="G (front)" {...this.knobsProps["colorG"]} />
                         <Knob text="B (front)" {...this.knobsProps["colorB"]} />
+                        <Color r={this.props.coreState.IO.colorR.read()} g={this.props.coreState.IO.colorG.read()} b={this.props.coreState.IO.colorB.read()} />
 
                         <Knob text="R (back)" {...this.knobsProps["colorBackR"]} />
                         <Knob text="G (back)" {...this.knobsProps["colorBackG"]} />
                         <Knob text="B (back)" {...this.knobsProps["colorBackB"]} />
+                        <Color r={this.props.coreState.IO.colorBackR.read()} g={this.props.coreState.IO.colorBackG.read()} b={this.props.coreState.IO.colorBackB.read()} />
                     </div>
 
                     <div style={styles.row}>

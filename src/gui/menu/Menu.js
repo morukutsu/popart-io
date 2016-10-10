@@ -25,6 +25,10 @@ class Menu extends React.Component {
             {
                 name: "Edit",
                 onClick: () => this.setActiveDropMenu(1),
+                children: [
+                    { name: "Undo", onClick: () => Actions.new() },
+                    { name: "Redo", onClick: () => Actions.new() },
+                ]
             },
             {
                 name: "Render",
@@ -104,7 +108,7 @@ class Menu extends React.Component {
                     {
                         this.state.activeDropMenu ?
                         <DropMenu
-                            items={this.menus[0].children}
+                            items={this.state.activeDropMenu}
                             onDropMenuItemSelected={this.onDropMenuItemSelected}
                             onClickOutside={this.handleClickOutside}
                         />
