@@ -9,8 +9,6 @@ class Color extends React.Component {
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
-
-
     render() {
         const colorFloatToInt = (c) => {
             return (c * 255.0).toFixed(0);

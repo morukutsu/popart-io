@@ -10,15 +10,13 @@ class ModulationKnob extends BaseKnob {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        /*if (this.state.isTweaking) {
+        if (this.state.isTweaking) {
             return true;
         } else {
-            return nextProps.text        !== this.props.text || nextProps.min   !== this.props.min ||
-                   nextProps.max         !== this.props.max  || nextProps.value !== this.props.value ||
-                   nextProps.isModulated !== this.props.isModulated || nextProps.rawValue !== this.props.rawValue;
-        }*/
-
-        return true;
+            return nextProps.min     !== this.props.min     ||
+                   nextProps.max     !== this.props.max     || nextProps.value !== this.props.value ||
+                   nextProps.visible !== this.props.visible || nextProps.rawValue !== this.props.rawValue;
+        }
     }
 
     render() {

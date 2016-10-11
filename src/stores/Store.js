@@ -140,6 +140,8 @@ class Store {
     }
 
     load(parameters) {
+        this.reset();
+        
         const EffectFactory = parameters.EffectFactory;
         const path          = parameters.path;
 

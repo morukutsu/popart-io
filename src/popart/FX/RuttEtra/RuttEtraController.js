@@ -29,6 +29,8 @@ class RuttEtraController extends BaseController {
                         <RefreshedKnob text="distance"   {...this.knobsProps["distance"]}   />
                         <RefreshedKnob text="smooth"     {...this.knobsProps["smooth"]}     />
                         <RefreshedKnob text="thresh"     {...this.knobsProps["thresh"]}     />
+                        <RefreshedKnob text="x window"   {...this.knobsProps["xWindow"]}    />
+                        <RefreshedKnob text="y window"   {...this.knobsProps["yWindow"]}    />
                     </div>
                     <div style={styles.row}>
                         <RefreshedKnob text="R" {...this.knobsProps["colorR"]} />

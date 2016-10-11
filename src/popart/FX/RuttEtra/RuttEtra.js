@@ -12,6 +12,7 @@ const shaders = GL.Shaders.create({
         uniform sampler2D child;
         uniform float multiplier, distance, smooth, thresh;
         uniform vec4 color;
+        uniform float xWindow, yWindow;
 
         float tri(float v) {
             return abs(fract(v*5.0)*2.0-1.0);
@@ -26,6 +27,14 @@ const shaders = GL.Shaders.create({
             // Sample current pixel and compute its luminance
             vec4 c = texture2D(child, pos);
             float luminance = 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
+
+            // X-windowing
+            luminance *= smoothstep(0.0, xWindow, x);
+            luminance *= 1.0 - smoothstep(1.0 - xWindow, 1.0, x);
+
+            // Y-windowing
+            luminance *= smoothstep(0.0, yWindow, y);
+            luminance *= 1.0 - smoothstep(1.0 - yWindow, 1.0, y);
 
             // Initial horizontal scanlines
             float sampleY = pos.y - (luminance * distance);
@@ -66,6 +75,8 @@ export class RuttEtraCore extends BaseEffectCore {
             'colorR'     : new IO('colorR',     'float', 'input', 0, 1),
             'colorG'     : new IO('colorG',     'float', 'input', 0, 1),
             'colorB'     : new IO('colorB',     'float', 'input', 0, 1),
+            'xWindow'    : new IO('xWindow',    'float', 'input', 0, 1),
+            'yWindow'    : new IO('yWindow',    'float', 'input', 0, 1),
         };
 
         this.IO.mute.set(false);
@@ -76,6 +87,8 @@ export class RuttEtraCore extends BaseEffectCore {
         this.IO.colorR.set(0.0);
         this.IO.colorG.set(0.0);
         this.IO.colorB.set(0.0);
+        this.IO.xWindow.set(0.0);
+        this.IO.yWindow.set(0.0);
 
         this.buildInputList();
     }
@@ -107,7 +120,9 @@ export const RuttEtraDisplay = GL.createComponent(({ children, state }) => {
                 distance:   state.IO.distance.read(),
                 smooth:     state.IO.smooth.read(),
                 thresh:     state.IO.thresh.read(),
-                color:      [state.IO.colorR.read(),     state.IO.colorG.read(),     state.IO.colorB.read(),     1.0],
+                color:      [state.IO.colorR.read(), state.IO.colorG.read(), state.IO.colorB.read(), 1.0],
+                xWindow:    state.IO.xWindow.read(),
+                yWindow:    state.IO.yWindow.read()
             }}
         >
             <GL.Uniform name="child">
