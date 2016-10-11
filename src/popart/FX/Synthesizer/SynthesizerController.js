@@ -50,7 +50,7 @@ class SynthesizerController extends BaseController {
                         <RefreshedKnob text="phase mod" {...this.knobsProps["phaseMod"]} />
                         <RefreshedKnob text="color mod" {...this.knobsProps["colorMod"]} />
                         <div style={[styles.alignButton, styles.width50]}>
-                            <RefreshedButton input={this.props.coreState.IO.blending} activeText="Add" inactiveText="Mix" onClick={(value) => this.props.onParameterChanged("blending", !value)} />
+                            <RefreshedButton input={this.props.coreState.IO.blending} activeText="Add" inactiveText="Mix" onClick={(value) => this.props.onParameterChanged("blending", value)} />
                         </div>
                         <RefreshedKnob text="count mod" {...this.knobsProps["countMod"]} />
                         <RefreshedKnob text="x mod"     {...this.knobsProps["xMod"]    } />

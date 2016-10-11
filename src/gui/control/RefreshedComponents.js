@@ -43,7 +43,7 @@ const RefreshedColor = (props) => {
 const RefreshedButton = (props) => {
     const selectFunction = (input) => {
         return {
-            value: !input.read(),
+            value: input.read(),
         };
     };
 
