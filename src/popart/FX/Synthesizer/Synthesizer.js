@@ -135,7 +135,7 @@ export class SynthesizerCore extends BaseEffectCore {
         this.IO.countMod.set(0);
         this.IO.xMod.set(0);
         this.IO.yMod.set(0);
-        this.IO.blending.set(false);
+        this.IO.blending.set(true);
 
         this.buildInputList();
     }

@@ -4,6 +4,35 @@ import Knob                            from '../../gui/control/Knob';
 import Button                          from '../../gui/control/Button';
 import BaseController                  from '../FX/BaseController';
 import { RefreshedKnob, RefreshedColor, RefreshedButton } from '../../gui/control/RefreshedComponents';
+import IORefreshContainer              from '../../gui/IORefreshContainer';
+
+const StepVisualizer = (props) => {
+    let stepStyle = {
+        width: 10, height: 10, borderRadius: 3, margin: 4
+    };
+
+    if (props.currentStep == props.step) {
+        stepStyle.backgroundColor = "yellow";
+    } else {
+        stepStyle.backgroundColor = "black";
+    }
+
+    return <div style={stepStyle}/>;
+};
+
+const RefreshedStepVisualizer = (props) => {
+    const selectFunction = (input) => {
+        return {
+            currentStep: input.read(),
+        };
+    };
+
+    return (
+        <IORefreshContainer io={props.input} selectFunction={selectFunction}>
+            <StepVisualizer {...props} />
+        </IORefreshContainer>
+    );
+};
 
 class SequencerController extends BaseController {
     constructor() {
@@ -28,10 +57,22 @@ class SequencerController extends BaseController {
                         <RefreshedKnob text="frequency" {...this.knobsProps["frequency"]} />
                     </div>
                     <div style={styles.row}>
-                        <RefreshedKnob text="0" {...this.knobsProps["step0"]} />
-                        <RefreshedKnob text="1" {...this.knobsProps["step1"]} />
-                        <RefreshedKnob text="2" {...this.knobsProps["step2"]} />
-                        <RefreshedKnob text="3" {...this.knobsProps["step3"]} />
+                        <div style={styles.column}>
+                            <RefreshedKnob  text="0" {...this.knobsProps["step0"]} />
+                            <RefreshedStepVisualizer step={0} input={this.props.coreState.IO.currentStep} />
+                        </div>
+                        <div style={styles.column}>
+                            <RefreshedKnob text="1" {...this.knobsProps["step1"]} />
+                            <RefreshedStepVisualizer step={1} input={this.props.coreState.IO.currentStep} />
+                        </div>
+                        <div style={styles.column}>
+                            <RefreshedKnob text="2" {...this.knobsProps["step2"]} />
+                            <RefreshedStepVisualizer step={2} input={this.props.coreState.IO.currentStep} />
+                        </div>
+                        <div style={styles.column}>
+                            <RefreshedKnob text="3" {...this.knobsProps["step3"]} />
+                            <RefreshedStepVisualizer step={3} input={this.props.coreState.IO.currentStep} />
+                        </div>
                     </div>
                     <div style={styles.row}>
                         <RefreshedButton input={this.props.coreState.IO.bpmLock} activeText="BPM Lock On" inactiveText="BPM Lock Off" onClick={(value) => this.props.onParameterChanged("bpmLock", value)} />
@@ -83,6 +124,13 @@ const styles = {
     row: {
         display: 'flex',
         flexDirection: 'row'
+    },
+
+    column: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
     main: {

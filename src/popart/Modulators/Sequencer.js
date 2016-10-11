@@ -14,6 +14,8 @@ export default class Sequencer extends BaseModulator {
             //'divider'   : new IO('divider',    'float',  'input', 0, 10), // in Hertz
             'bpmLock'   : new IO('bpmLock',    'bool',   'input'),
 
+            'currentStep': new IO('currentStep', 'float',  'input', 0, 4), // TODO: internal parameters?
+            
             'step0'     : new IO('step0',      'float',  'input', -1, 1),
             'step1'     : new IO('step1',      'float',  'input', -1, 1),
             'step2'     : new IO('step2',      'float',  'input', -1, 1),
@@ -25,6 +27,7 @@ export default class Sequencer extends BaseModulator {
         this.IO.mute.set(false);
         this.IO.frequency.set(0.05);
         this.IO.bpmLock.set(false);
+        this.IO.currentStep.set(0);
 
         this.IO.step0.set(0.0);
         this.IO.step1.set(0.0);
@@ -32,8 +35,6 @@ export default class Sequencer extends BaseModulator {
         this.IO.step3.set(0.0);
 
         this.buildInputList();
-
-        this.currentStep = 0;
     }
 
     cleanup() {
@@ -42,7 +43,7 @@ export default class Sequencer extends BaseModulator {
 
     sync() {
         super.sync();
-        this.currentStep = 0;
+        this.IO.currentStep.set(0);
     }
 
     tick(dt) {
@@ -52,12 +53,12 @@ export default class Sequencer extends BaseModulator {
 
         const periodInSeconds = 1.0 / this.IO.frequency.read();
 
-        this.IO.output.set(this.IO["step" + this.currentStep].read() );
+        this.IO.output.set(this.IO["step" + this.IO.currentStep.read()].read() );
 
         this.time += dt;
         if (this.time > periodInSeconds) {
             this.time = 0.0;
-            this.currentStep = (this.currentStep + 1) % 4
+            this.IO.currentStep.set((this.IO.currentStep.read() + 1) % 4);
         }
     }
 
