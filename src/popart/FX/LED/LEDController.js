@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import Knob                            from '../../../gui/control/Knob';
 import BaseController                  from '../BaseController';
+import { RefreshedKnob, RefreshedColor, RefreshedButton } from '../../../gui/control/RefreshedComponents';
 
 class LEDController extends BaseController {
     constructor() {
@@ -23,9 +24,9 @@ class LEDController extends BaseController {
 
                 <div style={styles.main}>
                     <div style={styles.row}>
-                        <Knob text="repeat" {...this.knobsProps["repeat"]}  />
-                        <Knob text="radius" {...this.knobsProps["radius"]}  />
-                        <Knob text="smooth" {...this.knobsProps["smooth"]}  />
+                        <RefreshedKnob text="repeat" {...this.knobsProps["repeat"]}  />
+                        <RefreshedKnob text="radius" {...this.knobsProps["radius"]}  />
+                        <RefreshedKnob text="smooth" {...this.knobsProps["smooth"]}  />
                     </div>
                 </div>
 

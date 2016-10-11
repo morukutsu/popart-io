@@ -76,9 +76,18 @@ class Page extends React.Component {
         }
 
         // Trigger render
-        this.setState({
+        /*this.setState({
             dummy: 1
-        });
+        });*/
+
+        /*if (RefreshManager.getRefreshFlag() )
+        {
+            this.setState({
+                dummy: 1
+            });
+
+            RefreshManager.clearRefresh()
+        }*/
 
         this.raf = window.requestAnimationFrame(this.update);
         this.prevTimestamp = timestamp;

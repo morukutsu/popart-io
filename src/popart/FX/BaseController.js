@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Button                          from '../../gui/control/Button';
 import DropMenu                        from '../../gui/menu/DropMenu.js';
+import { RefreshedKnob, RefreshedColor, RefreshedButton } from '../../gui/control/RefreshedComponents';
 
 export default class BaseController extends React.Component {
     constructor() {
@@ -95,7 +96,7 @@ export default class BaseController extends React.Component {
 
     renderTitleButtons() {
         return (
-            <Button activeText="On" inactiveText="Off" value={!this.props.coreState.IO.mute.read() } onClick={(value) => this.props.onParameterChanged("mute", !value)} />
+            <RefreshedButton input={this.props.coreState.IO.mute} activeText="On" inactiveText="Off" onClick={(value) => this.props.onParameterChanged("mute", !value)} />
         );
     }
 

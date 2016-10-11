@@ -16,18 +16,18 @@ class EffectView extends React.Component {
     }
 
     componentWillMount() {
-        //Events.on('refresh', this.onRefresh);
+        Events.on('refresh', this.onRefresh);
     }
 
     componentWillUnmount() {
-        //Events.removeListener('refresh', this.onRefresh);
+        Events.removeListener('refresh', this.onRefresh);
     }
 
     onRefresh() {
         // Trigger render
-        /*this.setState({
+        this.setState({
             dummy: 1
-        });*/
+        });
     }
 
     renderEffects() {

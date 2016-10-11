@@ -3,6 +3,7 @@ import Radium                          from 'radium';
 import Knob                            from '../../../gui/control/Knob';
 import BaseController                  from '../BaseController';
 import Color                           from '../../../gui/control/Color';
+import { RefreshedKnob, RefreshedColor, RefreshedButton } from '../../../gui/control/RefreshedComponents';
 
 class RuttEtraController extends BaseController {
     constructor() {
@@ -24,16 +25,16 @@ class RuttEtraController extends BaseController {
 
                 <div style={styles.main}>
                     <div style={styles.row}>
-                        <Knob text="multiplier" {...this.knobsProps["multiplier"]} />
-                        <Knob text="distance"   {...this.knobsProps["distance"]}   />
-                        <Knob text="smooth"     {...this.knobsProps["smooth"]}     />
-                        <Knob text="thresh"     {...this.knobsProps["thresh"]}     />
+                        <RefreshedKnob text="multiplier" {...this.knobsProps["multiplier"]} />
+                        <RefreshedKnob text="distance"   {...this.knobsProps["distance"]}   />
+                        <RefreshedKnob text="smooth"     {...this.knobsProps["smooth"]}     />
+                        <RefreshedKnob text="thresh"     {...this.knobsProps["thresh"]}     />
                     </div>
                     <div style={styles.row}>
-                        <Knob text="R" {...this.knobsProps["colorR"]} />
-                        <Knob text="G" {...this.knobsProps["colorG"]} />
-                        <Knob text="B" {...this.knobsProps["colorB"]} />
-                        <Color r={this.props.coreState.IO.colorR.read()} g={this.props.coreState.IO.colorG.read()} b={this.props.coreState.IO.colorB.read()} />
+                        <RefreshedKnob text="R" {...this.knobsProps["colorR"]} />
+                        <RefreshedKnob text="G" {...this.knobsProps["colorG"]} />
+                        <RefreshedKnob text="B" {...this.knobsProps["colorB"]} />
+                        <RefreshedColor inputs={[this.props.coreState.IO.colorR, this.props.coreState.IO.colorG, this.props.coreState.IO.colorB]} />
                     </div>
                 </div>
 

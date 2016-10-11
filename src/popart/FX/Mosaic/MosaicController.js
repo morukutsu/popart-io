@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import Knob                            from '../../../gui/control/Knob';
 import BaseController                  from '../BaseController';
+import { RefreshedKnob, RefreshedColor, RefreshedButton } from '../../../gui/control/RefreshedComponents';
 
 class MosaicController extends BaseController {
     constructor() {
@@ -23,7 +24,7 @@ class MosaicController extends BaseController {
 
                 <div style={styles.main}>
                     <div style={styles.row}>
-                        <Knob text="length" {...this.knobsProps["length"]}  />
+                        <RefreshedKnob text="length" {...this.knobsProps["length"]}  />
                     </div>
                 </div>
 
