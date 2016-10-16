@@ -54,7 +54,11 @@ class SequencerController extends BaseController {
 
                 <div style={styles.main}>
                     <div style={styles.row}>
-                        <RefreshedKnob text="frequency" {...this.knobsProps["frequency"]} />
+                        <RefreshedKnob text="frequency"  {...this.knobsProps["frequency"]}  />
+                        <RefreshedKnob text="multiplier" {...this.knobsProps["multiplier"]} steps={[
+                            [0.125 / 2.0, 0.125, 0.25, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0], // values
+                            ['1/16', '1/8', '1/4', '1/2', '1', '2', '4', '8', '16']    // labels
+                        ]}/>
                     </div>
                     <div style={styles.row}>
                         <div style={styles.column}>

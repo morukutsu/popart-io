@@ -31,7 +31,10 @@ class SynthesizerController extends BaseController {
                         <RefreshedKnob text="y"     {...this.knobsProps["y"]    } />
                         <RefreshedKnob text="count" {...this.knobsProps["count"]} />
                         <RefreshedKnob text="phase" {...this.knobsProps["phase"]} />
-                        <RefreshedKnob text="waveform" {...this.knobsProps["waveform"]} />
+                        <RefreshedKnob text="waveform" {...this.knobsProps["waveform"]} steps={[
+                            [0, 0.25, 0.50, 0.75],       // values
+                            ['sqr', 'saw', 'tri', 'sin'] // labels
+                        ]}/>
                     </div>
 
                     <div style={styles.row}>

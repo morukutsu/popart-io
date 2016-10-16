@@ -64,7 +64,7 @@ const shaders = GL.Shaders.create({
             else
             {
                 // Square
-                mult = step(HALF_PI, mod(value, PI));
+                mult = step(PI, mod(value, 2.0 * PI));
             }
 
             // Output front color and transition to the backdrop color

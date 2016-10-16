@@ -1,13 +1,14 @@
 import uuid from 'node-uuid';
 
 export default class IO {
-    constructor(name, type, inputOrOutput, modulateMin, modulateMax) {
+    constructor(name, type, inputOrOutput, modulateMin, modulateMax, steps) {
         this.uuid = uuid.v4();
 
         this.name            = name;
         this.type            = type;
         this.inputOrOutput   = inputOrOutput;
         this.modulateBounds  = [modulateMin, modulateMax];
+        this.steps           = steps;
 
         this.pluggedIo       = null;
         this.modulationRange = 0.5;
@@ -50,6 +51,12 @@ export default class IO {
 
         if (outputValue === undefined) {
             return 0;
+        }
+
+        if (this.steps) {
+            let knobSteps  = this.makeSteps(this.steps);
+            let valueIndex = this.searchIndex(knobSteps, outputValue);
+            outputValue    = this.steps[valueIndex];
         }
 
         return outputValue;
@@ -112,5 +119,60 @@ export default class IO {
 
     isPlugged() {
         return this.pluggedIo !== null;
+    }
+
+    // steps management
+    // in an array or ordered values like [0, 1, 2, 3, 4]
+    // given a value like: 3.5
+    // returns 3 (the index of the lower bound of the interval [3, 4])
+    searchIndex(array, valueToFind)
+    {
+        // Special case: if the value < the lowest element or the highest, early exit
+        if (valueToFind <= array[0])
+            return 0;
+
+        if (valueToFind >= array[array.length - 1])
+            return array.length - 1;
+
+        let lowBound  = 0;
+        let highBound = array.length - 1;
+
+        let found = false;
+        while (!found)
+        {
+            let middleBound = lowBound + Math.floor((highBound - lowBound) / 2);
+
+            if (valueToFind < array[middleBound])
+            {
+                // Value is in the first half of the array
+                highBound = middleBound;
+            }
+            else
+            {
+                // Value is in the other half
+                lowBound = middleBound;
+            }
+
+            // If the interval size is 1, we found where is our value
+            if (highBound - lowBound == 1)
+                found = true;
+        }
+
+        return lowBound;
+    }
+
+    // Given an array, return an array a equal sized steps between 0 and 1
+    makeSteps(array)
+    {
+        let knobSteps = [];
+        let stepIncrement = 1.0 / array.length;
+
+        let currentIncrement = 0.0;
+        array.forEach(() => {
+            knobSteps.push(currentIncrement);
+            currentIncrement += stepIncrement;
+        });
+
+        return knobSteps;
     }
 };

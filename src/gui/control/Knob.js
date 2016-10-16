@@ -32,8 +32,65 @@ class Knob extends BaseKnob {
         return false;
     }
 
+    // in an array or ordered values like [0, 1, 2, 3, 4]
+    // given a value like: 3.5
+    // returns 3 (the index of the lower bound of the interval [3, 4])
+    searchIndex(array, valueToFind)
+    {
+        // Special case: if the value < the lowest element or the highest, early exit
+        if (valueToFind <= array[0])
+            return 0;
+
+        if (valueToFind >= array[array.length - 1])
+            return array.length - 1;
+
+        let lowBound  = 0;
+        let highBound = array.length - 1;
+
+        let found = false;
+        while (!found)
+        {
+            let middleBound = lowBound + Math.floor((highBound - lowBound) / 2);
+
+            if (valueToFind < array[middleBound])
+            {
+                // Value is in the first half of the array
+                highBound = middleBound;
+            }
+            else
+            {
+                // Value is in the other half
+                lowBound = middleBound;
+            }
+
+            // If the interval size is 1, we found where is our value
+            if (highBound - lowBound == 1)
+                found = true;
+        }
+
+        return lowBound;
+    }
+
+    // Given an array, return an array a equal sized steps between 0 and 1
+    makeSteps(array)
+    {
+        let knobSteps = [];
+        let stepIncrement = 1.0 / array.length;
+
+        let currentIncrement = 0.0;
+        array.forEach(() => {
+            knobSteps.push(currentIncrement);
+            currentIncrement += stepIncrement;
+        });
+
+        return knobSteps;
+    }
+
     render() {
         let valueToDisplay = this.state.isTweaking ? this.props.rawValue : this.props.value;
+        if (this.props.steps) {
+            valueToDisplay = this.props.rawValue;
+        }
 
         // Scale to [0, 100]
         let range = this.props.max - this.props.min;
@@ -82,6 +139,16 @@ class Knob extends BaseKnob {
 
         arcOffset = Math.max(0.0, arcOffset);
 
+        // Clamp value to display
+        if (this.props.steps) {
+            let knobSteps = this.makeSteps(this.props.steps[0]);
+            let valueIndex = this.searchIndex(knobSteps, this.props.rawValue);
+
+            valueToDisplay = this.props.steps[1][valueIndex];
+        } else {
+            valueToDisplay = valueToDisplay.toFixed(1);
+        }
+
         return (
             <div style={styles.outerContainer}>
                 <ModulationKnob
@@ -109,7 +176,7 @@ class Knob extends BaseKnob {
                     </div>
 
                     <div style={styles.numberText}>
-                        { valueToDisplay.toFixed(1) }
+                        { valueToDisplay }
                     </div>
                 </div>
 
