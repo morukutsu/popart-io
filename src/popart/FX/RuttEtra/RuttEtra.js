@@ -14,10 +14,6 @@ const shaders = GL.Shaders.create({
         uniform vec4 color;
         uniform float xWindow, yWindow;
 
-        float tri(float v) {
-            return abs(fract(v*5.0)*2.0-1.0);
-        }
-
         void main () {
             float x = uv.x;
             float y = uv.y;

@@ -11,7 +11,7 @@ const LFOVisualizer = (props) => {
         width: 10, height: 10, borderRadius: 3, margin: 4
     };
 
-    let v     = Math.abs(props.value);
+    let v     = (1.0 + props.value) / 2.0;
     let color = (255.0 * v).toFixed(0);
 
     stepStyle.backgroundColor = "rgba(" + color + ", " + color + ", " + 0 + ", 1.0)";
