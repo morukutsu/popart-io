@@ -16,28 +16,6 @@ const shaders = GL.Shaders.create({
         uniform float     radius;
         uniform sampler2D previousFrame;
 
-        float exponentialOut(float t) {
-            return t == 1.0 ? t : 1.0 - pow(2.0, -10.0 * t);
-        }
-
-        vec4 smoothEdge(float smoothFactor, vec4 color, float value, float threshold) {
-            float diff = value - threshold;           // min 0, max 1-thresh
-            diff = diff * (1.0 / (1.0 - threshold));  // min 0, max 1
-
-            diff += 1.0 - smoothFactor;
-            diff = clamp(diff, 0.0, 1.0);
-
-            diff = exponentialOut(diff);
-
-            color.rgb = color.rgb * (diff);
-
-            return color;
-        }
-
-        float rand(vec2 co) {
-            return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
-        }
-
         void main () {
             // Compute fragment position without aspect ratio normalization
             vec2 fragCoord = vec2(gl_FragCoord.x, gl_FragCoord.y);
@@ -66,7 +44,16 @@ const shaders = GL.Shaders.create({
 
             // Draw the circles pixels
             if (distanceToCenter <= radius) {
-                circleColor = smoothEdge(smooth, color, radius - distanceToCenter, radius);
+                float d = 1.0;
+
+                if (smooth != 1.0)
+                {
+                    float normalizedSmoothFactor = smooth / (1.0 / radius);
+
+                    d = 1.0 - smoothstep(normalizedSmoothFactor, radius, distanceToCenter);
+                }
+
+                circleColor = color * d;
             } else {
                 circleColor = vec4(0.0, 0.0, 0.0, 1.0);
             }
