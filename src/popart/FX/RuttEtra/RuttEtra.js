@@ -10,9 +10,9 @@ const shaders = GL.Shaders.create({
         precision highp float;
         varying vec2      uv;
         uniform sampler2D child;
-        uniform float multiplier, distance, smooth, thresh;
-        uniform vec4 color;
-        uniform float xWindow, yWindow;
+        uniform float     multiplier, distance, smooth, thresh;
+        uniform vec4      color;
+        uniform float     xWindow, yWindow;
 
         void main () {
             float x = uv.x;
@@ -34,22 +34,14 @@ const shaders = GL.Shaders.create({
 
             // Initial horizontal scanlines
             float sampleY = pos.y - (luminance * distance);
-
             float sinValue = sin(sampleY * multiplier);
 
-            if (sinValue < thresh)
-                c = color;
-            else
-            {
-                float diff = sinValue - thresh;       // min 0, max 1-thresh
-                diff = diff * (1.0 / (1.0 - thresh));  // min 0, max 1
+            // Edges and Smoothing
+            float diff = sinValue - thresh;       // min 0, max 1-thresh
+            diff = diff * (1.0 / (1.0 - thresh)); // min 0, max 1
 
-                diff += 1.0 - smooth;
-                diff = clamp(diff, 0.0, 1.0);
-
-                c.rgb = c.rgb * (diff);
-                c = c + color * (1.0 - diff);
-            }
+            float m = smoothstep(0.0, smooth, diff);
+            c = c * m + color * (1.0 - m);
 
             gl_FragColor = c;
         }`

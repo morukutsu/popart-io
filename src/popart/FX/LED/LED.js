@@ -14,7 +14,8 @@ const shaders = GL.Shaders.create({
         uniform vec2      resolution;
         uniform float     repeat;
         uniform float     radius;
-        uniform sampler2D previousFrame;
+        uniform vec4      color;
+        //uniform sampler2D previousFrame;
 
         void main () {
             // Compute fragment position without aspect ratio normalization
@@ -37,34 +38,15 @@ const shaders = GL.Shaders.create({
             float diffY = centerY - yMod;
             float distanceToCenter = sqrt(diffX*diffX + diffY*diffY);
 
-            vec4 color     = texture2D(child, uv);
-            vec4 prevColor = texture2D(previousFrame, uv);
-
-            vec4 circleColor;
-
             // Draw the circles pixels
-            if (distanceToCenter <= radius) {
-                float d = 1.0;
+            float normalizedSmoothFactor = smooth / (1.0 / radius);
+            normalizedSmoothFactor       = clamp(normalizedSmoothFactor, 0.0, radius);
 
-                if (smooth != 1.0)
-                {
-                    float normalizedSmoothFactor = smooth / (1.0 / radius);
+            float d = 1.0 - smoothstep(normalizedSmoothFactor, radius, distanceToCenter);
 
-                    d = 1.0 - smoothstep(normalizedSmoothFactor, radius, distanceToCenter);
-                }
+            vec4 texColor = texture2D(child, uv);
 
-                circleColor = color * d;
-            } else {
-                circleColor = vec4(0.0, 0.0, 0.0, 1.0);
-            }
-
-            float luminance = 0.2126 * prevColor.r + 0.7152 * prevColor.g + 0.0722 * prevColor.b;
-
-            /*if (luminance < 0.5) {
-                prevColor = vec4(0.0, 0.0, 0.0, 0.0);
-            }*/
-
-            gl_FragColor = /*prevColor * 0.8 + */circleColor/* * 0.2*/;
+            gl_FragColor = mix(color, texColor, d);
         }`
     },
 });
@@ -80,11 +62,17 @@ export class LEDCore extends BaseEffectCore {
             'smooth' : new IO('smooth', 'float', 'input', 0, 1),
             'repeat' : new IO('repeat', 'float', 'input', 0, 1),
             'radius' : new IO('radius', 'float', 'input', 0, 0.5),
+            'colorR' : new IO('colorR',     'float', 'input', 0, 1),
+            'colorG' : new IO('colorG',     'float', 'input', 0, 1),
+            'colorB' : new IO('colorB',     'float', 'input', 0, 1),
         };
 
         this.IO.smooth.set(0.5);
         this.IO.repeat.set(0.1);
         this.IO.radius.set(0.1);
+        this.IO.colorR.set(0.0);
+        this.IO.colorG.set(0.0);
+        this.IO.colorB.set(0.0);
 
         this.inputList = [];
         this.buildInputList();
@@ -116,7 +104,8 @@ export const LEDDisplay = GL.createComponent(({ children, state }) => {
                 smooth:      state.IO.smooth.read(),
                 repeat:      state.IO.repeat.read(),
                 radius:      state.IO.radius.read(),
-                previousFrame: null,
+                color :      [state.IO.colorR.read(), state.IO.colorG.read(), state.IO.colorB.read(), 1.0],
+                //previousFrame: null,
             }}
         >
             <GL.Uniform name="child">

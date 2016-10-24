@@ -28,6 +28,12 @@ class LEDController extends BaseController {
                         <RefreshedKnob text="radius" {...this.knobsProps["radius"]}  />
                         <RefreshedKnob text="smooth" {...this.knobsProps["smooth"]}  />
                     </div>
+                    <div style={styles.row}>
+                        <RefreshedKnob text="R" {...this.knobsProps["colorR"]} />
+                        <RefreshedKnob text="G" {...this.knobsProps["colorG"]} />
+                        <RefreshedKnob text="B" {...this.knobsProps["colorB"]} />
+                        <RefreshedColor inputs={[this.props.coreState.IO.colorR, this.props.coreState.IO.colorG, this.props.coreState.IO.colorB]} />
+                    </div>
                 </div>
 
                 { this.renderDropMenu() }
