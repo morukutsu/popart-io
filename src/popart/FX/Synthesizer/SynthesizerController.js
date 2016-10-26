@@ -16,13 +16,7 @@ class SynthesizerController extends BaseController {
             <div
                 style={styles.container}
             >
-                <div style={styles.title}>
-                    Synthesizer
-
-                    <div style={styles.alignedRight}>
-                        { this.renderTitleButtons() }
-                    </div>
-                </div>
+                { this.renderTitle() }
 
                 <div style={styles.main}>
                     <div style={styles.row}>
@@ -90,21 +84,6 @@ const styles = {
         flexDirection: 'row',
         flex: 1
     },
-
-    title: {
-        height: 50,
-        padding: 10,
-        borderRadius: 6,
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'row',
-        fontSize: 20,
-        fontWeight: 'bold',
-        backgroundColor: '#FD5A35',
-        color: 'white',
-        flex: 1,
-    },
-
 
     row: {
         display: 'flex',

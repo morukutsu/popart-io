@@ -123,4 +123,39 @@ export default class BaseController extends React.Component {
             );
         }
     }
+
+    renderTitle() {
+        let styles = {
+            title: {
+                height: 45,
+                padding: 10,
+                borderRadius: 6,
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'row',
+                fontSize: 20,
+                fontWeight: 'bold',
+                backgroundColor: '#FD5A35',
+                color: 'white',
+                flex: 1,
+            },
+
+            alignedRight: {
+                display: 'flex',
+                justifyContent: 'flex-end',
+                flexDirection: 'row',
+                flex: 1
+            },
+        };
+
+        return (
+            <div style={styles.title}>
+                { this.props.coreState.name }
+
+                <div style={styles.alignedRight}>
+                    { this.renderTitleButtons() }
+                </div>
+            </div>
+        );
+    }
 }
