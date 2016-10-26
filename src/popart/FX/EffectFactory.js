@@ -6,6 +6,10 @@ import { MosaicCore,  MosaicDisplay }           from './Mosaic/Mosaic';
 import MosaicController                         from './Mosaic/MosaicController';
 import { LEDCore,  LEDDisplay }                 from './LED/LED';
 import LEDController                            from './LED/LEDController';
+import { BlurCore,  BlurDisplay }               from './Blur/Blur';
+import BlurController                           from './Blur/BlurController';
+import { RGBSplitCore,  RGBSplitDisplay }       from './RGBSplit/RGBSplit';
+import RGBSplitController                       from './RGBSplit/RGBSplitController';
 
 import LFO                                      from '../Modulators/LFO';
 import LFOController                            from '../Modulators/LFOController';
@@ -27,6 +31,12 @@ var effectFactory = {
             'LEDDisplay':            LEDDisplay,
             'LEDController':         LEDController,
             'LEDCore':               LEDCore,
+            'BlurDisplay':           BlurDisplay,
+            'BlurController':        BlurController,
+            'BlurCore':              BlurCore,
+            'RGBSplitDisplay':       RGBSplitDisplay,
+            'RGBSplitController':    RGBSplitController,
+            'RGBSplitCore':          RGBSplitCore,
 
             'LFO':                   LFO,
             'LFOController':         LFOController,

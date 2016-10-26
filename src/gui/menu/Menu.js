@@ -14,6 +14,7 @@ class Menu extends React.Component {
             {
                 name: "File",
                 onClick: () => this.setActiveDropMenu(0),
+                offsetX: 0,
                 children: [
                     { name: "New",          onClick: () => Actions.new()                   },
                     { name: "Open File...", onClick: () => Actions.openFile(EffectFactory) },
@@ -25,6 +26,7 @@ class Menu extends React.Component {
             {
                 name: "Edit",
                 onClick: () => this.setActiveDropMenu(1),
+                offsetX: 65,
                 children: [
                     { name: "Undo", onClick: () => Actions.new() },
                     { name: "Redo", onClick: () => Actions.new() },
@@ -33,11 +35,13 @@ class Menu extends React.Component {
             {
                 name: "Render",
                 onClick: () => this.setActiveDropMenu(2),
+                offsetX: 130
             }
         ];
 
         this.state = {
-            activeDropMenu: null
+            activeDropMenu:   null,
+            dropMenuOffsetX: 0
         };
 
         this.onDropMenuItemSelected = this.onDropMenuItemSelected.bind(this);
@@ -48,11 +52,12 @@ class Menu extends React.Component {
         // Close drop menu if we are trying to open the current menu
         if (this.state.activeDropMenu == this.menus[id].children) {
             this.setState({
-                activeDropMenu: null
+                activeDropMenu:  null,
             });
         } else {
             this.setState({
-                activeDropMenu: this.menus[id].children
+                activeDropMenu:  this.menus[id].children,
+                dropMenuOffsetX: this.menus[id].offsetX,
             });
         }
     }
@@ -93,6 +98,10 @@ class Menu extends React.Component {
     render() {
         let menus = this.renderMenu(this.menus);
 
+        let dropMenuPosition = {
+            left: this.state.dropMenuOffsetX
+        };
+
         return (
             <div>
                 <div
@@ -104,7 +113,7 @@ class Menu extends React.Component {
                     <div style={styles.draggableArea}></div>
                 </div>
 
-                <div style={styles.dropMenu}>
+                <div style={[styles.dropMenu, dropMenuPosition]}>
                     {
                         this.state.activeDropMenu ?
                         <DropMenu

@@ -15,7 +15,6 @@ const shaders = GL.Shaders.create({
         uniform float     repeat;
         uniform float     radius;
         uniform vec4      color;
-        //uniform sampler2D previousFrame;
 
         void main () {
             // Compute fragment position without aspect ratio normalization
@@ -74,7 +73,6 @@ export class LEDCore extends BaseEffectCore {
         this.IO.colorG.set(0.0);
         this.IO.colorB.set(0.0);
 
-        this.inputList = [];
         this.buildInputList();
     }
 
@@ -100,12 +98,11 @@ export const LEDDisplay = GL.createComponent(({ children, state }) => {
         <GL.Node
             shader={shaders.shader_led}
             uniforms={{
-                resolution:  [640, 360], // TODO: set dynamically
+                resolution:  [640, 360], // TODO: set dynamically problems with that on Retina displays
                 smooth:      state.IO.smooth.read(),
                 repeat:      state.IO.repeat.read(),
                 radius:      state.IO.radius.read(),
                 color :      [state.IO.colorR.read(), state.IO.colorG.read(), state.IO.colorB.read(), 1.0],
-                //previousFrame: null,
             }}
         >
             <GL.Uniform name="child">

@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import GL                              from 'gl-react';
-import IO  from '../../IO/IO';
+import IO                              from '../../IO/IO';
+import BaseEffectCore                  from '../BaseEffectCore';
+import NullDisplay                     from '../Null/Null';
 
 const shaders = GL.Shaders.create({
     blur: {
@@ -29,11 +31,20 @@ const shaders = GL.Shaders.create({
     },
 });
 
-export class BlurCore {
+export class BlurCore extends BaseEffectCore {
     constructor() {
+        super();
+
+        this.name = "Blur";
+
         this.IO = {
-            'intensity' : new IO('float', 'input'),
+            'mute'      : new IO('mute',      'bool',  'input'),
+            'intensity' : new IO('intensity', 'float', 'input', 0, 10),
         };
+
+        this.IO.intensity.set(2);
+
+        this.buildInputList();
     }
 
     tick(dt) {
@@ -52,6 +63,11 @@ export const BlurDisplay = GL.createComponent(({ children, state }) => {
     let directionV = [0, state.IO.intensity.read()];
     let directionH = [state.IO.intensity.read(), 0];
 
+    let childrenToRender = children ? children : <NullDisplay />;
+    if (state.IO.mute.read() ) {
+        return childrenToRender;
+    }
+
     return (
         <GL.Node
             shader={shaders.blur}
@@ -63,7 +79,7 @@ export const BlurDisplay = GL.createComponent(({ children, state }) => {
                     uniforms={{d: directionH}}
                 >
                     <GL.Uniform name="child">
-                        {children}
+                        { childrenToRender }
                     </GL.Uniform>
                 </GL.Node>
             </GL.Uniform>

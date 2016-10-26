@@ -7,7 +7,7 @@ class Store {
     constructor() {
         this.bindActions(Actions);
 
-        this.effectList     = ["Synthesizer", "RuttEtra", "Mosaic", "LED"];
+        this.effectList     = ["Synthesizer", "RuttEtra", "Mosaic", "LED", "Blur", "RGBSplit"];
         this.modulatorsList = ["LFO", "Sequencer"];
 
         this.reset();
@@ -141,7 +141,7 @@ class Store {
 
     load(parameters) {
         this.reset();
-        
+
         const EffectFactory = parameters.EffectFactory;
         const path          = parameters.path;
 

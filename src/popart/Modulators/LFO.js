@@ -19,6 +19,8 @@ export default class LFO extends BaseModulator {
             'output'    : new IO('output',     'float',  'output')        // [0..1] out LFO signal
         };
 
+        // TODO: LFO phase?
+        
         this.time = 0.0;
 
         this.waveFormUpdaters = {
