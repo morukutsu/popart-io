@@ -18,6 +18,7 @@ let Actions = alt.generateActions(
     'stop',
     'changeBpm',
     'sync',
+    'autoBpm',
 );
 
 export default alt.createActions(Actions);

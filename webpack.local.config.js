@@ -46,7 +46,11 @@ module.exports = {
   // Transform source code using Babel and React Hot Loader
   module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loaders: ["babel-loader"] },
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loaders: ["babel-loader"],
+      },
       { test: /\.css$/, loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'} ) },
       { test: /\.json?$/, loaders: ["json-loader"] },
     ],

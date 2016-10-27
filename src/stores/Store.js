@@ -2,6 +2,11 @@ import alt           from '../alt';
 import Actions       from '../actions/Actions';
 import fs            from 'fs';
 import electron      from 'electron';
+import Recorder      from 'recorderjs';
+import detect        from 'bpm-detective';
+//import detect from '../popart/AudioProcessing/BeatDetect';
+
+let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
 class Store {
     constructor() {
@@ -297,6 +302,50 @@ class Store {
     stop() {
         this.sync();
         this.isPaused = true;
+    }
+
+    autoBpm() {
+        navigator.getUserMedia = navigator.webkitGetUserMedia;
+
+        navigator.getUserMedia({ audio: true }, (stream) =>
+            {
+                var source = audioCtx.createMediaStreamSource(stream);
+
+                var rec = new Recorder(source);
+
+                rec.record();
+                setTimeout(() => {
+                    rec.stop();
+
+                    rec.getBuffer((buffer) => {
+                        let audioBuffer = audioCtx.createBuffer(2, buffer[0].length, 44100);
+
+                        let channel0 = audioBuffer.getChannelData(0);
+                        let channel1 = audioBuffer.getChannelData(1);
+                        for (var i = 0; i < buffer[0].length; i++)
+                        {
+                            channel0[i] = buffer[0][i];
+                            channel1[i] = buffer[1][i];
+                        }
+
+                        try {
+                            let bpm = detect(audioBuffer, buffer[0].length);
+                            this.changeBpm(bpm + 10);
+                            this.emitChange();
+
+                            // TODO: must schedule a sync on a the next music beat
+                        } catch (err) {
+                            console.log(err);
+                        }
+                    });
+
+                    console.log("Recording ended");
+                }, 5000);
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
     }
 }
 

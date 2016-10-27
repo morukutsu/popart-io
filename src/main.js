@@ -4,6 +4,7 @@
 
 // Polyfill
 import 'babel-polyfill';
+//import 'babel-preset-es2017/polyfill';
 
 // Libraries
 import React from 'react';
