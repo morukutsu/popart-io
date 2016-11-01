@@ -9,16 +9,18 @@ class Block extends React.Component {
     }
 
     render() {
-        let colorStyle = {
+        const colorStyle = {
             backgroundColor: this.props.color,
             ':hover': {
                 backgroundColor: this.props.hoverColor
             }
         };
 
+        const sizeStyle = this.props.header ? styles.headerBlockSize : styles.normalBlockSize;
+
         return (
             <div
-                style={[styles.container, this.props.active ? styles.inactive : null, colorStyle]}
+                style={[styles.container, this.props.active ? styles.inactive : null, colorStyle, sizeStyle]}
                 onClick={this.props.onPress}
                 onContextMenu={this.props.onRightClick}
             >
@@ -30,10 +32,7 @@ class Block extends React.Component {
 
 const styles = {
     container: {
-        width: 125,
-        height: 60,
         borderRadius: 4,
-
         margin: 5,
         alignItems: 'center',
         justifyContent: 'center',
@@ -42,12 +41,23 @@ const styles = {
         display: 'flex',
         fontSize: 20,
         color: 'white',
+        flexShrink: 0,
 
         transition: 'background-color 0.2s',
     },
 
     inactive: {
         backgroundColor: '#A63700'
+    },
+
+    headerBlockSize: {
+        width: 125,
+        height: 40,
+    },
+
+    normalBlockSize: {
+        width: 125,
+        height: 60,
     }
 };
 

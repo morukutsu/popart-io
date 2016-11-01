@@ -20,7 +20,7 @@ class Button extends React.Component {
             );
         } else {
             return (
-                <div style={[styles.text, !this.props.value ? styles.activeText : null]} >
+                <div style={[styles.text, this.props.value ? styles.activeText : null]} >
                     { this.props.value ? this.props.activeText : this.props.inactiveText }
                 </div>
             );

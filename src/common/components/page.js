@@ -15,6 +15,7 @@ import Menu               from '../../gui/menu/Menu.js';
 import Events             from '../../popart/Events';
 import RefreshManager     from '../../popart/RefreshManager';
 import TransportMenu      from '../../gui/transport/TransportMenu';
+import RoutingPanel       from '../../gui/routing/RoutingPanel';
 
 class Page extends React.Component {
     constructor() {
@@ -154,7 +155,7 @@ class Page extends React.Component {
                             bpm={this.props.bpm}
                         />
 
-                        <Panel
+                        <RoutingPanel
                             effectInstances={this.props.effectInstances}
                             modulatorsInstances={this.props.modulatorsInstances}
                         />
@@ -187,18 +188,27 @@ class Page extends React.Component {
 const styles = {
     mainPanel: {
         flexDirection: 'row',
-        display: 'flex'
+        overflow: 'hidden',
+        display: 'flex',
+        width: '100%',
     },
 
     leftPanel: {
+        display: 'flex',
+        flexDirection: 'column',
         flexGrow: 1,
-        flexShrink: 2,
-        margin: 10
+        /*flexShrink: 2,*/
+        margin: 10,
+        minWidth: 0, // children will never grow more than parent size
     },
 
     rightPanel: {
-        flex: 1,
-        flexBasis: 640
+        display: 'flex',
+        flexDirection: 'column',
+        flexGrow: 1,
+
+        /*flex: 1,
+        flexBasis: 640*/
     },
 
     surface: {
