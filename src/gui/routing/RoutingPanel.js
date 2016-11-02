@@ -2,6 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import Block                           from './Block';
 import Actions                         from '../../actions/Actions.js';
+import { DragDropContext }             from 'react-dnd';
+import HTML5Backend                    from 'react-dnd-html5-backend';
+import BetweenBlockTarget              from './BetweenBlockTarget';
 
 class RoutingPanel extends React.Component {
     constructor() {
@@ -34,6 +37,8 @@ class RoutingPanel extends React.Component {
         return this.props.effectInstances.map((instance, i) => (
             <Block
                 key={i}
+                position={i}
+                type="effect"
                 onPress={() => Actions.selectEffect(i) }
                 onRightClick={() => Actions.deleteEffect(i) }
                 name={instance.name}
@@ -48,6 +53,8 @@ class RoutingPanel extends React.Component {
         return this.props.modulatorsInstances.map((instance, i) => (
             <Block
                 key={i}
+                position={i}
+                type="modulator"
                 onPress={() => Actions.selectModulator(i) }
                 onRightClick={() => Actions.deleteModulator(i) }
                 name={instance.name}
@@ -93,4 +100,4 @@ const styles = {
     }
 };
 
-export default Radium(RoutingPanel);
+export default DragDropContext(HTML5Backend)(RoutingPanel);

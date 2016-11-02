@@ -20,15 +20,19 @@ class DropMenu extends React.Component {
 
     renderMenu(menuDescription) {
         return menuDescription.map((menu, index) => {
-            return (
-                <div
-                    key={index}
-                    style={[styles.item, menu.selected ? styles.selectedItem : null]}
-                    onClick={() => this.handleOnClick(menu.onClick)}
-                >
-                    { menu.name }
-                </div>
-            );
+            if (menu.name === "_separator") {
+                return <div key={index} style={styles.separator} />;
+            } else {
+                return (
+                    <div
+                        key={index}
+                        style={[styles.item, menu.selected ? styles.selectedItem : null]}
+                        onClick={() => this.handleOnClick(menu.onClick)}
+                    >
+                        { menu.name }
+                    </div>
+                );
+            }
         });
     }
 
@@ -81,6 +85,15 @@ const styles = {
     selectedItem: {
         fontWeight: 'bold',
         color:      '#FD5A35'
+    },
+
+    separator: {
+        width: 140,
+        borderBottom: '1px solid lightGrey',
+        height: 1,
+        opacity: 0.5,
+        marginTop: 2,
+        marginBottom: 2,
     }
 };
 

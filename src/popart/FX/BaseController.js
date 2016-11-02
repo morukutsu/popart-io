@@ -47,12 +47,25 @@ export default class BaseController extends React.Component {
         });
     }
 
-    buildParameterList() {
+    buildDropMenu() {
         if (this.props.modulators) {
-            let list = [{
-                name:    "None",
-                onClick:  () => this.connect(-1, this.props.selectedParameter),
-            }];
+            let list = [
+                {
+                    name: "Reset value",
+                    onClick: () => this.props.selectedParameter.resetValue()
+                },
+
+                {
+                    name: "Type value...",
+                },
+
+                { name: "_separator" },
+
+                {
+                    name:    "None",
+                    onClick:  () => this.connect(-1, this.props.selectedParameter),
+                },
+            ];
 
             return list.concat(this.props.modulators.map((modulator, index) => {
                 let selected = false;
@@ -104,7 +117,7 @@ export default class BaseController extends React.Component {
         if (!this.props.selectedParameter) {
             return null;
         } else {
-            let menus = this.buildParameterList();
+            let menus = this.buildDropMenu();
 
             let dropMenuStyle = {
                 position: 'absolute',

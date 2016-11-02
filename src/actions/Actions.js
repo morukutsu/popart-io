@@ -2,9 +2,11 @@ import alt from '../alt';
 
 let Actions = alt.generateActions(
     'addEffect',
+    'moveEffect',
     'deleteEffect',
     'selectEffect',
     'addModulator',
+    'moveModulator',
     'deleteModulator',
     'selectModulator',
     'selectParameter',

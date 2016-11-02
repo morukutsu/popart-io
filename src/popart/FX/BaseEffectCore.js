@@ -43,10 +43,14 @@ export default class BaseEffectCore {
     buildInputList() {
         this.inputList = [];
         Object.keys(this.IO).forEach((parameterName) => {
+            // Build the inputlist
             let parameter = this.IO[parameterName];
             if (parameter.inputOrOutput == "input") {
                 this.inputList.push(parameter);
             }
+
+            // Set the default value of each parameter
+            parameter.setDefaultValue(parameter.currentValue);
         });
     }
 

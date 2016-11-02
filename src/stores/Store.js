@@ -3,7 +3,7 @@ import Actions       from '../actions/Actions';
 import fs            from 'fs';
 import electron      from 'electron';
 import Recorder      from 'recorderjs';
-import detect        from 'bpm-detective';
+//import detect        from 'bpm-detective';
 //import detect from '../popart/AudioProcessing/BeatDetect';
 
 let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -40,6 +40,15 @@ class Store {
     addEffect(effect) {
         this.effectInstances.push(effect);
         //this.activeEntity++;
+    }
+
+    moveEffect(parameters) {
+        const src = parameters[0];
+        const dst = parameters[1];
+
+        const tmp = this.effectInstances[dst];
+        this.effectInstances[dst] = this.effectInstances[src];
+        this.effectInstances[src] = tmp;
     }
 
     deleteEffect(effectIndex) {

@@ -2,6 +2,42 @@ import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import MdClose                         from 'react-icons/lib/md/close';
 import PureRenderMixin                 from 'react-addons-pure-render-mixin';
+import { DragSource }                  from 'react-dnd';
+import { DropTarget }                  from 'react-dnd';
+import HTML5Backend                    from 'react-dnd-html5-backend';
+import flow                            from 'lodash/flow';
+import Actions                         from '../../actions/Actions.js';
+
+const blockSource = {
+    beginDrag(props) {
+        return props;
+    }
+};
+
+const blockTarget = {
+    drop(props, monitor) {
+        const item = monitor.getItem();
+        if (item) {
+            if (props.type === item.type && props.type == "effect") {
+                Actions.moveEffect(item.position, props.position);
+            }
+        }
+    }
+};
+
+function collectTarget(connect, monitor) {
+    return {
+        connectDropTarget: connect.dropTarget(),
+        isOver: monitor.isOver()
+    };
+}
+
+function collectSource(connect, monitor) {
+    return {
+        connectDragSource: connect.dragSource(),
+        isDragging: monitor.isDragging()
+    }
+}
 
 class Block extends React.Component {
     constructor() {
@@ -18,7 +54,9 @@ class Block extends React.Component {
 
         const sizeStyle = this.props.header ? styles.headerBlockSize : styles.normalBlockSize;
 
-        return (
+        const { connectDragSource, isDragging, connectDropTarget, isOver } = this.props;
+
+        return connectDropTarget(connectDragSource(
             <div
                 style={[styles.container, this.props.active ? styles.inactive : null, colorStyle, sizeStyle]}
                 onClick={this.props.onPress}
@@ -26,7 +64,7 @@ class Block extends React.Component {
             >
                 <div>{ this.props.name }</div>
             </div>
-        );
+        ));
     }
 };
 
@@ -61,4 +99,7 @@ const styles = {
     }
 };
 
-export default Radium(Block);
+export default flow(
+    DragSource("block", blockSource, collectSource),
+    DropTarget("block", blockTarget, collectTarget)
+)(Radium(Block));

@@ -121,6 +121,14 @@ export default class IO {
         return this.pluggedIo !== null;
     }
 
+    setDefaultValue(value) {
+        this.defaultValue = value;
+    }
+
+    resetValue() {
+        this.currentValue = this.defaultValue;
+    }
+
     // steps management
     // in an array or ordered values like [0, 1, 2, 3, 4]
     // given a value like: 3.5

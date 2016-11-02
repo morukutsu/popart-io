@@ -15,13 +15,7 @@ class RuttEtraController extends BaseController {
             <div
                 style={styles.container}
             >
-                <div style={styles.title}>
-                    Rutt Etra
-
-                    <div style={styles.alignedRight}>
-                        { this.renderTitleButtons() }
-                    </div>
-                </div>
+                { this.renderTitle() }
 
                 <div style={styles.main}>
                     <div style={styles.row}>

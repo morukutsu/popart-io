@@ -14,13 +14,7 @@ class BlurController extends BaseController {
             <div
                 style={styles.container}
             >
-                <div style={styles.title}>
-                    Blur
-
-                    <div style={styles.alignedRight}>
-                        { this.renderTitleButtons() }
-                    </div>
-                </div>
+                { this.renderTitle() }
 
                 <div style={styles.main}>
                     <div style={styles.row}>

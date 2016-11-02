@@ -35,7 +35,10 @@ class Menu extends React.Component {
             {
                 name: "Render",
                 onClick: () => this.setActiveDropMenu(2),
-                offsetX: 130
+                offsetX: 130,
+                children: [
+                    { name: "Start rendering", onClick: () => Actions.new() },
+                ]
             }
         ];
 

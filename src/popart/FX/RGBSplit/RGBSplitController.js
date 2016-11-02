@@ -14,13 +14,7 @@ class RGBSplitController extends BaseController {
             <div
                 style={styles.container}
             >
-                <div style={styles.title}>
-                    RGBSplit
-
-                    <div style={styles.alignedRight}>
-                        { this.renderTitleButtons() }
-                    </div>
-                </div>
+                { this.renderTitle() }
 
                 <div style={styles.main}>
                     <div style={styles.row}>
