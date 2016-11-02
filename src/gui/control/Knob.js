@@ -16,12 +16,14 @@ class Knob extends BaseKnob {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (this.state.isTweaking || this.refs.modulationKnob.state.isTweaking) {
+        if (this.state.isTweaking || this.refs.modulationKnob.state.isTweaking)
+        {
             return true;
         } else {
             return nextProps.text        !== this.props.text || nextProps.min   !== this.props.min ||
                    nextProps.max         !== this.props.max  || nextProps.value !== this.props.value ||
-                   nextProps.isModulated !== this.props.isModulated || nextProps.rawValue !== this.props.rawValue;
+                   nextProps.isModulated !== this.props.isModulated || nextProps.rawValue !== this.props.rawValue ||
+                   Radium.getState(nextState, 'container', ':hover') !== Radium.getState(this.state, 'container', ':hover');
         }
 
         return true;
@@ -149,6 +151,12 @@ class Knob extends BaseKnob {
             valueToDisplay = valueToDisplay.toFixed(1);
         }
 
+        // Hover logic
+        let hoverStyle = null;
+        if (Radium.getState(this.state, 'container', ':hover') || (this.state.isTweaking) ) {
+            hoverStyle = styles.hoverStyle;
+        }
+
         return (
             <div style={styles.outerContainer}>
                 <ModulationKnob
@@ -161,11 +169,12 @@ class Knob extends BaseKnob {
                 />
 
                 <div
+                    key="container"
                     style={styles.container}
                     onDragStart={this.handleDragStart}
                     onMouseDown={this.handleMouseDown}
                 >
-                    <div style={[styles.circle]}>
+                    <div style={[styles.circle, hoverStyle]}>
                         <div style={arcStyle}>
                             <Arc completed={modulationRange} offset={arcOffset} stroke="#FFFFFF" diameter={60} strokeWidth={10} />
                         </div>
@@ -217,6 +226,11 @@ const styles = {
         //zIndex: 1,
         alignItems: 'center',
 
+        ':hover': {},
+    },
+
+    hoverStyle: {
+        backgroundColor: '#F77177'
     },
 
     text: {
@@ -238,6 +252,8 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#666666',
+
+        transition: 'background-color 0.2s',
     },
 
     modulated: {

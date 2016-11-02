@@ -1,46 +1,72 @@
 import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
+import DropMenu                        from '../menu/DropMenu';
+import EffectsDatabase                 from '../../popart/EffectsDatabase';
+
+let Block = (props) => {
+    return (
+        <div
+            style={styles.effect}
+            onClick={props.onClick}
+        >
+            <div style={styles.title}>{ props.title }</div>
+            <div style={styles.description}>{ props.description }</div>
+        </div>
+    );
+}
+
+Block = Radium(Block);
 
 class Toolbar extends React.Component {
     constructor() {
         super();
+
+        this.state = {
+            activeCategory: 0
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return false;
+        return nextState.activeCategory != this.state.activeCategory;
     }
-    
+
+    setActiveCategory(i) {
+        this.setState({
+            activeCategory: i
+        });
+    }
+
     render() {
-        let effects = this.props.effectList.map((elem, i) => {
+        let isEffect = EffectsDatabase.categories[this.state.activeCategory].isEffect;
+        let effects = EffectsDatabase.categories[this.state.activeCategory].items.map((elem, i) => {
             return (
-                <div
-                    key={"effect" + i}
-                    style={styles.effect}
-                    onClick={() => this.props.onEffectClick(elem)}
-                >
-                    { elem }
-                </div>
+                <Block
+                    key={i}
+                    onClick={isEffect ? () => this.props.onEffectClick(elem.name) : () => this.props.onModulatorClick(elem.name)}
+                    title={elem.name}
+                    description={elem.description}
+                />
             );
         });
 
-        let modulators = this.props.modulatorsList.map((elem, i) => {
-            return (
-                <div
-                    key={"modulator" + i}
-                    style={styles.effect}
-                    onClick={() => this.props.onModulatorClick(elem)}
-                >
-                    { elem }
-                </div>
-            );
-        });
+        let menus = EffectsDatabase.categories.map((elem, i) => (
+            { name: elem.name, onClick: () => this.setActiveCategory(i) }
+        ));
+
+        menus = [
+            { name: 'Palette'    },
+            { name: '_separator' }
+        ].concat(menus);
 
         return (
             <div
                 style={styles.container}
             >
-                { effects }
-                { modulators }
+                <DropMenu items={menus} />
+
+                <div style={styles.effectContainer}>
+                    { effects }
+                </div>
             </div>
         );
     }
@@ -49,28 +75,49 @@ class Toolbar extends React.Component {
 const styles = {
     container: {
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        height: 320,
+        overflow: 'hidden',
+        minWidth: 0,
+    },
+
+    effectContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        overflowX: 'auto',
+        minWidth: 0,
     },
 
     effect: {
-        height: 40,
+        height: 150,
         width: 150,
         borderRadius: 8,
         margin: 5,
         padding: 5,
-        boxShadow: '0px 3px 0px #BBBBBB',
+        flexShrink: 0,
 
         alignItems: 'center',
         justifyContent: 'center',
         display: 'flex',
-        backgroundColor: '#FD5A35',
+        flexDirection: 'column',
+        backgroundColor: '#464646',
         cursor: 'pointer',
-        fontWeight: 'bold',
         color: 'white',
 
         ':hover': {
             backgroundColor: '#F77177',
-        }
+        },
+
+        transition: 'background-color 0.2s',
+    },
+
+    title: {
+        fontWeight: 'bold',
+    },
+
+    description: {
+        textAlign: 'center'
     }
 };
 

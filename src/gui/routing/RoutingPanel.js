@@ -91,7 +91,8 @@ const styles = {
         padding: 5,
         overflowX: 'auto',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        minHeight: 307,
     },
 
     line: {

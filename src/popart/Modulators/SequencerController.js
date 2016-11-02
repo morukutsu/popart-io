@@ -79,7 +79,7 @@ class SequencerController extends BaseController {
                         </div>
                     </div>
                     <div style={styles.row}>
-                        <RefreshedButton input={this.props.coreState.IO.bpmLock} activeText="BPM Lock On" inactiveText="BPM Lock Off" onClick={(value) => this.props.onParameterChanged("bpmLock", value)} />
+                        <RefreshedButton input={this.props.coreState.IO.bpmLock} activeText="BPM Lock On" inactiveText="BPM Lock Off" swapActiveHighlight={true} onClick={(value) => this.props.onParameterChanged("bpmLock", value)} />
                     </div>
                 </div>
             </div>

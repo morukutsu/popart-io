@@ -10,12 +10,12 @@ class DropMenu extends React.Component {
     }
 
     handleOnClick(handler) {
-        this.props.onDropMenuItemSelected();
+        this.props.onDropMenuItemSelected && this.props.onDropMenuItemSelected();
         handler && handler();
     }
 
     handleClickOutside(e) {
-        this.props.onClickOutside();
+        this.props.onClickOutside && this.props.onClickOutside();
     }
 
     renderMenu(menuDescription) {

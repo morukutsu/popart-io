@@ -19,8 +19,10 @@ class Button extends React.Component {
                 </div>
             );
         } else {
+            const activeValue = this.props.swapActiveHighlight ? !this.props.value : this.props.value;
+
             return (
-                <div style={[styles.text, this.props.value ? styles.activeText : null]} >
+                <div style={[styles.text, activeValue ? styles.activeText : null]} >
                     { this.props.value ? this.props.activeText : this.props.inactiveText }
                 </div>
             );

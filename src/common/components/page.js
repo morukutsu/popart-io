@@ -159,6 +159,15 @@ class Page extends React.Component {
                             effectInstances={this.props.effectInstances}
                             modulatorsInstances={this.props.modulatorsInstances}
                         />
+
+                        <div style={styles.toolbarPanel}>
+                            <Toolbar
+                                effectList={this.props.effectList}
+                                modulatorsList={this.props.modulatorsList}
+                                onEffectClick={this.handleAddFx.bind(this)}
+                                onModulatorClick={this.handleAddModulator.bind(this)}
+                            />
+                        </div>
                     </div>
 
                     <div style={styles.rightPanel}>
@@ -169,13 +178,6 @@ class Page extends React.Component {
                         { this.renderController() }
                     </div>
                 </div>
-
-                <Toolbar
-                    effectList={this.props.effectList}
-                    modulatorsList={this.props.modulatorsList}
-                    onEffectClick={this.handleAddFx.bind(this)}
-                    onModulatorClick={this.handleAddModulator.bind(this)}
-                />
 
                 <div onClick={ () => Actions.save("save.json") } style={{size: 20, backgroundColor: "white", width: 80, cursor: "pointer", margin: 5}}>Save</div>
 
@@ -197,22 +199,26 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         flexGrow: 1,
-        /*flexShrink: 2,*/
         margin: 10,
         minWidth: 0, // children will never grow more than parent size
+        width: '100%'
     },
 
     rightPanel: {
         display: 'flex',
         flexDirection: 'column',
         flexGrow: 1,
-
-        /*flex: 1,
-        flexBasis: 640*/
     },
 
     surface: {
         margin: 10
+    },
+
+    toolbarPanel: {
+        display: 'flex',
+        marginTop: 55,
+        padding: 5,
+        backgroundColor: '#101010',
     }
 };
 

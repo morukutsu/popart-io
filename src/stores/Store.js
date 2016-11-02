@@ -11,10 +11,6 @@ let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 class Store {
     constructor() {
         this.bindActions(Actions);
-
-        this.effectList     = ["Synthesizer", "RuttEtra", "Mosaic", "LED", "Blur", "RGBSplit"];
-        this.modulatorsList = ["LFO", "Sequencer"];
-
         this.reset();
     }
 
