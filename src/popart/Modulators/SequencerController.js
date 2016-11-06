@@ -92,7 +92,7 @@ const styles = {
         display: 'flex',
         width: 640,
         flexDirection: 'column',
-        flex: 1,
+        display: 'flex',
         margin: 10,
     },
 

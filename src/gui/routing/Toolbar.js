@@ -90,8 +90,8 @@ const styles = {
     },
 
     effect: {
-        height: 150,
-        width: 150,
+        height: 130,
+        width: 130,
         borderRadius: 8,
         margin: 5,
         padding: 5,

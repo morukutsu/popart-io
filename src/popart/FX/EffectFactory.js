@@ -10,6 +10,8 @@ import { BlurCore,  BlurDisplay }               from './Blur/Blur';
 import BlurController                           from './Blur/BlurController';
 import { RGBSplitCore,  RGBSplitDisplay }       from './RGBSplit/RGBSplit';
 import RGBSplitController                       from './RGBSplit/RGBSplitController';
+import { PhotoStyleCore,  PhotoStyleDisplay }   from './PhotoStyle/PhotoStyle';
+import PhotoStyleController                     from './PhotoStyle/PhotoStyleController';
 
 import LFO                                      from '../Modulators/LFO';
 import LFOController                            from '../Modulators/LFOController';
@@ -37,6 +39,9 @@ var effectFactory = {
             'RGBSplitDisplay':       RGBSplitDisplay,
             'RGBSplitController':    RGBSplitController,
             'RGBSplitCore':          RGBSplitCore,
+            'PhotoStyleDisplay':     PhotoStyleDisplay,
+            'PhotoStyleController':  PhotoStyleController,
+            'PhotoStyleCore':        PhotoStyleCore,
 
             'LFO':                   LFO,
             'LFOController':         LFOController,

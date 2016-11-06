@@ -2,10 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import Radium                          from 'radium';
 import Knob                            from '../../../gui/control/Knob';
 import BaseController                  from '../BaseController';
-import Color                           from '../../../gui/control/Color';
 import { RefreshedKnob, RefreshedColor, RefreshedButton } from '../../../gui/control/RefreshedComponents';
 
-class RuttEtraController extends BaseController {
+class TemplateController extends BaseController {
     constructor() {
         super();
     }
@@ -19,18 +18,7 @@ class RuttEtraController extends BaseController {
 
                 <div style={styles.main}>
                     <div style={styles.row}>
-                        <RefreshedKnob text="multiplier" {...this.knobsProps["multiplier"]} />
-                        <RefreshedKnob text="distance"   {...this.knobsProps["distance"]}   />
-                        <RefreshedKnob text="smooth"     {...this.knobsProps["smooth"]}     />
-                        <RefreshedKnob text="thresh"     {...this.knobsProps["thresh"]}     />
-                        <RefreshedKnob text="x window"   {...this.knobsProps["xWindow"]}    />
-                        <RefreshedKnob text="y window"   {...this.knobsProps["yWindow"]}    />
-                    </div>
-                    <div style={styles.row}>
-                        <RefreshedKnob text="R" {...this.knobsProps["colorR"]} />
-                        <RefreshedKnob text="G" {...this.knobsProps["colorG"]} />
-                        <RefreshedKnob text="B" {...this.knobsProps["colorB"]} />
-                        <RefreshedColor inputs={[this.props.coreState.IO.colorR, this.props.coreState.IO.colorG, this.props.coreState.IO.colorB]} />
+                        <RefreshedKnob text="y"      {...this.knobsProps["y"]    }  />
                     </div>
                 </div>
 
@@ -57,25 +45,23 @@ const styles = {
         marginRight: 1,
     },
 
-    alignedRight: {
-        display: 'flex',
-        justifyContent: 'flex-end',
-        flexDirection: 'row',
-        flex: 1
-    },
-
     title: {
         height: 50,
         padding: 10,
         borderRadius: 6,
         display: 'flex',
         alignItems: 'center',
-        flexDirection: 'row',
         fontSize: 20,
         fontWeight: 'bold',
         backgroundColor: '#FD5A35',
         color: 'white',
-        flex: 1,
+    },
+
+    alignedRight: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        flexDirection: 'row',
+        flex: 1
     },
 
     row: {
@@ -90,4 +76,4 @@ const styles = {
     }
 };
 
-export default Radium(RuttEtraController);
+export default Radium(TemplateController);

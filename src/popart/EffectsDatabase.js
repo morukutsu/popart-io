@@ -17,6 +17,8 @@ const db = {
                 { name: 'LED',      description: 'Repeated circular shapes'                     },
                 { name: 'Blur',     description: 'Gaussian blur'                                       },
                 { name: 'RGBSplit', description: 'Split and draw color channels at separate positions' },
+                { name: 'PhotoStyle', description: 'Stylish photo filters' },
+
             ]
         },
 
