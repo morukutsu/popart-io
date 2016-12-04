@@ -178,10 +178,6 @@ class Page extends React.Component {
                         { this.renderController() }
                     </div>
                 </div>
-
-                <div onClick={ () => Actions.save("save.json") } style={{size: 20, backgroundColor: "white", width: 80, cursor: "pointer", margin: 5}}>Save</div>
-
-                <div onClick={ () => Actions.load({EffectFactory: EffectFactory, path: "save.json"}) } style={{size: 20, backgroundColor: "white", width: 80, cursor: "pointer", margin: 5}}>Load</div>
             </div>
         );
     }

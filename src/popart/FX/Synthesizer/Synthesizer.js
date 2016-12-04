@@ -1,12 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import GL                              from 'gl-react';
-import IO                              from '../../IO/IO';
-import BaseEffectCore                  from '../BaseEffectCore';
-import NullDisplay                     from '../Null/Null';
+import React, { Component, PropTypes }  from 'react';
+import { Shaders, Node, GLSL, Uniform } from 'gl-react';
+import IO                               from '../../IO/IO';
+import BaseEffectCore                   from '../BaseEffectCore';
+import NullDisplay                      from '../Null/Null';
 
-const shaders = GL.Shaders.create({
+const shaders = Shaders.create({
     synthesizer_shader: {
-        frag: `
+        frag: GLSL`
         precision highp float;
         varying vec2  uv;
         uniform float t;
@@ -149,14 +149,17 @@ export class SynthesizerCore extends BaseEffectCore {
     }
 }
 
-export const SynthesizerDisplay = GL.createComponent(({ children, state }) => {
+export const SynthesizerDisplay = (props) => {
+    let state    = props.state;
+    let children = props.children;
+
     let childrenToRender = children ? children : <NullDisplay />;
     if (state.IO.mute.read() ) {
         return childrenToRender;
     }
 
     return (
-        <GL.Node
+        <Node
             shader={shaders.synthesizer_shader}
             uniforms={{
                 t:         state.time,
@@ -175,11 +178,9 @@ export const SynthesizerDisplay = GL.createComponent(({ children, state }) => {
                 waveform:  state.IO.waveform.read(),
             }}
         >
-            <GL.Uniform name="modulation">
+            <Uniform name="modulation">
                 { childrenToRender }
-            </GL.Uniform>
-        </GL.Node>
+            </Uniform>
+        </Node>
     );
-}, {
-  displayName: "Synthesizer"
-});
+};

@@ -1,12 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import GL                              from 'gl-react';
-import IO                              from '../../IO/IO';
-import BaseEffectCore                  from '../BaseEffectCore';
-import NullDisplay                     from '../Null/Null';
+import React, { Component, PropTypes }  from 'react';
+import { Shaders, Node, GLSL, Uniform } from 'gl-react';
+import IO                               from '../../IO/IO';
+import BaseEffectCore                   from '../BaseEffectCore';
+import NullDisplay                      from '../Null/Null';
 
-const shaders = GL.Shaders.create({
+const shaders = Shaders.create({
     shader_led: {
-        frag: `
+        frag: GLSL`
         precision highp float;
         varying vec2      uv;
         uniform sampler2D child;
@@ -88,14 +88,17 @@ export class LEDCore extends BaseEffectCore {
     }
 }
 
-export const LEDDisplay = GL.createComponent(({ children, state }) => {
+export const LEDDisplay = (props) => {
+    let state    = props.state;
+    let children = props.children;
+
     let childrenToRender = children ? children : <NullDisplay />;
     if (state.IO.mute.read() ) {
         return childrenToRender;
     }
 
     return (
-        <GL.Node
+        <Node
             shader={shaders.shader_led}
             uniforms={{
                 resolution:  [640, 360], // TODO: set dynamically problems with that on Retina displays
@@ -105,11 +108,9 @@ export const LEDDisplay = GL.createComponent(({ children, state }) => {
                 color :      [state.IO.colorR.read(), state.IO.colorG.read(), state.IO.colorB.read(), 1.0],
             }}
         >
-            <GL.Uniform name="child">
+            <Uniform name="child">
                 { childrenToRender }
-            </GL.Uniform>
-        </GL.Node>
+            </Uniform>
+        </Node>
     );
-}, {
-  displayName: "LED"
-});
+};

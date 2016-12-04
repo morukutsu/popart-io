@@ -87,12 +87,13 @@ class TransportMenu extends React.Component {
                 <input  type="number" style={styles.input} value={this.props.bpm} onChange={(e) => Actions.changeBpm(e.target.value)}/>
                 <span   style={styles.bpmText}>bpm</span>
                 <Button mode="press" value={true} activeText="Tap"  onClick={this.tapBpm}     />
-                <Button mode="press" value={true} activeText="Auto" onClick={Actions.autoBpm} />
                 <Button mode="press" value={true} activeText="Sync" onClick={Actions.sync}    />
             </div>
         );
     }
 };
+
+// <Button mode="press" value={true} activeText="Auto" onClick={Actions.autoBpm} />
 
 const styles = {
     container: {

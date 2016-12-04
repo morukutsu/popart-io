@@ -23,7 +23,7 @@ class Menu extends React.Component {
                     { name: "Quit",         onClick: () => Actions.quit()                  },
                 ]
             },
-            {
+            /*{
                 name: "Edit",
                 onClick: () => this.setActiveDropMenu(1),
                 offsetX: 65,
@@ -39,7 +39,7 @@ class Menu extends React.Component {
                 children: [
                     { name: "Start rendering", onClick: () => Actions.new() },
                 ]
-            }
+            }*/
         ];
 
         this.state = {

@@ -1,10 +1,14 @@
 import alt           from '../alt';
 import Actions       from '../actions/Actions';
+import Recorder      from 'recorderjs';
+
 import fs            from 'fs';
 import electron      from 'electron';
-import Recorder      from 'recorderjs';
+
 //import detect        from 'bpm-detective';
 //import detect from '../popart/AudioProcessing/BeatDetect';
+
+import { SynthesizerCore } from '../popart/FX/Synthesizer/Synthesizer';
 
 let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -12,6 +16,8 @@ class Store {
     constructor() {
         this.bindActions(Actions);
         this.reset();
+
+        console.log(process.env.web);
     }
 
     reset() {
@@ -27,6 +33,9 @@ class Store {
         // Transport
         this.isPaused = false;
         this.bpm      = 120;
+
+        // Add a simple synth
+        this.addEffect(new SynthesizerCore() );
     }
 
     new() {

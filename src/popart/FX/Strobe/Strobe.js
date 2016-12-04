@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import GL                              from 'gl-react';
+import { Shaders, Node, GLSL, Uniform } from 'gl-react';
 import IO  from '../../IO/IO';
 import MUX from '../../IO/MUX';
 
@@ -50,19 +50,20 @@ export class StrobeCore {
     }
 }
 
-export const StrobeDisplay = GL.createComponent(({ children, state }) => {
+export const StrobeDisplay = (props) => {
+    let state    = props.state;
+    let children = props.children;
+
     return (
-        <GL.Node
+        <Node
             shader={shaders.shader}
             uniforms={{c: state.muxCurrentColor.read()}}
         >
-            <GL.Uniform
+            <Uniform
                 name="child"
             >
                 {children}
-            </GL.Uniform>
-        </GL.Node>
+            </Uniform>
+        </Node>
     );
-}, {
-  displayName: "StrobeDisplay"
-});
+};

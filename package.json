@@ -1,33 +1,21 @@
 {
-  "name": "essential-react",
-  "version": "0.4.0",
-  "description": "A minimal skeleton for building testable React apps using Babel",
+  "name": "popart-io",
+  "version": "0.0.0",
+  "description": "",
   "main": "src/main.js",
   "scripts": {
     "postinstall": "npm run build",
     "server": "node start.js",
     "build": "webpack -p --progress --config webpack.production.config.js",
+    "buildweb": "webpack -p --progress --config webpack.web.production.config.js",
     "test": "nyc ava --fail-fast --verbose --require babel-register",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "clean": "rm build/app.js",
     "start": "electron main-electron.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/pheuter/essential-react.git"
-  },
-  "keywords": [
-    "skeleton",
-    "template",
-    "react",
-    "quickstart"
-  ],
-  "author": "Mark Fayngersh",
+  "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/pheuter/essential-react/issues"
-  },
-  "homepage": "https://github.com/pheuter/essential-react",
+  "homepage": "https://github.com/morukutsu/popart-io",
   "devDependencies": {
     "autoprefixer": "^6.0.2",
     "ava": "^0.12.0",
@@ -63,8 +51,10 @@
     "electron-devtools-installer": "^2.0.1",
     "electron-prebuilt": "^0.37.4",
     "express": "^4.12.3",
-    "gl-react": "^2.2.5",
-    "gl-react-dom": "https://github.com/morukutsu/gl-react-dom",
+
+    "gl-react": "^3.0.0-alpha1",
+    "gl-react-dom": "^3.0.0-alpha1",
+
     "json-loader": "^0.5.4",
     "lodash": "^4.16.6",
     "radium": "^0.18.1",

@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import GL                              from 'gl-react';
+import { Shaders, Node, GLSL }         from 'gl-react';
 
-const shaders = GL.Shaders.create({
+const shaders = Shaders.create({
     null_shader: {
-        frag: `
+        frag: GLSL`
         precision highp float;
         varying vec2 uv;
         void main () {
@@ -13,14 +13,12 @@ const shaders = GL.Shaders.create({
     }
 });
 
-const NullDisplay = GL.createComponent(({ width, height }) => {
+const NullDisplay = (props) => {
     return (
-        <GL.Node
+        <Node
             shader={shaders.null_shader}
         />
     );
-}, {
-  displayName: "NullDisplay"
-});
+};
 
 export default NullDisplay;

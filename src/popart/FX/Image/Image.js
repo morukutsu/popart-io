@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import GL                              from 'gl-react';
+import React, { Component, PropTypes }  from 'react';
+import { Shaders, Node, GLSL, Uniform } from 'gl-react';
 import IO  from '../../IO/IO';
 import MUX from '../../IO/MUX';
 
@@ -45,22 +45,23 @@ export class ImageCore {
     }
 }
 
-export const ImageDisplay = GL.createComponent(({ state }) => {
+export const ImageDisplay = (props) => {
+    let state    = props.state;
+    let children = props.children;
+
     return (
-        <GL.Node
+        <Node
             shader={shaders.shader}
             uniforms={{
                 x: state.IO.x.read(),
                 y: state.IO.y.read()
             }}
         >
-            <GL.Uniform
+            <Uniform
                 name="child"
             >
                 <img src={state.IO.image.read() } />
-            </GL.Uniform>
-        </GL.Node>
+            </Uniform>
+        </Node>
     );
-}, {
-  displayName: "SquareDisplay"
-});
+};

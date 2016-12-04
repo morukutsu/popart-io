@@ -1,12 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import GL                              from 'gl-react';
-import IO                              from '../../IO/IO';
-import BaseEffectCore                  from '../BaseEffectCore';
-import NullDisplay                     from '../Null/Null';
+import React, { Component, PropTypes }  from 'react';
+import { Shaders, Node, GLSL, Uniform } from 'gl-react';
+import IO                               from '../../IO/IO';
+import BaseEffectCore                   from '../BaseEffectCore';
+import NullDisplay                      from '../Null/Null';
 
-const shaders = GL.Shaders.create({
+const shaders = Shaders.create({
     mosaic: {
-        frag: `
+        frag: GLSL`
         precision highp float;
         varying vec2      uv;
         uniform sampler2D child;
@@ -57,22 +57,23 @@ export class MosaicCore extends BaseEffectCore {
     }
 }
 
-export const MosaicDisplay = GL.createComponent(({ children, state }) => {
+export const MosaicDisplay = (props) => {
+    let state    = props.state;
+    let children = props.children;
+
     let childrenToRender = children ? children : <NullDisplay />;
     if (state.IO.mute.read() ) {
         return childrenToRender;
     }
 
     return (
-        <GL.Node
+        <Node
             shader={shaders.mosaic}
             uniforms={{length: state.IO.length.read() }}
         >
-            <GL.Uniform name="child">
+            <Uniform name="child">
                 { childrenToRender }
-            </GL.Uniform>
-        </GL.Node>
+            </Uniform>
+        </Node>
     );
-}, {
-  displayName: "Mosaic"
-});
+};

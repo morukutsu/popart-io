@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import GL                              from 'gl-react';
+import { Shaders, Node, GLSL, Uniform } from 'gl-react';
 import IO                              from '../../IO/IO';
 import BaseEffectCore                  from '../BaseEffectCore';
 import NullDisplay                     from '../Null/Null';
 
-const shaders = GL.Shaders.create({
+const shaders = Shaders.create({
     blur: {
-        frag: `
+        frag: GLSL`
         precision highp float;
         varying vec2 uv;
         uniform sampler2D child;
@@ -59,7 +59,10 @@ export class BlurCore extends BaseEffectCore {
     }
 }
 
-export const BlurDisplay = GL.createComponent(({ children, state }) => {
+export const BlurDisplay = (props) => {
+    let state    = props.state;
+    let children = props.children;
+
     let directionV = [0, state.IO.intensity.read()];
     let directionH = [state.IO.intensity.read(), 0];
 
@@ -69,22 +72,20 @@ export const BlurDisplay = GL.createComponent(({ children, state }) => {
     }
 
     return (
-        <GL.Node
+        <Node
             shader={shaders.blur}
             uniforms={{d: directionV}}
         >
-            <GL.Uniform name="child">
-                <GL.Node
+            <Uniform name="child">
+                <Node
                     shader={shaders.blur}
                     uniforms={{d: directionH}}
                 >
-                    <GL.Uniform name="child">
+                    <Uniform name="child">
                         { childrenToRender }
-                    </GL.Uniform>
-                </GL.Node>
-            </GL.Uniform>
-        </GL.Node>
+                    </Uniform>
+                </Node>
+            </Uniform>
+        </Node>
     );
-}, {
-  displayName: "Blur"
-});
+};

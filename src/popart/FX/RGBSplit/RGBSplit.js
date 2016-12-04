@@ -1,12 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import GL                              from 'gl-react';
-import IO                              from '../../IO/IO';
-import NullDisplay                     from '../Null/Null';
-import BaseEffectCore                  from '../BaseEffectCore';
+import React, { Component, PropTypes }  from 'react';
+import { Shaders, Node, GLSL, Uniform } from 'gl-react';
+import IO                               from '../../IO/IO';
+import NullDisplay                      from '../Null/Null';
+import BaseEffectCore                   from '../BaseEffectCore';
 
-const shaders = GL.Shaders.create({
+const shaders = Shaders.create({
     shader: {
-        frag: `
+        frag: GLSL`
         precision highp float;
         varying vec2      uv;
         uniform sampler2D child;
@@ -59,25 +59,26 @@ export class RGBSplitCore extends BaseEffectCore {
     }
 }
 
-export const RGBSplitDisplay = GL.createComponent(({ children, state }) => {
+export const RGBSplitDisplay = (props) => {
+    let state    = props.state;
+    let children = props.children;
+
     let childrenToRender = children ? children : <NullDisplay />;
     if (state.IO.mute.read() ) {
         return childrenToRender;
     }
 
     return (
-        <GL.Node
+        <Node
             shader={shaders.shader}
             uniforms={{
                 length:    state.IO.length.read(),
                 direction: [ state.IO.x.read(), state.IO.y.read() ]
             }}
         >
-            <GL.Uniform name="child">
+            <Uniform name="child">
                 { childrenToRender }
-            </GL.Uniform>
-        </GL.Node>
+            </Uniform>
+        </Node>
     );
-}, {
-  displayName: "RGBSplit"
-});
+};
