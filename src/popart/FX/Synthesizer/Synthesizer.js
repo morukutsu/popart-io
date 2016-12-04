@@ -176,11 +176,8 @@ export const SynthesizerDisplay = (props) => {
                 yMod:      state.IO.yMod.read(),
                 blending:  state.IO.blending.read() ? 0.0 : 1.0,
                 waveform:  state.IO.waveform.read(),
+                modulation:     childrenToRender
             }}
-        >
-            <Uniform name="modulation">
-                { childrenToRender }
-            </Uniform>
-        </Node>
+        />
     );
 };

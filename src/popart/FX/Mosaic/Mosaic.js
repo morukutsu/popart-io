@@ -69,11 +69,10 @@ export const MosaicDisplay = (props) => {
     return (
         <Node
             shader={shaders.mosaic}
-            uniforms={{length: state.IO.length.read() }}
-        >
-            <Uniform name="child">
-                { childrenToRender }
-            </Uniform>
-        </Node>
+            uniforms={{
+                length: state.IO.length.read(),
+                child :  childrenToRender
+            }}
+        />
     );
 };

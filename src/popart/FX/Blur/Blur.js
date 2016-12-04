@@ -74,18 +74,16 @@ export const BlurDisplay = (props) => {
     return (
         <Node
             shader={shaders.blur}
-            uniforms={{d: directionV}}
-        >
-            <Uniform name="child">
-                <Node
+            uniforms={{
+                d:    directionV,
+                child: (<Node
                     shader={shaders.blur}
-                    uniforms={{d: directionH}}
-                >
-                    <Uniform name="child">
-                        { childrenToRender }
-                    </Uniform>
-                </Node>
-            </Uniform>
-        </Node>
+                    uniforms={{
+                        d:     directionH,
+                        child: childrenToRender
+                    }}
+                />)
+            }}
+        />
     );
 };

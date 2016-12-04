@@ -73,12 +73,9 @@ export const RGBSplitDisplay = (props) => {
             shader={shaders.shader}
             uniforms={{
                 length:    state.IO.length.read(),
-                direction: [ state.IO.x.read(), state.IO.y.read() ]
+                direction: [ state.IO.x.read(), state.IO.y.read() ],
+                child:     childrenToRender
             }}
-        >
-            <Uniform name="child">
-                { childrenToRender }
-            </Uniform>
-        </Node>
+        />
     );
 };

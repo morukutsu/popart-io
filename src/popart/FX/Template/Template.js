@@ -59,11 +59,8 @@ export const TemplateDisplay = (props) => {
         <Node
             shader={shaders.shader}
             uniforms={{
+                child: childrenToRender
             }}
-        >
-            <Uniform name="child">
-                { childrenToRender }
-            </Uniform>
-        </Node>
+        />
     );
 };

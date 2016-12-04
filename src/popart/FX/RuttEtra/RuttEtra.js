@@ -113,12 +113,9 @@ export const RuttEtraDisplay = (props) => {
                 thresh:     state.IO.thresh.read(),
                 color:      [state.IO.colorR.read(), state.IO.colorG.read(), state.IO.colorB.read(), 1.0],
                 xWindow:    state.IO.xWindow.read(),
-                yWindow:    state.IO.yWindow.read()
+                yWindow:    state.IO.yWindow.read(),
+                child:      childrenToRender
             }}
-        >
-            <Uniform name="child">
-                { childrenToRender }
-            </Uniform>
-        </Node>
+        />
     );
 };

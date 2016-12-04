@@ -106,11 +106,8 @@ export const LEDDisplay = (props) => {
                 repeat:      state.IO.repeat.read(),
                 radius:      state.IO.radius.read(),
                 color :      [state.IO.colorR.read(), state.IO.colorG.read(), state.IO.colorB.read(), 1.0],
+                child :      childrenToRender
             }}
-        >
-            <Uniform name="child">
-                { childrenToRender }
-            </Uniform>
-        </Node>
+        />
     );
 };

@@ -66,12 +66,9 @@ export const PhotoStyleDisplay = (props) => {
         <Node
             shader={shaders.shader}
             uniforms={{
-                vignette: state.IO.vignette.read()
+                vignette: state.IO.vignette.read(),
+                child   : childrenToRender
             }}
-        >
-            <Uniform name="child">
-                { childrenToRender }
-            </Uniform>
-        </Node>
+        />
     );
 };
