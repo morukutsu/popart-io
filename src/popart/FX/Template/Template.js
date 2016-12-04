@@ -21,7 +21,7 @@ export class TemplateCore extends BaseEffectCore {
     constructor() {
         super();
 
-        this.name = "RGBSplit";
+        this.name = "Template";
 
         this.IO = {
             'mute'      : new IO('mute',   'bool',  'input'),

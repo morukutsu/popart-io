@@ -12,6 +12,8 @@ import { RGBSplitCore,  RGBSplitDisplay }       from './RGBSplit/RGBSplit';
 import RGBSplitController                       from './RGBSplit/RGBSplitController';
 import { PhotoStyleCore,  PhotoStyleDisplay }   from './PhotoStyle/PhotoStyle';
 import PhotoStyleController                     from './PhotoStyle/PhotoStyleController';
+import { FeedbackCore,  FeedbackDisplay }       from './Feedback/Feedback';
+import FeedbackController                       from './Feedback/FeedbackController';
 
 import LFO                                      from '../Modulators/LFO';
 import LFOController                            from '../Modulators/LFOController';
@@ -42,6 +44,9 @@ var effectFactory = {
             'PhotoStyleDisplay':     PhotoStyleDisplay,
             'PhotoStyleController':  PhotoStyleController,
             'PhotoStyleCore':        PhotoStyleCore,
+            'FeedbackDisplay':       FeedbackDisplay,
+            'FeedbackController':    FeedbackController,
+            'FeedbackCore':          FeedbackCore,
 
             'LFO':                   LFO,
             'LFOController':         LFOController,
