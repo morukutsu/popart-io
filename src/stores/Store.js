@@ -4,6 +4,7 @@ import Recorder      from 'recorderjs';
 
 import fs            from 'fs';
 import electron      from 'electron';
+import FileSaver     from 'file-saver';
 
 //import detect        from 'bpm-detective';
 //import detect from '../popart/AudioProcessing/BeatDetect';
@@ -17,7 +18,7 @@ class Store {
         this.bindActions(Actions);
         this.reset();
 
-        console.log(process.env.web);
+        this.isWeb = process.env.web;
     }
 
     reset() {
@@ -44,7 +45,6 @@ class Store {
 
     addEffect(effect) {
         this.effectInstances.push(effect);
-        //this.activeEntity++;
     }
 
     moveEffect(parameters) {
@@ -155,7 +155,13 @@ class Store {
         };
 
         let saveDataJson = JSON.stringify(saveData, createLinks, 4);
-        fs.writeFile(path, saveDataJson, (err) => console.log(err));
+
+        if (this.isWeb) {
+            var blob = new Blob([saveDataJson], { type: "text/plain;charset=utf-8" });
+            FileSaver.saveAs(blob, "patch.json");
+        } else {
+            fs.writeFile(path, saveDataJson, (err) => console.log(err));
+        }
     }
 
     load(parameters) {
@@ -164,7 +170,12 @@ class Store {
         const EffectFactory = parameters.EffectFactory;
         const path          = parameters.path;
 
-        let saveData  = JSON.parse(fs.readFileSync(path) );
+        let saveData;
+        if (path !== null) {
+            saveData = JSON.parse(fs.readFileSync(path) );
+        } else {
+            saveData = JSON.parse(parameters.content);
+        }
 
         // Load instances
         let instances = saveData.effectInstances;
@@ -269,24 +280,55 @@ class Store {
 
         resolveRecursively(this.effectInstances,     null, null, 0);
         resolveRecursively(this.modulatorsInstances, null, null, 0);
+
+        this.setState({});
     }
 
     openFile(EffectFactory) {
-        let dialog = electron.remote.dialog;
-        let files = dialog.showOpenDialog({properties: ['openFile']});
-        if (files && files.length > 0) {
-            this.load({
-                EffectFactory: EffectFactory,
-                path:          files[0]
-            });
+        if (this.isWeb) {
+            let fileUpload = document.getElementById('fileUpload');
+
+            let onFileUpload = (e) => {
+                fileUpload.removeEventListener('change', onFileUpload);
+
+                if (e.target.files && e.target.files.length == 1) {
+                    var reader = new FileReader();
+                    reader.onloadend = () => {
+                        this.load({
+                            EffectFactory: EffectFactory,
+                            path:          null,
+                            content:       reader.result
+                        });
+                    }
+    
+                    reader.readAsText(e.target.files[0]);
+                }
+            };
+
+            fileUpload.addEventListener('change', onFileUpload);
+
+            fileUpload.click();
+        } else {
+            let dialog = electron.remote.dialog;
+            let files = dialog.showOpenDialog({properties: ['openFile']});
+            if (files && files.length > 0) {
+                this.load({
+                    EffectFactory: EffectFactory,
+                    path:          files[0]
+                });
+            }
         }
     }
 
     saveFile(EffectFactory) {
-        let dialog = electron.remote.dialog;
-        let file = dialog.showSaveDialog();
-        if (file) {
-            this.save(file);
+        if (this.isWeb) {
+            this.save("");
+        } else {
+            let dialog = electron.remote.dialog;
+            let file = dialog.showSaveDialog();
+            if (file) {
+                this.save(file);
+            }
         }
     }
 

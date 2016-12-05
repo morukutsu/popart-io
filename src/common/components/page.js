@@ -1,6 +1,4 @@
 import React              from 'react';
-import { browserHistory } from 'react-router';
-import GL                 from 'gl-react';
 import alt                from '../../alt';
 import Actions            from '../../actions/Actions.js';
 import Store              from '../../stores/Store.js';
@@ -75,20 +73,6 @@ class Page extends React.Component {
                 }
             });
         }
-
-        // Trigger render
-        /*this.setState({
-            dummy: 1
-        });*/
-
-        /*if (RefreshManager.getRefreshFlag() )
-        {
-            this.setState({
-                dummy: 1
-            });
-
-            RefreshManager.clearRefresh()
-        }*/
 
         this.raf = window.requestAnimationFrame(this.update);
         this.prevTimestamp = timestamp;
@@ -178,6 +162,8 @@ class Page extends React.Component {
                         { this.renderController() }
                     </div>
                 </div>
+
+                <input style={{display: 'none'}} type="file" id="fileUpload" name="fileUpload" />
             </div>
         );
     }

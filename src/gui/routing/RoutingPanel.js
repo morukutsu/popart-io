@@ -4,7 +4,6 @@ import Block                           from './Block';
 import Actions                         from '../../actions/Actions.js';
 import { DragDropContext }             from 'react-dnd';
 import HTML5Backend                    from 'react-dnd-html5-backend';
-import BetweenBlockTarget              from './BetweenBlockTarget';
 
 class RoutingPanel extends React.Component {
     constructor() {
