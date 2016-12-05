@@ -1,16 +1,23 @@
 # Popart.io
 
+**Web version:** http://morukutsu.github.io/popart-io/
+
 ## I/O Modular Video Synthesizer
-Combine different effects to create interesting music videos. Each building block parameters can be tweaked to create abtract and organic video sequences (see patchs folder for examples).
+popart-io is a project inspired by hardware video synthesis.
+
+Using basic waveforms (sin, square, tri or saw) and advanced modulation, it is possible to combine different effects to create unique video sequences.
+
+Each build block has a set of parameters which can be tweaked to reveal new shapes and patterns.
+See patchs folder for examples...
 
 ## Development
-``` 
+```
 npm install
 npm run server
 
-(in another shell) 
+(in another shell)
 
 npm start
 ```
 ## Todo
-documentation, release builds, screenshots & videos
+documentation, screenshots & videos
