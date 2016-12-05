@@ -130,7 +130,7 @@ class Page extends React.Component {
     render() {
         return (
             <div>
-                <Menu />
+                <Menu isWeb={this.props.isWeb} />
 
                 <div style={styles.mainPanel}>
                     <div style={styles.leftPanel}>

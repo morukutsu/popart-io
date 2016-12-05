@@ -51,6 +51,26 @@ class Menu extends React.Component {
         this.handleClickOutside     = this.handleClickOutside.bind(this);
     }
 
+    componentWillMount() {
+        if (this.props.isWeb) {
+            this.menus.push({
+                name: "Examples",
+                onClick: () => this.setActiveDropMenu(1),
+                offsetX: 65,
+                children: [
+                    { name: "Stairway", onClick: () => Actions.loadExample({EffectFactory: EffectFactory, name: "stairway.json"}) },
+                    { name: "Bowl", onClick: () => Actions.loadExample({EffectFactory: EffectFactory, name: "bowl.json"}) },
+                    { name: "Bubbles", onClick: () => Actions.loadExample({EffectFactory: EffectFactory, name: "bubbles.json"}) },
+                    { name: "Joy", onClick: () => Actions.loadExample({EffectFactory: EffectFactory, name: "joy2.json"}) },
+                    { name: "Purple Paper", onClick: () => Actions.loadExample({EffectFactory: EffectFactory, name: "purple_paper.json"}) },
+                    { name: "Square synth", onClick: () => Actions.loadExample({EffectFactory: EffectFactory, name: "square_synth.json"}) },
+                    { name: "Trip", onClick: () => Actions.loadExample({EffectFactory: EffectFactory, name: "trip.json"}) },
+                    { name: "Waves", onClick: () => Actions.loadExample({EffectFactory: EffectFactory, name: "waves.json"}) },
+                ]
+            });
+        }
+    }
+
     setActiveDropMenu(id) {
         // Close drop menu if we are trying to open the current menu
         if (this.state.activeDropMenu == this.menus[id].children) {

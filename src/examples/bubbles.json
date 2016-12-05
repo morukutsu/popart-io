@@ -1,0 +1,1233 @@
+{
+    "effectInstances": [
+        {
+            "uuid": "3a654d6f-8d88-4c17-94f2-05adfe4b563d",
+            "time": 439.60339185006967,
+            "parametersToSave": [
+                "uuid",
+                "time"
+            ],
+            "ioParametersToSave": [
+                "uuid",
+                "pluggedIo",
+                "pluggedEntity",
+                "modulationRange",
+                "isModulated"
+            ],
+            "name": "Synthesizer",
+            "IO": {
+                "mute": {
+                    "uuid": "4ca524e1-2d94-4cbf-bff8-3e5a61588857",
+                    "name": "mute",
+                    "type": "bool",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        null,
+                        null
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": false,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "currentValue": false
+                },
+                "waveform": {
+                    "uuid": "ece6811d-3865-4d58-916c-aa8c7848b8d0",
+                    "name": "waveform",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 1
+                },
+                "speed": {
+                    "uuid": "3dfee088-8d0b-42b7-84c6-b791e5bcf001",
+                    "name": "speed",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        5
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        5
+                    ],
+                    "currentValue": 0.1500000000000001
+                },
+                "x": {
+                    "uuid": "553cbcca-487e-4ac1-b954-ba158f446bb6",
+                    "name": "x",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        -1,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        -1,
+                        1
+                    ],
+                    "currentValue": -1,
+                    "pluggedEntity": null
+                },
+                "y": {
+                    "uuid": "9e7d0b57-bd24-4ec5-a67d-d3e70a3133f0",
+                    "name": "y",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        -1,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        -1,
+                        1
+                    ],
+                    "currentValue": 0.06000000000000005
+                },
+                "count": {
+                    "uuid": "9551fcfa-17f6-489a-b45e-c45b0bd05e8e",
+                    "name": "count",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        50
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        50
+                    ],
+                    "currentValue": 19
+                },
+                "colorR": {
+                    "uuid": "698c95ca-7d84-4ecb-9f22-d8a07b41e1bc",
+                    "name": "colorR",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0.58
+                },
+                "colorG": {
+                    "uuid": "b4d5acff-2248-4504-9722-1965a4d6c4dc",
+                    "name": "colorG",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0.26
+                },
+                "colorB": {
+                    "uuid": "8268be88-0e98-4654-a568-73ec6b5aede9",
+                    "name": "colorB",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 1
+                },
+                "colorBackR": {
+                    "uuid": "0436806f-28ad-4550-a37c-ccccf4f4c653",
+                    "name": "colorBackR",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0.8200000000000001
+                },
+                "colorBackG": {
+                    "uuid": "3708a8b7-e790-4acf-9132-4b666eaeb701",
+                    "name": "colorBackG",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0.1
+                },
+                "colorBackB": {
+                    "uuid": "e3440825-1e63-430d-b194-02cb23410e57",
+                    "name": "colorBackB",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "phase": {
+                    "uuid": "c027e231-b36c-4ea4-8f45-cfa7ba52e481",
+                    "name": "phase",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        3.141592653589793
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        3.141592653589793
+                    ],
+                    "currentValue": 0.25132741228718347
+                },
+                "phaseMod": {
+                    "uuid": "c07b8346-6ab3-4815-9c3b-d63bc9de534e",
+                    "name": "phaseMod",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 1
+                },
+                "colorMod": {
+                    "uuid": "bc58c70d-0d89-4b45-b439-28f7d65a29ad",
+                    "name": "colorMod",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "countMod": {
+                    "uuid": "769c9eac-f602-4f9b-a6aa-13e1e51d92c9",
+                    "name": "countMod",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "xMod": {
+                    "uuid": "1bae106e-3974-4b03-af7a-e02052227d82",
+                    "name": "xMod",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "yMod": {
+                    "uuid": "d09e8683-9e16-422f-a8d7-f34115889f08",
+                    "name": "yMod",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "blending": {
+                    "uuid": "ad766f71-787c-4481-87c2-728d9ff4f104",
+                    "name": "blending",
+                    "type": "bool",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        null,
+                        null
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": false,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "currentValue": true
+                },
+                "out": {
+                    "uuid": "e0f240fb-0178-498d-bad3-f65ad0aff888",
+                    "name": "out",
+                    "type": "image",
+                    "inputOrOutput": "output",
+                    "modulateBounds": [
+                        null,
+                        null
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": false,
+                    "isScaled": false,
+                    "isModulated": false
+                }
+            },
+            "inputList": []
+        },
+        {
+            "uuid": "f0021aa1-d8ff-42c1-b7cc-9765bb9ed786",
+            "time": 366.88525160006117,
+            "parametersToSave": [
+                "uuid",
+                "time"
+            ],
+            "ioParametersToSave": [
+                "uuid",
+                "pluggedIo",
+                "pluggedEntity",
+                "modulationRange",
+                "isModulated"
+            ],
+            "name": "Synthesizer",
+            "IO": {
+                "mute": {
+                    "uuid": "b20eefeb-4d2f-4b68-a8bb-3195fa74784c",
+                    "name": "mute",
+                    "type": "bool",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        null,
+                        null
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": false,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "currentValue": false
+                },
+                "waveform": {
+                    "uuid": "fa04051e-7091-4dcc-b0c0-0e016b83430b",
+                    "name": "waveform",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 1
+                },
+                "speed": {
+                    "uuid": "9ce86b88-0351-4543-a273-8987cf97f065",
+                    "name": "speed",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        5
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        5
+                    ],
+                    "currentValue": 0.15000000000000002
+                },
+                "x": {
+                    "uuid": "801bce2a-e38d-4b7e-9fe6-04669bc8f265",
+                    "name": "x",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        -1,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        -1,
+                        1
+                    ],
+                    "currentValue": 0.30000000000000004
+                },
+                "y": {
+                    "uuid": "ea42a01a-a51f-468d-bce3-053a7e4f8406",
+                    "name": "y",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        -1,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        -1,
+                        1
+                    ],
+                    "currentValue": 0.76
+                },
+                "count": {
+                    "uuid": "ea64bee8-7d4d-4092-be62-2dfcc242a40b",
+                    "name": "count",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        50
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        50
+                    ],
+                    "currentValue": 15.5
+                },
+                "colorR": {
+                    "uuid": "43c6d53d-dc5f-4e87-8de6-eadae45a9a49",
+                    "name": "colorR",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 1
+                },
+                "colorG": {
+                    "uuid": "7382f40a-c7e9-4e5a-a703-50dc117b8b0d",
+                    "name": "colorG",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "colorB": {
+                    "uuid": "701f542d-5835-4b0b-9780-a572cd0daf29",
+                    "name": "colorB",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0.39
+                },
+                "colorBackR": {
+                    "uuid": "41ffe3c6-ce2c-488e-8caf-5091742588c7",
+                    "name": "colorBackR",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "colorBackG": {
+                    "uuid": "eb90c063-6685-4e4e-a4f4-e7967dcac18b",
+                    "name": "colorBackG",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "colorBackB": {
+                    "uuid": "3cc63c3b-3132-4434-b8c3-474b22aa90ea",
+                    "name": "colorBackB",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "phase": {
+                    "uuid": "473c535e-0785-4582-9f03-c7285673d0de",
+                    "name": "phase",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        3.141592653589793
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        3.141592653589793
+                    ],
+                    "currentValue": 0
+                },
+                "phaseMod": {
+                    "uuid": "663ea1ce-de14-4bab-9497-68db22bf58b0",
+                    "name": "phaseMod",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0.73
+                },
+                "colorMod": {
+                    "uuid": "a98ef496-4757-4c03-a223-0bf6a7de9fb4",
+                    "name": "colorMod",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0.44
+                },
+                "countMod": {
+                    "uuid": "b08c8d1f-681a-4c40-affc-14571d1f46ba",
+                    "name": "countMod",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "xMod": {
+                    "uuid": "95186aba-67a7-4c4a-b9b7-7070bdc70659",
+                    "name": "xMod",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "yMod": {
+                    "uuid": "e6d3f3dc-d994-4a95-8056-8524ffb626d9",
+                    "name": "yMod",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "blending": {
+                    "uuid": "e9bebc5d-5ec2-48e9-9520-8d46c63372be",
+                    "name": "blending",
+                    "type": "bool",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        null,
+                        null
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": false,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "currentValue": true
+                },
+                "out": {
+                    "uuid": "f4dee298-e091-448b-b87b-7762aeab8e9e",
+                    "name": "out",
+                    "type": "image",
+                    "inputOrOutput": "output",
+                    "modulateBounds": [
+                        null,
+                        null
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": false,
+                    "isScaled": false,
+                    "isModulated": false
+                }
+            },
+            "inputList": []
+        },
+        {
+            "uuid": "b3f38195-736c-48e1-903a-cbb5d444d7fa",
+            "parametersToSave": [
+                "uuid",
+                "time"
+            ],
+            "ioParametersToSave": [
+                "uuid",
+                "pluggedIo",
+                "pluggedEntity",
+                "modulationRange",
+                "isModulated"
+            ],
+            "name": "RuttEtra",
+            "IO": {
+                "mute": {
+                    "uuid": "6a2c4d86-e665-420b-b7bf-62cebafaefa2",
+                    "name": "mute",
+                    "type": "bool",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        null,
+                        null
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": false,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "currentValue": false
+                },
+                "multiplier": {
+                    "uuid": "3a234257-5138-4c21-8092-3abdb7b5cc1f",
+                    "name": "multiplier",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        300
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        300
+                    ],
+                    "currentValue": 12
+                },
+                "distance": {
+                    "uuid": "f0ba7fc4-6b4e-4959-a016-708b4345d5df",
+                    "name": "distance",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0.32
+                },
+                "smooth": {
+                    "uuid": "a502bd17-7513-48c9-ab9a-d9ceb59195e6",
+                    "name": "smooth",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0.15
+                },
+                "thresh": {
+                    "uuid": "e2280b0e-fd9e-4f86-862e-41e48763560c",
+                    "name": "thresh",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 1,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "colorR": {
+                    "uuid": "5733beae-46e5-421f-b359-b157c985e928",
+                    "name": "colorR",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "colorG": {
+                    "uuid": "2930b975-f59a-4368-8a09-cf74205fc727",
+                    "name": "colorG",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "colorB": {
+                    "uuid": "89277a94-26b5-42a7-867f-299fc226a94e",
+                    "name": "colorB",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "xWindow": {
+                    "uuid": "39fdfff7-99c7-4f2a-9a31-12c21efc1d72",
+                    "name": "xWindow",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                },
+                "yWindow": {
+                    "uuid": "874b2c30-f91b-4bec-a428-09faba09f0e9",
+                    "name": "yWindow",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0
+                }
+            },
+            "inputList": []
+        }
+    ],
+    "modulatorsInstances": [
+        {
+            "uuid": "405284fe-08c5-4b5f-9193-66a2e743187f",
+            "time": 230.20992460694106,
+            "name": "LFO",
+            "IO": {
+                "mute": {
+                    "uuid": "72e1ef37-baba-441d-8e0c-f24a16a07bf9",
+                    "name": "mute",
+                    "type": "bool",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        null,
+                        null
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": false,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "currentValue": false
+                },
+                "waveform": {
+                    "uuid": "13adef7f-9e1b-4fd7-958a-d8fbfa5d849e",
+                    "name": "waveform",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": "sine"
+                },
+                "frequency": {
+                    "uuid": "49252fd6-7f76-4cf4-bf0b-96cd329cbcfd",
+                    "name": "frequency",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        10
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        10
+                    ],
+                    "currentValue": 0.05
+                },
+                "multiplier": {
+                    "uuid": "70728407-6d13-4bde-976a-8380390afd64",
+                    "name": "multiplier",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        0,
+                        1
+                    ],
+                    "steps": [
+                        0.0625,
+                        0.125,
+                        0.25,
+                        0.5,
+                        1,
+                        2,
+                        4,
+                        8,
+                        16
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": true,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "clampRange": [
+                        0,
+                        1
+                    ],
+                    "currentValue": 0.5
+                },
+                "bpmLock": {
+                    "uuid": "30ed04ad-88e7-4e38-be37-4d890d3aeb24",
+                    "name": "bpmLock",
+                    "type": "bool",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        null,
+                        null
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": false,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "currentValue": false
+                },
+                "pulseWidth": {
+                    "uuid": "03af7b7c-a564-41e9-9490-86f9556812be",
+                    "name": "pulseWidth",
+                    "type": "float",
+                    "inputOrOutput": "input",
+                    "modulateBounds": [
+                        null,
+                        null
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": false,
+                    "isScaled": false,
+                    "isModulated": false
+                },
+                "output": {
+                    "uuid": "42ffa39e-5871-484c-887c-3f3752212d5a",
+                    "name": "output",
+                    "type": "float",
+                    "inputOrOutput": "output",
+                    "modulateBounds": [
+                        null,
+                        null
+                    ],
+                    "pluggedIo": null,
+                    "modulationRange": 0.5,
+                    "pluggedToMe": {},
+                    "isClamped": false,
+                    "isScaled": false,
+                    "isModulated": false,
+                    "currentValue": -0.7599162814501595
+                }
+            },
+            "waveFormUpdaters": {},
+            "inputList": []
+        }
+    ]
+}

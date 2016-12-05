@@ -11,6 +11,15 @@ import FileSaver     from 'file-saver';
 
 import { SynthesizerCore } from '../popart/FX/Synthesizer/Synthesizer';
 
+import bowlExample     from '../examples/bowl.json';
+import bubblesExample  from '../examples/bubbles.json';
+import joy2Example     from '../examples/joy2.json';
+import purple_paperExample from '../examples/purple_paper.json';
+import square_synthExample from '../examples/square_synth.json';
+import stairwayExample from '../examples/stairway.json';
+import tripExample from '../examples/trip.json';
+import wavesExample from '../examples/waves.json';
+
 let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
 class Store {
@@ -300,7 +309,7 @@ class Store {
                             content:       reader.result
                         });
                     }
-    
+
                     reader.readAsText(e.target.files[0]);
                 }
             };
@@ -402,6 +411,36 @@ class Store {
                 console.log(err);
             }
         );
+    }
+
+    loadExample(parameters) {
+        const EffectFactory = parameters.EffectFactory;
+        const name          = parameters.name;
+
+        let content = "";
+        if (name === "bowl.json") {
+            content = bowlExample;
+        } else if (name === "bubbles.json") {
+            content = bubblesExample;
+        } else if (name === "joy2.json") {
+            content = joy2Example;
+        } else if (name === "purple_paper.json") {
+            content = purple_paperExample;
+        } else if (name === "square_synth.json") {
+            content = square_synthExample;
+        } else if (name === "stairway.json") {
+            content = stairwayExample;
+        } else if (name === "trip.json") {
+            content = tripExample;
+        } else if (name === "waves.json") {
+            content = wavesExample;
+        }
+
+        this.load({
+            EffectFactory: EffectFactory,
+            path:          null,
+            content:       JSON.stringify(content)
+        });
     }
 }
 

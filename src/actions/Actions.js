@@ -21,6 +21,7 @@ let Actions = alt.generateActions(
     'changeBpm',
     'sync',
     'autoBpm',
+    'loadExample'
 );
 
 export default alt.createActions(Actions);
