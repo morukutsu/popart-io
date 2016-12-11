@@ -4,7 +4,7 @@ import Knob                            from '../../../gui/control/Knob';
 import BaseController                  from '../BaseController';
 import { RefreshedKnob, RefreshedColor, RefreshedButton } from '../../../gui/control/RefreshedComponents';
 
-class FeedbackController extends BaseController {
+class TrailsController extends BaseController {
     constructor() {
         super();
     }
@@ -76,4 +76,4 @@ const styles = {
     }
 };
 
-export default Radium(FeedbackController);
+export default Radium(TrailsController);

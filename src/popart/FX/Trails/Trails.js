@@ -17,23 +17,37 @@ const shaders = Shaders.create({
         }
 
         void main () {
-            gl_FragColor = texture2D(child, uv) * (1.0 - amount) + texture2D(previousFrame, uv) * amount;
+            vec4 newColor      = texture2D(child, uv);
+            float newLuminance = luminance(newColor);
+
+            vec4 oldColor = texture2D(previousFrame, uv);
+            float oldLuminance = luminance(oldColor);
+
+            if (newLuminance >= oldLuminance) {
+                gl_FragColor = newColor;
+            } else {
+                // Fade old color to black
+                vec4 c = oldColor;
+                c.rgb = c.rgb * (0.8 + amount * 0.2);
+
+                gl_FragColor = c;
+            }
         }`
     }
 });
 
-export class FeedbackCore extends BaseEffectCore {
+export class TrailsCore extends BaseEffectCore {
     constructor() {
         super();
 
-        this.name = "Feedback";
+        this.name = "Trails";
 
         this.IO = {
             'mute'      : new IO('mute',   'bool',  'input'),
             'amount'    : new IO('amount', 'float', 'input', 0, 1),
         };
 
-        this.IO.amount.set(0.5);
+        this.IO.amount.set(0.9);
 
         this.buildInputList();
     }
@@ -51,7 +65,7 @@ export class FeedbackCore extends BaseEffectCore {
     }
 }
 
-export class FeedbackDisplay extends Component {
+export class TrailsDisplay extends Component {
     render() {
         let state    = this.props.state;
         let children = this.props.children;

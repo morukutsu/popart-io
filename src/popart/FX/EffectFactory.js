@@ -14,6 +14,8 @@ import { PhotoStyleCore,  PhotoStyleDisplay }   from './PhotoStyle/PhotoStyle';
 import PhotoStyleController                     from './PhotoStyle/PhotoStyleController';
 import { FeedbackCore,  FeedbackDisplay }       from './Feedback/Feedback';
 import FeedbackController                       from './Feedback/FeedbackController';
+import { TrailsCore,  TrailsDisplay }           from './Trails/Trails';
+import TrailsController                         from './Trails/TrailsController';
 
 import LFO                                      from '../Modulators/LFO';
 import LFOController                            from '../Modulators/LFOController';
@@ -47,6 +49,9 @@ var effectFactory = {
             'FeedbackDisplay':       FeedbackDisplay,
             'FeedbackController':    FeedbackController,
             'FeedbackCore':          FeedbackCore,
+            'TrailsDisplay':         TrailsDisplay,
+            'TrailsController':      TrailsController,
+            'TrailsCore':            TrailsCore,
 
             'LFO':                   LFO,
             'LFOController':         LFOController,
