@@ -22,44 +22,44 @@ import LFOController                            from '../Modulators/LFOControlle
 import Sequencer                                from '../Modulators/Sequencer';
 import SequencerController                      from '../Modulators/SequencerController';
 
+const classes = {
+    SynthesizerDisplay,
+    SynthesizerController,
+    SynthesizerCore,
+    RuttEtraDisplay,
+    RuttEtraController,
+    RuttEtraCore,
+    MosaicDisplay,
+    MosaicController,
+    MosaicCore,
+    LEDDisplay,
+    LEDController,
+    LEDCore,
+    BlurDisplay,
+    BlurController,
+    BlurCore,
+    RGBSplitDisplay,
+    RGBSplitController,
+    RGBSplitCore,
+    PhotoStyleDisplay,
+    PhotoStyleController,
+    PhotoStyleCore,
+    FeedbackDisplay,
+    FeedbackController,
+    FeedbackCore,
+    TrailsDisplay,
+    TrailsController,
+    TrailsCore,
+
+    LFO,
+    LFOController,
+    Sequencer,
+    SequencerController,
+};
+
 var effectFactory = {
     lookupComponentByName: function(name) {
-        let lookup = {
-            'SynthesizerDisplay':    SynthesizerDisplay,
-            'SynthesizerController': SynthesizerController,
-            'SynthesizerCore':       SynthesizerCore,
-            'RuttEtraDisplay':       RuttEtraDisplay,
-            'RuttEtraController':    RuttEtraController,
-            'RuttEtraCore':          RuttEtraCore,
-            'MosaicDisplay':         MosaicDisplay,
-            'MosaicController':      MosaicController,
-            'MosaicCore':            MosaicCore,
-            'LEDDisplay':            LEDDisplay,
-            'LEDController':         LEDController,
-            'LEDCore':               LEDCore,
-            'BlurDisplay':           BlurDisplay,
-            'BlurController':        BlurController,
-            'BlurCore':              BlurCore,
-            'RGBSplitDisplay':       RGBSplitDisplay,
-            'RGBSplitController':    RGBSplitController,
-            'RGBSplitCore':          RGBSplitCore,
-            'PhotoStyleDisplay':     PhotoStyleDisplay,
-            'PhotoStyleController':  PhotoStyleController,
-            'PhotoStyleCore':        PhotoStyleCore,
-            'FeedbackDisplay':       FeedbackDisplay,
-            'FeedbackController':    FeedbackController,
-            'FeedbackCore':          FeedbackCore,
-            'TrailsDisplay':         TrailsDisplay,
-            'TrailsController':      TrailsController,
-            'TrailsCore':            TrailsCore,
-
-            'LFO':                   LFO,
-            'LFOController':         LFOController,
-            'Sequencer':             Sequencer,
-            'SequencerController':   SequencerController,
-        };
-
-        return lookup[name];
+        return classes[name];
     }
 };
 
