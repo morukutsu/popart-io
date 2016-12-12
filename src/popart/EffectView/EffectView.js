@@ -63,8 +63,8 @@ class EffectView extends React.Component {
     render() {
         return (
             <Surface
-                width={640}
-                height={360}
+                width={this.props.width}
+                height={this.props.height}
                 style={styles.surface}
                 ref="surface"
             >

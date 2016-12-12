@@ -156,6 +156,8 @@ class Page extends React.Component {
 
                     <div style={styles.rightPanel}>
                         <EffectView
+                            width={640}
+                            height={360}
                             effectInstances={this.props.effectInstances}
                         />
 
