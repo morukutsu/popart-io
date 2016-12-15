@@ -16,6 +16,8 @@ import { FeedbackCore,  FeedbackDisplay }       from './Feedback/Feedback';
 import FeedbackController                       from './Feedback/FeedbackController';
 import { TrailsCore,  TrailsDisplay }           from './Trails/Trails';
 import TrailsController                         from './Trails/TrailsController';
+import { RotaterCore,  RotaterDisplay }         from './Rotater/Rotater';
+import RotaterController                        from './Rotater/RotaterController';
 
 import LFO                                      from '../Modulators/LFO';
 import LFOController                            from '../Modulators/LFOController';
@@ -50,6 +52,9 @@ const classes = {
     TrailsDisplay,
     TrailsController,
     TrailsCore,
+    RotaterDisplay,
+    RotaterController,
+    RotaterCore,
 
     LFO,
     LFOController,

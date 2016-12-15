@@ -20,6 +20,7 @@ const db = {
                 { name: 'PhotoStyle', description: 'Stylish photo filters' },
                 { name: 'Feedback', description: 'Naive motion blur' },
                 { name: 'Trails',   description: 'Generate trails on moving patterns' },
+                { name: 'Rotater',   description: 'Rotate viewport' },
             ]
         },
 
