@@ -18,7 +18,11 @@ class RotaterController extends BaseController {
 
                 <div style={styles.main}>
                     <div style={styles.row}>
-                        <RefreshedKnob text="amount" {...this.knobsProps["amount"] } />
+                        <RefreshedKnob text="speed"     {...this.knobsProps["speed"] } />
+                        <RefreshedKnob text="direction" {...this.knobsProps["direction"] } />
+                        <RefreshedKnob text="centerX"   {...this.knobsProps["centerX"] } />
+                        <RefreshedKnob text="centerY"   {...this.knobsProps["centerY"] } />
+                        <RefreshedKnob text="phase"     {...this.knobsProps["phase"] } />
                     </div>
                 </div>
 

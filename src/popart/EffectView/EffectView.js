@@ -46,7 +46,10 @@ class EffectView extends React.Component {
                 // Create the react component
                 let componentInstance = React.createElement(component, {
                     state:    currentEffect.getState(),
-                    children: children
+                    children: children,
+                    width:    this.props.width,
+                    height:   this.props.height,
+                    ratio:    window.devicePixelRatio,
                 });
 
                 // Set the current component to be the children of the next one

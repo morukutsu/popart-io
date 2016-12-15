@@ -101,7 +101,7 @@ export const LEDDisplay = (props) => {
         <Node
             shader={shaders.shader_led}
             uniforms={{
-                resolution:  [640, 360], // TODO: set dynamically problems with that on Retina displays
+                resolution:  [props.width * props.ratio, props.height * props.ratio],
                 smooth:      state.IO.smooth.read(),
                 repeat:      state.IO.repeat.read(),
                 radius:      state.IO.radius.read(),
