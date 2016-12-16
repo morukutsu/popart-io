@@ -10,7 +10,7 @@ const shaders = Shaders.create({
         precision highp float;
         varying vec2      uv;
         uniform sampler2D child;
-        uniform float     phase, t;
+        uniform float     phase, t, scaleX, scaleY;
         uniform vec2      resolution;
         uniform vec2      center;
 
@@ -32,11 +32,21 @@ const shaders = Shaders.create({
             fragPos = fragPos * fragCoord;
             fragPos.y += ((resolution.x - resolution.y) / 2.0) / resolution.x;
 
-            // Rotate
+            // Compute scaling matrix
+            mat2 scaleMtx = scale(vec2(
+                1.0 / scaleX,
+                (1.0 / scaleY) * (resolution.x / resolution.y)
+            ));
+
+            // Compute rotation matrix
+            mat2 rotationMtx = zrot(t + phase);
+
+            // Apply matrices
             vec2 pos = fragPos - center;
-            pos = pos * (zrot(t + phase) * scale(vec2(1.0, resolution.x / resolution.y)));
+            pos = pos * (rotationMtx * scaleMtx);
             pos += center;
 
+            // Modulo textels out of the picture rectangle
             pos = mod(pos, 1.0);
 
             vec4 newColor = texture2D(child, pos);
@@ -58,6 +68,8 @@ export class RotaterCore extends BaseEffectCore {
             'speed'     : new IO('speed', 'float', 'input', 0, 10),
             'centerX'   : new IO('centerX', 'float', 'input', 0, 1),
             'centerY'   : new IO('centerY', 'float', 'input', 0, 1),
+            'scaleX'   : new IO('scaleX', 'float', 'input', 0, 10),
+            'scaleY'   : new IO('scaleY', 'float', 'input', 0, 10),
         };
 
         this.IO.phase.set(0);
@@ -65,6 +77,8 @@ export class RotaterCore extends BaseEffectCore {
         this.IO.speed.set(1);
         this.IO.centerX.set(0.5);
         this.IO.centerY.set(0.5);
+        this.IO.scaleX.set(1.0);
+        this.IO.scaleY.set(1.0);
 
         this.buildInputList();
     }
@@ -101,6 +115,8 @@ export class RotaterDisplay extends Component {
                     center:     [state.IO.centerX.read(), state.IO.centerY.read() ],
                     t:          state.time,
                     resolution: [this.props.width * this.props.ratio, this.props.height * this.props.ratio],
+                    scaleX:     state.IO.scaleX.read(),
+                    scaleY:     state.IO.scaleY.read(),
                 }}
             />
         );
