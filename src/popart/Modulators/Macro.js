@@ -18,7 +18,9 @@ export default class Macro extends BaseModulator {
         this.time = 0.0;
         this.IO.mute.set(false);
         this.IO.macro1.set(0);
-        this.IO.output.set(1);
+
+        this.IO.output.plug(this.IO.macro1);
+        //this.IO.output.set(1);
 
 
         this.buildInputList();

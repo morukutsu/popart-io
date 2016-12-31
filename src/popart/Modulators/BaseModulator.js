@@ -55,4 +55,8 @@ export default class BaseModulator {
     onParameterChanged(parameter, value) {
         this.IO[parameter].set(value);
     }
+
+    onModulationRangeChanged(parameter, value) {
+        this.IO[parameter].setModulationRange(value);
+    }
 };
