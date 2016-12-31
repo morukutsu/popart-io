@@ -29,7 +29,8 @@ const db = {
             isEffect: false,
             items: [
                 { name: 'LFO',       description: 'Automate parameters using Low Frequency Oscilators' },
-                { name: 'Sequencer', description: 'Step sequencer for automation'                      }
+                { name: 'Sequencer', description: 'Step sequencer for automation'                      },
+                { name: 'Macro',     description: 'Meta parameters controller'                         },
             ]
         }
     ]

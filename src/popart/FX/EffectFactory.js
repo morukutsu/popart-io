@@ -23,6 +23,8 @@ import LFO                                      from '../Modulators/LFO';
 import LFOController                            from '../Modulators/LFOController';
 import Sequencer                                from '../Modulators/Sequencer';
 import SequencerController                      from '../Modulators/SequencerController';
+import Macro                                    from '../Modulators/Macro';
+import MacroController                          from '../Modulators/MacroController';
 
 const classes = {
     SynthesizerDisplay,
@@ -60,6 +62,8 @@ const classes = {
     LFOController,
     Sequencer,
     SequencerController,
+    Macro,
+    MacroController,
 };
 
 var effectFactory = {
