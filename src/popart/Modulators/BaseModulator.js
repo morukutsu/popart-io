@@ -44,6 +44,16 @@ export default class BaseModulator {
         });
     }
 
+    buildOutputList() {
+        this.outputList = [];
+        Object.keys(this.IO).forEach((parameterName) => {
+            let parameter = this.IO[parameterName];
+            if (parameter.inputOrOutput == "output") {
+                this.outputList.push(parameter);
+            }
+        });
+    }
+
     sync() {
         this.time = 0.0;
     }

@@ -69,16 +69,50 @@ export default class BaseController extends React.Component {
 
             return list.concat(this.props.modulators.map((modulator, index) => {
                 let selected = false;
-                if (this.props.selectedParameter.pluggedIo) {
-                    if (modulator.uuid == this.props.selectedParameter.pluggedEntity.uuid) {
-                        selected = true;
-                    }
-                }
 
-                return {
-                    name:     modulator.name,
-                    onClick:  () => this.connect(modulator.uuid, this.props.selectedParameter),
-                    selected: selected
+                if (modulator.outputList.length > 1) {
+                    if (this.props.selectedParameter.pluggedIo) {
+                        if (modulator.uuid == this.props.selectedParameter.pluggedEntity.uuid &&
+                            this.props.selectedParameter.pluggedIo
+                        )
+                        {
+                            selected = true;
+                        }
+                    }
+
+                    return {
+                        name:     modulator.name,
+                        selected: false,
+                        children: modulator.outputList.map((io) => {
+                            if (this.props.selectedParameter.pluggedIo) {
+                                if (modulator.uuid == this.props.selectedParameter.pluggedEntity.uuid &&
+                                    io.name == this.props.selectedParameter.pluggedIo.name)
+                                {
+                                    selected = true;
+                                } else {
+                                    selected = false;
+                                }
+                            }
+
+                            return {
+                                name:     io.name,
+                                selected: selected,
+                                onClick:  () => this.connect(modulator.uuid, this.props.selectedParameter, io.name),
+                            };
+                        })
+                    }
+                } else {
+                    if (this.props.selectedParameter.pluggedIo) {
+                        if (modulator.uuid == this.props.selectedParameter.pluggedEntity.uuid) {
+                            selected = true;
+                        }
+                    }
+
+                    return {
+                        name:     modulator.name,
+                        onClick:  () => this.connect(modulator.uuid, this.props.selectedParameter, "output"),
+                        selected: selected
+                    }
                 }
             }));
         }
@@ -86,7 +120,7 @@ export default class BaseController extends React.Component {
         return [];
     }
 
-    connect(modulatorId, selected) {
+    connect(modulatorId, selected, outputName) {
         if (modulatorId == -1) {
             // Unplug
             selected.unplug();
@@ -102,7 +136,7 @@ export default class BaseController extends React.Component {
                 return true;
             });
 
-            selected.plug(modulator.IO.output, modulator);
+            selected.plug(modulator.IO[outputName], modulator);
             selected.modulate(true);
         }
     }
@@ -128,6 +162,7 @@ export default class BaseController extends React.Component {
             return (
                 <div style={dropMenuStyle}>
                     <DropMenu
+                        displayChildren={true}
                         items={menus}
                         onDropMenuItemSelected={() => this.props.onParameterSelected(null) }
                         onClickOutside={() => this.props.onParameterSelected(null) }

@@ -27,6 +27,7 @@ class MacroController extends BaseController {
                 <div style={styles.main}>
                     <div style={styles.row}>
                         <RefreshedKnob text="macro1" {...this.knobsProps["macro1"]} />
+                        <RefreshedKnob text="macro2" {...this.knobsProps["macro2"]} />
                     </div>
                 </div>
 

@@ -7,27 +7,42 @@ import onClickOutside                  from 'react-onclickoutside';
 class DropMenu extends React.Component {
     constructor() {
         super();
+
+        this.state = {
+            currentChildren: null
+        };
     }
 
-    handleOnClick(handler) {
-        this.props.onDropMenuItemSelected && this.props.onDropMenuItemSelected();
-        handler && handler();
+    handleOnClick(handler, menu) {
+        if (menu.children) {
+            let newActiveMenu = null;
+            if (this.state.currentChildren !== menu.children) {
+                newActiveMenu = menu.children;
+            }
+            
+            this.setState({
+                currentChildren: newActiveMenu
+            });
+        } else {
+            this.props.onDropMenuItemSelected && this.props.onDropMenuItemSelected();
+            handler && handler();
+        }
     }
 
     handleClickOutside(e) {
         this.props.onClickOutside && this.props.onClickOutside();
     }
 
-    renderMenu(menuDescription) {
+    renderMenu(menuDescription, keyPrefix) {
         return menuDescription.map((menu, index) => {
             if (menu.name === "_separator") {
                 return <div key={index} style={styles.separator} />;
             } else {
                 return (
                     <div
-                        key={index}
+                        key={keyPrefix + index}
                         style={[styles.item, menu.selected ? styles.selectedItem : null]}
-                        onClick={() => this.handleOnClick(menu.onClick)}
+                        onClick={() => this.handleOnClick(menu.onClick, menu)}
                     >
                         { menu.name }
                     </div>
@@ -37,7 +52,8 @@ class DropMenu extends React.Component {
     }
 
     render() {
-        let menus = this.renderMenu(this.props.items);
+        let menus = this.renderMenu(this.props.items, "menus");
+        let subMenu = this.state.currentChildren ? this.renderMenu(this.state.currentChildren, "submenus") : null;
 
         return (
             <div
@@ -45,6 +61,7 @@ class DropMenu extends React.Component {
             >
                 <div style={styles.menuItems}>
                     { menus }
+                    { subMenu }
                 </div>
             </div>
         );

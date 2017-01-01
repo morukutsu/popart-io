@@ -20,7 +20,7 @@ export default class LFO extends BaseModulator {
         };
 
         // TODO: LFO phase?
-        
+
         this.time = 0.0;
 
         this.waveFormUpdaters = {
@@ -36,6 +36,7 @@ export default class LFO extends BaseModulator {
         this.IO.pulseWidth.set(0.5);
 
         this.buildInputList();
+        this.buildOutputList();
     }
 
     cleanup() {

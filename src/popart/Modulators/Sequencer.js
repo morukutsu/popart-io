@@ -36,6 +36,7 @@ export default class Sequencer extends BaseModulator {
         this.IO.step3.set(0.0);
 
         this.buildInputList();
+        this.buildOutputList();
     }
 
     cleanup() {

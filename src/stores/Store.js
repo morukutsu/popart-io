@@ -99,11 +99,11 @@ class Store {
     deleteModulator(modulatorIndex) {
         // Unplug any modulated parameter connected to this modulator
         let modulator = this.modulatorsInstances[modulatorIndex];
-        if (modulator.IO.output) {
-            let outputIo = modulator.IO.output;
-
-            Object.keys(outputIo.pluggedToMe).forEach((uuid) => {
-                outputIo.pluggedToMe[uuid].unplug();
+        if (modulator.outputList.length > 0) {
+            modulator.outputList.forEach((outputIo) => {
+                Object.keys(outputIo.pluggedToMe).forEach((uuid) => {
+                    outputIo.pluggedToMe[uuid].unplug();
+                });
             });
         }
 
