@@ -27,7 +27,6 @@ export default class BaseEffectCore {
             let inputName = input.name;
 
             if (IOValues[inputName]) {
-                // TODO: find out a non explicit way to reload all of these parameters
                 this.IO[inputName].set(IOValues[inputName].currentValue);
                 this.ioParametersToSave.forEach((elem) => {
                     this.IO[inputName][elem] = IOValues[inputName][elem];
