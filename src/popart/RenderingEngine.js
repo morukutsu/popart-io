@@ -58,7 +58,8 @@ export default class RenderingEngine {
 
         saveData.effectInstances     = this.effectInstances;
         saveData.modulatorsInstances = this.modulatorsInstances;
-
+        saveData.uuid = this.uuid;
+        
         let createLinks = (key, value) => {
             if (key == "pluggedIo" || key == "pluggedEntity") {
                 if (value) {
@@ -100,6 +101,10 @@ export default class RenderingEngine {
         const path          = parameters.path;
 
         let saveData = parameters.content;
+
+        if (saveData.uuid) {
+            this.uuid = saveData.uuid;
+        }
 
         // Load instances
         let instances = saveData.effectInstances;

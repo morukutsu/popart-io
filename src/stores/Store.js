@@ -356,6 +356,10 @@ class Store {
         this.currentEngine = deck == "left" ? 0 : 1;
         this.engines[this.currentEngine] = this.decks[deck][id];
         this.selectedPattern = this.engines[this.currentEngine].uuid;
+
+        this.activeEntity      = 0;
+        this.activeModulator   = 0;
+        this.selectedParameter = null;
     }
 
     saveDeck(path) {
