@@ -57,7 +57,7 @@ class Page extends React.Component {
         }
 
         if (!this.props.isPaused) {
-            this.props.effectInstances.forEach((instance) => {
+            this.props.engines[0].effectInstances.forEach((instance) => {
                 instance.tick(dt);
 
                 if (mustTickTempo) {
@@ -65,7 +65,7 @@ class Page extends React.Component {
                 }
             });
 
-            this.props.modulatorsInstances.forEach((instance) => {
+            this.props.engines[0].modulatorsInstances.forEach((instance) => {
                 instance.tick(dt);
 
                 if (mustTickTempo) {
@@ -106,7 +106,7 @@ class Page extends React.Component {
 
     renderController() {
         // Generic code to manage the effect controllers and the modulator controllers
-        let list           = this.props.lastSelectedEntityType == 'effect' ? this.props.effectInstances : this.props.modulatorsInstances;
+        let list           = this.props.lastSelectedEntityType == 'effect' ? this.props.engines[0].effectInstances : this.props.engines[0].modulatorsInstances;
         let activeEntityId = this.props.lastSelectedEntityType == 'effect' ? this.props.activeEntity    : this.props.activeModulator;
 
         if (list.length > 0) {
@@ -119,7 +119,7 @@ class Page extends React.Component {
                 onParameterChanged:       activeEntity.onParameterChanged.bind(activeEntity),
                 onModulationRangeChanged: activeEntity.onModulationRangeChanged ? activeEntity.onModulationRangeChanged.bind(activeEntity) : null,
                 onParameterSelected:      this.handleParameterSelected,
-                modulators:               this.props.modulatorsInstances,
+                modulators:               this.props.engines[0].modulatorsInstances,
                 selectedParameter:        this.props.selectedParameter,
             });
         } else {
@@ -140,8 +140,8 @@ class Page extends React.Component {
                         />
 
                         <RoutingPanel
-                            effectInstances={this.props.effectInstances}
-                            modulatorsInstances={this.props.modulatorsInstances}
+                            effectInstances={this.props.engines[0].effectInstances}
+                            modulatorsInstances={this.props.engines[0].modulatorsInstances}
                         />
 
                         <div style={styles.toolbarPanel}>
@@ -158,7 +158,7 @@ class Page extends React.Component {
                         <EffectView
                             width={640}
                             height={360}
-                            effectInstances={this.props.effectInstances}
+                            effectInstances={this.props.engines[0].effectInstances}
                         />
 
                         { this.renderController() }
