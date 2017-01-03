@@ -30,12 +30,20 @@ class Store {
         this.reset();
 
         this.isWeb = process.env.web;
+        this.isPatternMode = true;
     }
 
     reset() {
+        // Create main rendering engines
         this.engines = [];
         this.engines[0] = new RenderingEngine();
+        this.engines[1] = new RenderingEngine();
         this.currentEngine = 0;
+
+        // Create sub rendering engines for storage
+        this.storageEngines = {};
+        this.storageEngines.left  = [new RenderingEngine(), new RenderingEngine(), new RenderingEngine(), new RenderingEngine()];
+        this.storageEngines.right = [new RenderingEngine(), new RenderingEngine(), new RenderingEngine(), new RenderingEngine()];
 
         this.engines.forEach((engine) => engine.reset() );
 
@@ -284,6 +292,10 @@ class Store {
             path:          null,
             content:       JSON.stringify(content)
         });
+    }
+
+    togglePatternMode(mode) {
+        this.isPatternMode = mode;
     }
 }
 
