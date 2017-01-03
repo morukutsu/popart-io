@@ -14,6 +14,7 @@ import Events             from '../../popart/Events';
 import RefreshManager     from '../../popart/RefreshManager';
 import TransportMenu      from '../../gui/transport/TransportMenu';
 import RoutingPanel       from '../../gui/routing/RoutingPanel';
+import Deck               from '../../gui/deck/Deck';
 
 class Page extends React.Component {
     constructor() {
@@ -127,6 +128,30 @@ class Page extends React.Component {
         }
     }
 
+    renderPatternMode() {
+        return (
+            <div>
+                <RoutingPanel
+                    effectInstances={this.props.engines[0].effectInstances}
+                    modulatorsInstances={this.props.engines[0].modulatorsInstances}
+                />
+
+                <div style={styles.toolbarPanel}>
+                    <Toolbar
+                        effectList={this.props.effectList}
+                        modulatorsList={this.props.modulatorsList}
+                        onEffectClick={this.handleAddFx.bind(this)}
+                        onModulatorClick={this.handleAddModulator.bind(this)}
+                    />
+                </div>
+            </div>
+        );
+    }
+
+    renderDeckMode() {
+        return <Deck/>;
+    }
+
     render() {
         return (
             <div>
@@ -137,21 +162,14 @@ class Page extends React.Component {
                         <TransportMenu
                             isPaused={this.props.isPaused}
                             bpm={this.props.bpm}
+                            isPatternMode={this.props.isPatternMode}
                         />
 
-                        <RoutingPanel
-                            effectInstances={this.props.engines[0].effectInstances}
-                            modulatorsInstances={this.props.engines[0].modulatorsInstances}
-                        />
-
-                        <div style={styles.toolbarPanel}>
-                            <Toolbar
-                                effectList={this.props.effectList}
-                                modulatorsList={this.props.modulatorsList}
-                                onEffectClick={this.handleAddFx.bind(this)}
-                                onModulatorClick={this.handleAddModulator.bind(this)}
-                            />
-                        </div>
+                        { this.props.isPatternMode ?
+                            this.renderPatternMode()
+                            :
+                            this.renderDeckMode()
+                        }
                     </div>
 
                     <div style={styles.rightPanel}>
