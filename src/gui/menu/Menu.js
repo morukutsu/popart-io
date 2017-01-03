@@ -18,8 +18,10 @@ class Menu extends React.Component {
                 children: [
                     { name: "New",          onClick: () => Actions.new()                   },
                     { name: "Open File...", onClick: () => Actions.openFile(EffectFactory) },
+                    { name: "Open deck",    onClick: () => Actions.openDeckFile(EffectFactory) },
                     { name: "Save",         onClick: () => null                            },
                     { name: "Save as...",   onClick: () => Actions.saveFile()              },
+                    { name: "Save deck",    onClick: () => Actions.saveDeckFile()              },
                     { name: "Quit",         onClick: () => Actions.quit()                  },
                 ]
             },

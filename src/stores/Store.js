@@ -189,6 +189,42 @@ class Store {
         }
     }
 
+    openDeckFile(EffectFactory) {
+        if (this.isWeb) {
+            let fileUpload = document.getElementById('fileUpload');
+
+            let onFileUpload = (e) => {
+                fileUpload.removeEventListener('change', onFileUpload);
+
+                if (e.target.files && e.target.files.length == 1) {
+                    var reader = new FileReader();
+                    reader.onloadend = () => {
+                        this.loadDeck({
+                            EffectFactory: EffectFactory,
+                            path:          null,
+                            content:       reader.result
+                        });
+                    }
+
+                    reader.readAsText(e.target.files[0]);
+                }
+            };
+
+            fileUpload.addEventListener('change', onFileUpload);
+
+            fileUpload.click();
+        } else {
+            let dialog = electron.remote.dialog;
+            let files = dialog.showOpenDialog({properties: ['openFile']});
+            if (files && files.length > 0) {
+                this.loadDeck({
+                    EffectFactory: EffectFactory,
+                    path:          files[0]
+                });
+            }
+        }
+    }
+
     saveFile(EffectFactory) {
         if (this.isWeb) {
             this.save("");
@@ -197,6 +233,18 @@ class Store {
             let file = dialog.showSaveDialog();
             if (file) {
                 this.save(file);
+            }
+        }
+    }
+
+    saveDeckFile(EffectFactory) {
+        if (this.isWeb) {
+            this.saveDeck("");
+        } else {
+            let dialog = electron.remote.dialog;
+            let file = dialog.showSaveDialog();
+            if (file) {
+                this.saveDeck(file);
             }
         }
     }
@@ -308,6 +356,65 @@ class Store {
         this.currentEngine = deck == "left" ? 0 : 1;
         this.engines[this.currentEngine] = this.decks[deck][id];
         this.selectedPattern = this.engines[this.currentEngine].uuid;
+    }
+
+    saveDeck(path) {
+        let saveDataJson = {
+            currentEngine:   this.currentEngine,
+            selectedPattern: this.selectedPattern,
+            decks: {
+                left:  this.decks.left.map((deck) => JSON.parse(deck.save()) ),
+                right: this.decks.right.map((deck) => JSON.parse(deck.save()) ),
+            }
+        };
+
+        saveDataJson = JSON.stringify(saveDataJson, null, 4);
+
+        if (this.isWeb) {
+            var blob = new Blob([saveDataJson], { type: "text/plain;charset=utf-8" });
+            FileSaver.saveAs(blob, "patch.popart");
+        } else {
+            fs.writeFile(path, saveDataJson, (err) => console.log(err));
+        }
+    }
+
+    loadDeck(parameters) {
+        this.reset();
+
+        const EffectFactory = parameters.EffectFactory;
+        const path          = parameters.path;
+
+        let saveData;
+        if (path !== null) {
+            saveData = JSON.parse(fs.readFileSync(path) );
+        } else {
+            saveData = JSON.parse(parameters.content);
+        }
+
+
+        this.selectedPattern = saveData.selectedPattern;
+        this.currentEngine   = saveData.currentEngine;
+
+        this.decks = {
+            left: [],
+            right: [],
+        };
+
+        let loadEngine = (deck, side) => {
+            parameters.content = deck;
+            let engine = new RenderingEngine();
+            engine.load(parameters);
+            this.decks[side].push(engine);
+        };
+
+        saveData.decks.left.forEach((deck) => loadEngine(deck, "left") );
+        saveData.decks.right.forEach((deck) => loadEngine(deck, "right") );
+
+        // Setup engines
+        this.engines[0] = this.decks.left[0];
+        this.engines[1] = this.decks.right[0];
+
+        this.setState({});
     }
 }
 

@@ -24,6 +24,10 @@ let Actions = alt.generateActions(
     'loadExample',
     'togglePatternMode',
     'activatePattern',
+    'saveDeck',
+    'loadDeck',
+    'saveDeckFile',
+    'openDeckFile',
 );
 
 export default alt.createActions(Actions);
