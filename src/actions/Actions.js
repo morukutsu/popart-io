@@ -23,6 +23,7 @@ let Actions = alt.generateActions(
     'autoBpm',
     'loadExample',
     'togglePatternMode',
+    'activatePattern',
 );
 
 export default alt.createActions(Actions);

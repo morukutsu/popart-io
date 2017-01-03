@@ -1,7 +1,12 @@
+import uuid from 'node-uuid';
+
 export default class RenderingEngine {
     constructor() {
+        this.uuid = uuid.v4();
+
         this.effectInstances = [];
         this.modulatorsInstances = [];
+        this.name = "Untitled";
     }
 
     reset() {

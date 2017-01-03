@@ -20,18 +20,21 @@ class Deck extends React.Component {
     renderBlocks(side) {
         let blocks = [];
 
-        for (var i = 0; i < 4; i++) {
+        for (let i = 0; i < this.props.decks[side].length; i++) {
+            let deck = this.props.decks[side][i];
+            let selected = deck.uuid == this.props.selected;
+
             blocks.push(
                 <Block
                     key={i}
                     position={i}
-                    type="effect"
-                    onPress={() => 0 }
+                    type="pattern"
+                    onPress={() => Actions.activatePattern({deck: side, id: i}) }
                     onRightClick={() => 0 }
-                    name={"" + i}
+                    name={deck.name}
                     active={true}
-                    color="#FD5A35"
-                    hoverColor="#F77177"
+                    color={selected ? "#FD5A35" : "#3A3A3A"}
+                    hoverColor={selected ? "#F77177" : "#5A5A5A"}
                 />
             );
         }

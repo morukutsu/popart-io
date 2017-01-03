@@ -58,7 +58,8 @@ class Page extends React.Component {
         }
 
         if (!this.props.isPaused) {
-            this.props.engines[0].effectInstances.forEach((instance) => {
+            let currentEngine = this.props.currentEngine;
+            this.props.engines[currentEngine].effectInstances.forEach((instance) => {
                 instance.tick(dt);
 
                 if (mustTickTempo) {
@@ -66,7 +67,7 @@ class Page extends React.Component {
                 }
             });
 
-            this.props.engines[0].modulatorsInstances.forEach((instance) => {
+            this.props.engines[currentEngine].modulatorsInstances.forEach((instance) => {
                 instance.tick(dt);
 
                 if (mustTickTempo) {
@@ -106,8 +107,10 @@ class Page extends React.Component {
     }
 
     renderController() {
+        let currentEngine = this.props.currentEngine;
+
         // Generic code to manage the effect controllers and the modulator controllers
-        let list           = this.props.lastSelectedEntityType == 'effect' ? this.props.engines[0].effectInstances : this.props.engines[0].modulatorsInstances;
+        let list           = this.props.lastSelectedEntityType == 'effect' ? this.props.engines[currentEngine].effectInstances : this.props.engines[currentEngine].modulatorsInstances;
         let activeEntityId = this.props.lastSelectedEntityType == 'effect' ? this.props.activeEntity    : this.props.activeModulator;
 
         if (list.length > 0) {
@@ -120,7 +123,7 @@ class Page extends React.Component {
                 onParameterChanged:       activeEntity.onParameterChanged.bind(activeEntity),
                 onModulationRangeChanged: activeEntity.onModulationRangeChanged ? activeEntity.onModulationRangeChanged.bind(activeEntity) : null,
                 onParameterSelected:      this.handleParameterSelected,
-                modulators:               this.props.engines[0].modulatorsInstances,
+                modulators:               this.props.engines[currentEngine].modulatorsInstances,
                 selectedParameter:        this.props.selectedParameter,
             });
         } else {
@@ -129,11 +132,13 @@ class Page extends React.Component {
     }
 
     renderPatternMode() {
+        let currentEngine = this.props.currentEngine;
+
         return (
             <div>
                 <RoutingPanel
-                    effectInstances={this.props.engines[0].effectInstances}
-                    modulatorsInstances={this.props.engines[0].modulatorsInstances}
+                    effectInstances={this.props.engines[currentEngine].effectInstances}
+                    modulatorsInstances={this.props.engines[currentEngine].modulatorsInstances}
                 />
 
                 <div style={styles.toolbarPanel}>
@@ -149,10 +154,15 @@ class Page extends React.Component {
     }
 
     renderDeckMode() {
-        return <Deck/>;
+        return <Deck
+            decks={this.props.decks}
+            selected={this.props.selectedPattern}
+        />;
     }
 
     render() {
+        let currentEngine = this.props.currentEngine;
+
         return (
             <div>
                 <Menu isWeb={this.props.isWeb} />
@@ -176,7 +186,7 @@ class Page extends React.Component {
                         <EffectView
                             width={640}
                             height={360}
-                            effectInstances={this.props.engines[0].effectInstances}
+                            effectInstances={this.props.engines[currentEngine].effectInstances}
                         />
 
                         { this.renderController() }

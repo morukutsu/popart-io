@@ -36,16 +36,19 @@ class Store {
     reset() {
         // Create main rendering engines
         this.engines = [];
-        this.engines[0] = new RenderingEngine();
-        this.engines[1] = new RenderingEngine();
         this.currentEngine = 0;
 
-        // Create sub rendering engines for storage
-        this.storageEngines = {};
-        this.storageEngines.left  = [new RenderingEngine(), new RenderingEngine(), new RenderingEngine(), new RenderingEngine()];
-        this.storageEngines.right = [new RenderingEngine(), new RenderingEngine(), new RenderingEngine(), new RenderingEngine()];
+        // Deck management
+        this.decks = {
+            left:  [new RenderingEngine() ],
+            right: [new RenderingEngine() ],
+        };
 
+        this.engines[0] = this.decks.left[0];
+        this.engines[1] = this.decks.right[0];
         this.engines.forEach((engine) => engine.reset() );
+
+        this.selectedPattern = this.engines[0].uuid;
 
         // Focus
         this.lastSelectedEntityType = 'effect';
@@ -296,6 +299,15 @@ class Store {
 
     togglePatternMode(mode) {
         this.isPatternMode = mode;
+    }
+
+    activatePattern(parameters) {
+        let deck = parameters.deck;
+        let id   = parameters.id;
+
+        this.currentEngine = deck == "left" ? 0 : 1;
+        this.engines[this.currentEngine] = this.decks[deck][id];
+        this.selectedPattern = this.engines[this.currentEngine].uuid;
     }
 }
 
